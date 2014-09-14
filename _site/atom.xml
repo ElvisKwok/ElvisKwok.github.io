@@ -4,7 +4,7 @@
  <title>Tom Preston-Werner</title>
  <link href="http://tom.preston-werner.com/atom.xml" rel="self"/>
  <link href="http://tom.preston-werner.com/"/>
- <updated>2014-09-14T23:21:21+08:00</updated>
+ <updated>2014-09-14T23:59:06+08:00</updated>
  <id>http://tom.preston-werner.com/</id>
  <author>
    <name>Tom Preston-Werner</name>
@@ -17,7 +17,7 @@
    <link href="http://tom.preston-werner.com/2014/09/14/markdown-learning.html"/>
    <updated>2014-09-14T00:00:00+08:00</updated>
    <id>http://tom.preston-werner.com/2014/09/14/markdown-learning</id>
-   <content type="html">&lt;h2&gt;Markdown学习笔记&lt;/h2&gt;
+   <content type="html">&lt;h1&gt;Markdown学习笔记&lt;/h1&gt;
 
 &lt;p class=&quot;meta&quot;&gt;14 Sep 2014 - Guangzhou&lt;/p&gt;
 
@@ -28,12 +28,12 @@
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3&gt;前言&lt;/h3&gt;
+&lt;h2&gt;前言&lt;/h2&gt;
 
 &lt;p&gt;很久前就听说过Markdown，由于最近需要记录一些东西，所以今天才开始系统的学习Markdown。&lt;br/&gt;
-Markdown是一种标记语言（文本的格式化表示），之所以选择Markdown，一者,是想让文本具有更高的的可读性，相比于HTML，没有太多&lt;tag&gt;干扰。再者，使用Markdown可以在任何一种文本编辑器上书写，比如我正在使用的vim，简洁美观，而且方便在网页上展示（使用rdiscount解释Markdown语言很容易生成HTML），正如[Markdown语法说明][]所说的，”HTML 是一種&lt;em&gt;發佈&lt;/em&gt;的格式，Markdown 是一種&lt;em&gt;編寫&lt;/em&gt;的格式“。最后，Markdown在程序员社区具有较高的认可度，比如github。&lt;/p&gt;
+Markdown是一种标记语言（文本的格式化表示），之所以选择Markdown，一者,是想让文本具有更高的的可读性，相比于HTML，没有太多&lt;tag&gt;干扰。再者，使用Markdown可以在任何一种文本编辑器上书写，比如我正在使用的vim，简洁美观，而且方便在网页上展示（使用rdiscount解释Markdown语言很容易生成HTML），正如&lt;a href=&quot;http://markdown.tw&quot; title=&quot;markdown.tw&quot;&gt;Markdown语法说明&lt;/a&gt;所说的，”HTML 是一種&lt;em&gt;發佈&lt;/em&gt;的格式，Markdown 是一種&lt;em&gt;編寫&lt;/em&gt;的格式“。最后，Markdown在程序员社区具有较高的认可度，比如github。&lt;/p&gt;
 
-&lt;h3&gt;以下是我的学习笔记&lt;/h3&gt;
+&lt;h2&gt;以下是我的学习笔记&lt;/h2&gt;
 
 &lt;p&gt;段落：使用一个或多个空行，分隔文本内容。或者在段落后加上两个或以上空格&lt;br/&gt;
 标题：atx, setext&lt;/p&gt;
@@ -148,7 +148,7 @@ csaf
 &lt;p&gt;引用链接：&lt;a href=&quot;http://www.wikipedia.org&quot; title=&quot;wiki&quot;&gt;wiki&lt;/a&gt;,&lt;a href=&quot;http://goole.com&quot; title=&quot;google&quot;&gt;google&lt;/a&gt;，&lt;a href=&quot;yushe.com&quot; title=&quot;yushe&quot;&gt;预设链接后面加空的中括号，要求文字相同&lt;/a&gt;
 &lt;br&gt;
 行内链接：this is an &lt;a href=&quot;http://example.com&quot; title=&quot;标题&quot;&gt;example link&lt;/a&gt;&lt;br/&gt;
-快速链接：&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#109;&amp;#97;&amp;#105;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#x33;&amp;#53;&amp;#x39;&amp;#x36;&amp;#49;&amp;#x39;&amp;#56;&amp;#51;&amp;#57;&amp;#x40;&amp;#x71;&amp;#x71;&amp;#x2e;&amp;#99;&amp;#111;&amp;#x6d;&quot;&gt;&amp;#51;&amp;#x35;&amp;#57;&amp;#x36;&amp;#x31;&amp;#57;&amp;#x38;&amp;#51;&amp;#57;&amp;#x40;&amp;#113;&amp;#x71;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+快速链接：&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#109;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#x74;&amp;#x6f;&amp;#58;&amp;#x33;&amp;#x35;&amp;#57;&amp;#x36;&amp;#x31;&amp;#57;&amp;#56;&amp;#51;&amp;#x39;&amp;#64;&amp;#x71;&amp;#113;&amp;#46;&amp;#x63;&amp;#111;&amp;#109;&quot;&gt;&amp;#51;&amp;#x35;&amp;#57;&amp;#x36;&amp;#x31;&amp;#57;&amp;#56;&amp;#x33;&amp;#57;&amp;#x40;&amp;#113;&amp;#x71;&amp;#46;&amp;#x63;&amp;#111;&amp;#109;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;需要用\对下面字符转义: `,*,_,{},[],(),#,+,-,.,!&lt;br/&gt;
 `code`&lt;br/&gt;
@@ -238,9 +238,9 @@ csaf
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3&gt;Markdown推荐教程&lt;/h3&gt;
+&lt;h2&gt;Markdown推荐教程&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://markdown.tw/#p&quot;&gt;Markdown文件&lt;/a&gt;&lt;br/&gt;
+&lt;p&gt;&lt;a href=&quot;http://markdown.tw&quot; title=&quot;markdown.tw&quot;&gt;Markdown语法说明&lt;/a&gt;&lt;br/&gt;
 &lt;a href=&quot;http://daringfireball.net/projects/markdown/&quot;&gt;Markdown 作者&lt;/a&gt;&lt;br/&gt;
 &lt;a href=&quot;http://ued.taobao.org/blog/2012/07/getting-started-with-markdown/&quot;&gt;开始使用Markdown&lt;/a&gt;&lt;/p&gt;
 </content>
@@ -251,7 +251,89 @@ csaf
    <link href="http://tom.preston-werner.com/blog/2014/09/11/original-article-1.html"/>
    <updated>2014-09-11T00:00:00+08:00</updated>
    <id>http://tom.preston-werner.com/blog/2014/09/11/original-article-1</id>
-   <content type="html">&lt;p&gt;**待续&lt;/p&gt;
+   <content type="html">&lt;h2&gt;1、合式公式判断&lt;/h2&gt;
+
+&lt;p&gt;判断一个字符串是否为合式公式&lt;br/&gt;
+输入：由小写字母，逻辑运算符（+,*,&gt;,!），括号组成的字符串&lt;br/&gt;
+输出：1（是），0（否）&lt;/p&gt;
+
+&lt;h3&gt;1.1、算法思想&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_1.1.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;h3&gt;1.2、实现说明&lt;/h3&gt;
+
+&lt;p&gt;设置函数int heshi( char *str),递归判断字符串str是否为合式公式，是则返回1，否则返回0。&lt;br/&gt;
+设置变量balance，初值为0，用于判断左右括号的匹配。遇到左括号’(‘，balance++，遇到右括号，balance—，函数结束处判断balance的值是否为0。&lt;/p&gt;
+
+&lt;h3&gt;1.3、测试数据&lt;/h3&gt;
+
+&lt;p&gt;a, ab, !a, !ab, a+b, !a+b, a+!b, a+df, (a+b), a+b*c, a+b&gt;c, (a+b)&gt;c, (a&gt;b)*!&lt;/p&gt;
+
+&lt;h3&gt;1.4、运行结果&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_1.4.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;h2&gt;2、整数划分&lt;/h2&gt;
+
+&lt;p&gt;将正整数n表示成一系列正整数之和：n=n1+n2+…+nk，其中n1≥n2≥…≥nk≥1，k≥1。&lt;br/&gt;
+输入：一个正整数&lt;br/&gt;
+输出：全部划分结果&lt;/p&gt;
+
+&lt;h3&gt;2.1、算法思想&lt;/h3&gt;
+
+&lt;p&gt;本节所说的n都是递归调用是的参数n&lt;br/&gt;
+对于正整数n，从大到小依次输出第一个划分数分别为n,n-1,n-2,…,1的情况。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;第一个划分数为n，直接输出。&lt;/li&gt;
+&lt;li&gt;第一个划分为1，输出n个1。&lt;/li&gt;
+&lt;li&gt;第一个划分数为i，在递归函数上做了如下限制：&lt;br/&gt;
+i+P(j1)+P(j2)+…P(jn)，其中j1~jn小于i&lt;br/&gt;
+从而避免重复输出（例如第一个划分数为2，限制输出2+P(4)的这种情况）&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_2.1.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;h3&gt;2.2、实现说明&lt;/h3&gt;
+
+&lt;p&gt;设置全局指针变量 int *a，用于储存划分结果。&lt;br/&gt;
+设置函数 void display(int m)，用于输出数组元素a[0]~a[m-1]。&lt;br/&gt;
+设置递归函数 void partition(int n, int m)，用于划分正整数n，其中m表示加总到n的元素个数，初值为0。&lt;br/&gt;
+在main函数中根据终端输入的正整数n，分配n个int型变量大小的内存空间给指针a（因为划分正整数n最多个数是n个1汇总），使得本程序可执行大整数的划分。&lt;/p&gt;
+
+&lt;h3&gt;2.3、测试数据&lt;/h3&gt;
+
+&lt;p&gt;5,6,7&lt;/p&gt;
+
+&lt;h3&gt;2.4、运行结果&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_2.4.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;h2&gt;3、全组合问题&lt;/h2&gt;
+
+&lt;p&gt;输入：元素个数n，n个元素 &lt;br/&gt;
+输出：n个元素的全组合&lt;/p&gt;
+
+&lt;h3&gt;3.1、算法思想&lt;/h3&gt;
+
+&lt;p&gt;根据二进制数的特点，对于数组n个元素的每一个元素，我们可以选择该元素是否输出（0，1），于是n个数就有“2的n次方减一” 种输出，一一对应于全组合的全部输出。&lt;/p&gt;
+
+&lt;h3&gt;3.2、实现说明&lt;/h3&gt;
+
+&lt;p&gt;设置函数void dec_to_bin(int n, int &lt;em&gt;a)， 将十进制数n转换为二进制数，二进制数的每一位储存在数组a上（逆序存储）。&lt;br/&gt;
+设置函数void zuhe(int &lt;/em&gt;input, int n)，完成全组合问题的输出，其中，input数组为需要进行全组合的元素，n为元素个数。&lt;/p&gt;
+
+&lt;h3&gt;3.3、测试数据&lt;/h3&gt;
+
+&lt;p&gt;2，{2，4};&lt;br/&gt;
+3，{1，2，3}；&lt;br/&gt;
+4，{2，8，5，6}；&lt;/p&gt;
+
+&lt;h3&gt;3.4、运行结果&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_3.4.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
 </content>
  </entry>
  
