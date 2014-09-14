@@ -98,7 +98,7 @@ csaf
 引用链接：[wiki][1],[google][2]，[预设链接后面加空的中括号，要求文字相同][]
 [1]: http://www.wikipedia.org "wiki"
 [2]: http://goole.com 		  'google'
-[预设链接后面加空的中括号，要求文字相同]: yushe.com 'yushe'
+[预设链接后面加空的中括号，要求文字相同]: yushe.com 'yushe'  
 
 <br>
 行内链接：this is an [example link](http://example.com "标题")  

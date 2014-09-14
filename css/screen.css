@@ -87,13 +87,13 @@ ul.posts {
 }
 
 .title {
-  color: #a00;
+  color: #ddd;
   font-weight: bold;
   margin-bottom: 2em;
 }
 
   .site .title a {
-    color: #a00;
+    color: #ddd;
     text-decoration: none;
   }
 
@@ -112,7 +112,8 @@ ul.posts {
   }
 
   .site .meta {
-    color: #aaa;
+    color: #ddd;
+	font-size: 80%;
   }
 
   .site .footer {

@@ -4,13 +4,240 @@
  <title>Tom Preston-Werner</title>
  <link href="http://tom.preston-werner.com/atom.xml" rel="self"/>
  <link href="http://tom.preston-werner.com/"/>
- <updated>2014-09-14T19:25:29+08:00</updated>
+ <updated>2014-09-14T23:05:10+08:00</updated>
  <id>http://tom.preston-werner.com/</id>
  <author>
    <name>Tom Preston-Werner</name>
    <email>tom@mojombo.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Markdown学习笔记</title>
+   <link href="http://tom.preston-werner.com/2014/09/14/markdown-learning.html"/>
+   <updated>2014-09-14T00:00:00+08:00</updated>
+   <id>http://tom.preston-werner.com/2014/09/14/markdown-learning</id>
+   <content type="html">&lt;hr /&gt;
+
+&lt;p class=&quot;title&quot;&gt;Markdown学习笔记&lt;/p&gt;
+
+
+&lt;p&gt; &lt;p class=&quot;meta&quot;&gt;14 Sep 2014 - Guangzhou&lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;前言&lt;br/&gt;
+很久前就听说过Markdown，由于最近需要记录一些东西，所以今天才开始系统的学习Markdown。&lt;br/&gt;
+Markdown是一种标记语言（文本的格式化表示），之所以选择Markdown，一者,是想让文本具有更高的的可读性，相比于HTML，没有太多&lt;tag&gt;干扰。再者，使用Markdown可以在任何一种文本编辑器上书写，比如我正在使用的vim，简洁美观，而且方便在网页上展示（使用rdiscount解释Markdown语言很容易生成HTML），正如[Markdown语法说明][]所说的，”HTML 是一種&lt;em&gt;發佈&lt;/em&gt;的格式，Markdown 是一種&lt;em&gt;編寫&lt;/em&gt;的格式“。最后，Markdown在程序员社区具有较高的认可度，比如github。&lt;/p&gt;
+
+&lt;p&gt;以下是我的学习笔记&lt;br/&gt;
+段落：使用一个或多个空行，分隔文本内容。或者在段落后加上两个或以上空格&lt;br/&gt;
+标题：atx, setext&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;atx-style&lt;br/&gt;
+使用前缀&quot;#&quot;，&quot;#&quot;的个数分别对应于h1~h6,例如，&lt;/p&gt;
+
+&lt;h1&gt;This is an H1&lt;/h1&gt;
+
+&lt;h6&gt;This is an H6&lt;/h6&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;setext-style&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;定义h1:&lt;/p&gt;
+
+&lt;h1&gt;THIS IS H1  &lt;/h1&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;定义h2&lt;/p&gt;
+
+&lt;h2&gt;THIS IS H2  &lt;/h2&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;使用&quot;&gt;&quot;作为段落的前缀，标识该段落是引用部分，类似于Email标记的应用文字&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;This is the first level of quoting&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;This is the nested blockquote&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;Back to the first level&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;使用 &quot;*&quot;, &quot;+&quot;, &quot;-&quot; 来表示无序的列表；&lt;br/&gt;
+&quot;+&quot;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;unorder +1&lt;/li&gt;
+&lt;li&gt;unorder +2&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&quot;*&quot;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;unorder *1
+
+&lt;ul&gt;
+&lt;li&gt;1.1&lt;/li&gt;
+&lt;li&gt;1.2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;unorder *2
+
+&lt;ul&gt;
+&lt;li&gt;2.1&lt;/li&gt;
+&lt;li&gt;2.2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&quot;-&quot;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;unorder -1&lt;/li&gt;
+&lt;li&gt;unorder -2&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;使用&quot;数字.&quot;表示有序列表&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;firstline&lt;/li&gt;
+&lt;li&gt;secondline&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;使用4个&lt;strong&gt;&lt;em&gt;&quot;以上&quot;&lt;/em&gt;&lt;/strong&gt;的空格或一个&lt;strong&gt;&quot;以上&quot;&lt;/strong&gt;的tab标记代码段落，或者&lt;code&gt;code&lt;/code&gt;,或者区块元素（4空格）, 或者前后```包围&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; test code
+ ok?
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;test code&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;区块元素的标签不会被处理，区块必须在前后加上空行
+
+&amp;lt;table&amp;gt;
+    &amp;lt;tr&amp;gt;
+        &amp;lt;td&amp;gt;foo&amp;lt;/td&amp;gt;
+    &amp;lt;/tr&amp;gt;
+&amp;lt;/table&amp;gt;
+
+this is another  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;隔离&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;adfdfd
+bdfdf
+csaf
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;链接：&lt;a href=&quot;http://dfdf.com&quot; title=&quot;标题&quot;&gt;test&lt;/a&gt;&lt;br/&gt;
+图片：&lt;img src=&quot;http://dfdf.com/img.png,&quot; title=&quot;可以是相对路径&quot; alt=&quot;img&quot; /&gt;&lt;br/&gt;
+引用图片：目前为止，Markdown还无法指定图片宽和高，如若需要，需使用&amp;lt;img&gt;&lt;br/&gt;
+&lt;img src=&quot;http://img.t.sinajs.cn/t5/style/images/staticlogo/logoContrast_pic.png?version=1a386bde78f5d832&quot; title=&quot;weibo&quot; alt=&quot;alt text&quot; /&gt;&lt;br/&gt;
+突出字体：&lt;strong&gt;轻点&lt;/strong&gt;, &lt;strong&gt;重点&lt;/strong&gt;, &lt;em&gt;一个斜&lt;/em&gt;，&lt;strong&gt;两个粗&lt;/strong&gt;，&lt;strong&gt;&lt;em&gt;三个又斜又粗&lt;/em&gt;&lt;/strong&gt;&lt;br/&gt;
+删除句子：&lt;del&gt;删去这句话&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;引用链接：&lt;a href=&quot;http://www.wikipedia.org&quot; title=&quot;wiki&quot;&gt;wiki&lt;/a&gt;,&lt;a href=&quot;http://goole.com&quot; title=&quot;google&quot;&gt;google&lt;/a&gt;，&lt;a href=&quot;yushe.com&quot; title=&quot;yushe&quot;&gt;预设链接后面加空的中括号，要求文字相同&lt;/a&gt;
+&lt;br&gt;
+行内链接：this is an &lt;a href=&quot;http://example.com&quot; title=&quot;标题&quot;&gt;example link&lt;/a&gt;&lt;br/&gt;
+快速链接：&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#109;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#116;&amp;#111;&amp;#x3a;&amp;#x33;&amp;#53;&amp;#57;&amp;#54;&amp;#x31;&amp;#x39;&amp;#x38;&amp;#51;&amp;#x39;&amp;#64;&amp;#113;&amp;#x71;&amp;#x2e;&amp;#x63;&amp;#x6f;&amp;#109;&quot;&gt;&amp;#x33;&amp;#53;&amp;#x39;&amp;#54;&amp;#49;&amp;#57;&amp;#x38;&amp;#x33;&amp;#x39;&amp;#64;&amp;#x71;&amp;#113;&amp;#46;&amp;#99;&amp;#x6f;&amp;#109;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;需要用\对下面字符转义: `,*,_,{},[],(),#,+,-,.,!&lt;br/&gt;
+`code`&lt;br/&gt;
+&lt;code&gt;code&lt;/code&gt;&lt;br/&gt;
+&lt;code&gt;code contain ` character&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;特殊字符转换：&amp;copy; &amp;amp; &amp;lt; AT&amp;amp;T&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h4&gt;Tables&lt;/h4&gt;
+
+&lt;p&gt;A simple table looks like this:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;First Header &lt;/th&gt;
+&lt;th&gt; Second Header &lt;/th&gt;
+&lt;th&gt; Third Header&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Content Cell &lt;/td&gt;
+&lt;td&gt; Content Cell  &lt;/td&gt;
+&lt;td&gt; Content Cell&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Content Cell &lt;/td&gt;
+&lt;td&gt; Content Cell  &lt;/td&gt;
+&lt;td&gt; Content Cell&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;p&gt;If you wish, you can add a leading and tailing pipe to each line of the table:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt; First Header &lt;/th&gt;
+&lt;th&gt; Second Header &lt;/th&gt;
+&lt;th&gt; Third Header &lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt; Content Cell &lt;/td&gt;
+&lt;td&gt; Content Cell  &lt;/td&gt;
+&lt;td&gt; Content Cell &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt; Content Cell &lt;/td&gt;
+&lt;td&gt; Content Cell  &lt;/td&gt;
+&lt;td&gt; Content Cell &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;p&gt;Specify alignement for each column by adding colons to separator lines:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&quot;text-align:left;&quot;&gt;First Header &lt;/th&gt;
+&lt;th style=&quot;text-align:center;&quot;&gt; Second Header &lt;/th&gt;
+&lt;th style=&quot;text-align:right;&quot;&gt; Third Header&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left;&quot;&gt;Left         &lt;/td&gt;
+&lt;td style=&quot;text-align:center;&quot;&gt; Center        &lt;/td&gt;
+&lt;td style=&quot;text-align:right;&quot;&gt; Right&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left;&quot;&gt;Left         &lt;/td&gt;
+&lt;td style=&quot;text-align:center;&quot;&gt; Center        &lt;/td&gt;
+&lt;td style=&quot;text-align:right;&quot;&gt; Right&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;p&gt;Markdown推荐教程&lt;br/&gt;
+&lt;a href=&quot;http://markdown.tw/#p&quot;&gt;Markdown文件&lt;/a&gt;&lt;br/&gt;
+&lt;a href=&quot;http://daringfireball.net/projects/markdown/&quot;&gt;Markdown 作者&lt;/a&gt;&lt;br/&gt;
+&lt;a href=&quot;http://ued.taobao.org/blog/2012/07/getting-started-with-markdown/&quot;&gt;开始使用Markdown&lt;/a&gt;&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>算法设计的作业</title>
