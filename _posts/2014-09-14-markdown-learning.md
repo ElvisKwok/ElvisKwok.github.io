@@ -142,7 +142,7 @@ Left         | Center        | Right
 <br>
 
 ##Markdown推荐教程  
-[Markdown语法说明][]
+[Markdown语法说明][]  
 [Markdown 作者](http://daringfireball.net/projects/markdown/)  
 [开始使用Markdown](http://ued.taobao.org/blog/2012/07/getting-started-with-markdown/)  
 
