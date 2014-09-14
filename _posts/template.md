@@ -1,12 +1,9 @@
 ---
 layout: post
-title: test
-description: this is a test
-category: blog
+title: 
 ---
 
+===============================
+<p class="title">{{ page.title }}</p> 
+<p class="meta">xx xxx 2014 - Guangzhou</p>
 
-
-
-
-[Elvis Kwok]:    http://elviskwok.github.com  "Elvis Kwok"
