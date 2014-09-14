@@ -61,7 +61,7 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 1. firstline
 2. secondline  
 
-使用4个***"以上"***的空格或一个**"以上"**的tab标记代码段落，或者`code`,或者区块元素（4空格）
+使用4个***"以上"***的空格或一个**"以上"**的tab标记代码段落，或者`code`,或者区块元素（4空格）, 或者前后\`\`\`包围
     
      test code
      ok?
@@ -76,7 +76,15 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 		</tr>
 	</table>
 	
-	this is another
+	this is another  
+
+隔离  
+
+```
+adfdfd
+bdfdf
+csaf
+```
 
 链接：[test](http://dfdf.com "标题")  
 图片：![img](http://dfdf.com/img.png, "可以是相对路径")  
@@ -85,6 +93,7 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 [id]: http://img.t.sinajs.cn/t5/style/images/staticlogo/logoContrast_pic.png?version=1a386bde78f5d832 "weibo"  
 
 突出字体：__轻点__, **重点**, *一个斜*，**两个粗**，***三个又斜又粗***  
+删除句子：~~删去这句话~~
 
 引用链接：[wiki][1],[google][2]，[预设链接后面加空的中括号，要求文字相同][]
 [1]: http://www.wikipedia.org "wiki"
@@ -104,7 +113,31 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 
 <br>
 
+#### Tables
 
+A simple table looks like this:
+
+First Header | Second Header | Third Header
+------------ | ------------- | ------------
+Content Cell | Content Cell  | Content Cell
+Content Cell | Content Cell  | Content Cell
+
+If you wish, you can add a leading and tailing pipe to each line of the table:
+
+| First Header | Second Header | Third Header |
+| ------------ | ------------- | ------------ |
+| Content Cell | Content Cell  | Content Cell |
+| Content Cell | Content Cell  | Content Cell |
+
+Specify alignement for each column by adding colons to separator lines:
+
+First Header | Second Header | Third Header
+:----------- | :-----------: | -----------:
+Left         | Center        | Right
+Left         | Center        | Right
+
+
+<br>
 
 Markdown推荐教程  
 [Markdown文件](http://markdown.tw/#p)  
