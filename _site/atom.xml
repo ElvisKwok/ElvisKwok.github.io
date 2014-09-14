@@ -4,7 +4,7 @@
  <title>Tom Preston-Werner</title>
  <link href="http://tom.preston-werner.com/atom.xml" rel="self"/>
  <link href="http://tom.preston-werner.com/"/>
- <updated>2014-09-14T23:59:06+08:00</updated>
+ <updated>2014-09-15T01:22:46+08:00</updated>
  <id>http://tom.preston-werner.com/</id>
  <author>
    <name>Tom Preston-Werner</name>
@@ -35,31 +35,57 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 
 &lt;h2&gt;以下是我的学习笔记&lt;/h2&gt;
 
-&lt;p&gt;段落：使用一个或多个空行，分隔文本内容。或者在段落后加上两个或以上空格&lt;br/&gt;
-标题：atx, setext&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;段落&lt;/em&gt;&lt;/strong&gt;：使用一个或多个空行，分隔文本内容。或者在段落后加上两个或以上空格&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;标题&lt;/em&gt;&lt;/strong&gt;：atx, setext&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;atx-style&lt;br/&gt;
-使用前缀&quot;#&quot;，&quot;#&quot;的个数分别对应于h1~h6,例如，&lt;/p&gt;
+&lt;li&gt;atx-style&lt;br/&gt;
+使用前缀&quot;#&quot;，&quot;#&quot;的个数分别对应于h1~h6,例如，&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;pre&gt;&lt;code&gt;# This is an H1  
+###### This is an H6  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
 &lt;h1&gt;This is an H1&lt;/h1&gt;
 
-&lt;h6&gt;This is an H6&lt;/h6&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;setext-style&lt;/p&gt;
+&lt;h4&gt;This is an H4&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;* setext-style  
+    * 定义h1:  
+    THIS IS H1  
+    == 
+
+    * 定义h2  
+    THIS IS H2  
+    -- 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;setext-style
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;定义h1:&lt;/p&gt;
 
 &lt;h1&gt;THIS IS H1  &lt;/h1&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;定义h2&lt;/p&gt;
-
-&lt;h2&gt;THIS IS H2  &lt;/h2&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;定义h2&lt;br/&gt;
+THIS IS H2&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 
 
-&lt;p&gt;使用&quot;&gt;&quot;作为段落的前缀，标识该段落是引用部分，类似于Email标记的应用文字&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;段落引用&lt;/em&gt;&lt;/strong&gt;：使用&quot;&gt;&quot;作为段落的前缀，标识该段落是引用部分，类似于Email标记的应用文字&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt; This is the first level of quoting
+&amp;gt;
+&amp;gt; &amp;gt; This is the nested blockquote
+&amp;gt;
+&amp;gt; Back to the first level
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;blockquote&gt;&lt;p&gt;This is the first level of quoting&lt;/p&gt;
 
@@ -67,8 +93,12 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 
 &lt;p&gt;Back to the first level&lt;/p&gt;&lt;/blockquote&gt;
 
-&lt;p&gt;使用 &quot;*&quot;, &quot;+&quot;, &quot;-&quot; 来表示无序的列表；&lt;br/&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;列表&lt;/em&gt;&lt;/strong&gt;：使用 &quot;*&quot;, &quot;+&quot;, &quot;-&quot; 来表示无序的列表；&lt;br/&gt;
 &quot;+&quot;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+ unorder +1
++ unorder +2
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
 &lt;li&gt;unorder +1&lt;/li&gt;
@@ -77,6 +107,14 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 
 
 &lt;p&gt;&quot;*&quot;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;* unorder *1
+    * 1.1
+    * 1.2
+* unorder *2
+    * 2.1
+    * 2.2
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
 &lt;li&gt;unorder *1
@@ -98,6 +136,10 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 
 &lt;p&gt;&quot;-&quot;&lt;/p&gt;
 
+&lt;pre&gt;&lt;code&gt;- unorder -1
+- unorder -2
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;ul&gt;
 &lt;li&gt;unorder -1&lt;/li&gt;
 &lt;li&gt;unorder -2&lt;/li&gt;
@@ -106,13 +148,43 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 
 &lt;p&gt;使用&quot;数字.&quot;表示有序列表&lt;/p&gt;
 
+&lt;pre&gt;&lt;code&gt;1. firstline
+2. secondline  
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;ol&gt;
 &lt;li&gt;firstline&lt;/li&gt;
 &lt;li&gt;secondline&lt;/li&gt;
 &lt;/ol&gt;
 
 
-&lt;p&gt;使用4个&lt;strong&gt;&lt;em&gt;&quot;以上&quot;&lt;/em&gt;&lt;/strong&gt;的空格或一个&lt;strong&gt;&quot;以上&quot;&lt;/strong&gt;的tab标记代码段落，或者&lt;code&gt;code&lt;/code&gt;,或者区块元素（4空格）, 或者前后```包围&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;代码段落&lt;/em&gt;&lt;/strong&gt;：使用4个&lt;strong&gt;&lt;em&gt;&quot;以上&quot;&lt;/em&gt;&lt;/strong&gt;的空格或一个&lt;strong&gt;&quot;以上&quot;&lt;/strong&gt;的tab标记代码段落，或者&lt;code&gt;code&lt;/code&gt;,或者区块元素（4空格）, 或者前后```包围&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;&quot;&gt;     test code
+     ok?
+
+`test code`
+
+    区块元素的标签不会被处理，区块必须在前后加上空行
+
+    &amp;lt;table&amp;gt;
+        &amp;lt;tr&amp;gt;
+            &amp;lt;td&amp;gt;foo&amp;lt;/td&amp;gt;
+        &amp;lt;/tr&amp;gt;
+    &amp;lt;/table&amp;gt;
+
+    this is another  
+
+隔离  
+
+\`\`\`
+adfdfd
+bdfdf
+csaf
+\`\`\`
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果展示：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt; test code
  ok?
@@ -138,28 +210,69 @@ bdfdf
 csaf
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;链接：&lt;a href=&quot;http://dfdf.com&quot; title=&quot;标题&quot;&gt;test&lt;/a&gt;&lt;br/&gt;
-图片：&lt;img src=&quot;http://dfdf.com/img.png,&quot; title=&quot;可以是相对路径&quot; alt=&quot;img&quot; /&gt;&lt;br/&gt;
-引用图片：目前为止，Markdown还无法指定图片宽和高，如若需要，需使用&amp;lt;img&gt;&lt;br/&gt;
-&lt;img src=&quot;http://img.t.sinajs.cn/t5/style/images/staticlogo/logoContrast_pic.png?version=1a386bde78f5d832&quot; title=&quot;weibo&quot; alt=&quot;alt text&quot; /&gt;&lt;br/&gt;
-突出字体：&lt;strong&gt;轻点&lt;/strong&gt;, &lt;strong&gt;重点&lt;/strong&gt;, &lt;em&gt;一个斜&lt;/em&gt;，&lt;strong&gt;两个粗&lt;/strong&gt;，&lt;strong&gt;&lt;em&gt;三个又斜又粗&lt;/em&gt;&lt;/strong&gt;&lt;br/&gt;
-删除句子：&lt;del&gt;删去这句话&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;[test](http://dfdf.com &quot;标题&quot;)&lt;/code&gt;  &lt;br/&gt;
+&lt;a href=&quot;http://dfdf.com&quot; title=&quot;标题&quot;&gt;test&lt;/a&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;图片&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;![img](http://dfdf.com/img.png, &quot;可以是相对路径&quot;)&lt;/code&gt;&lt;br/&gt;
+&lt;img src=&quot;http://dfdf.com/img.png,&quot; title=&quot;可以是相对路径&quot; alt=&quot;img&quot; /&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;引用图片&lt;/em&gt;&lt;/strong&gt;：目前为止，Markdown还无法指定图片宽和高，如若需要，需使用&amp;lt;img&gt;&lt;/p&gt;
 
-&lt;p&gt;引用链接：&lt;a href=&quot;http://www.wikipedia.org&quot; title=&quot;wiki&quot;&gt;wiki&lt;/a&gt;,&lt;a href=&quot;http://goole.com&quot; title=&quot;google&quot;&gt;google&lt;/a&gt;，&lt;a href=&quot;yushe.com&quot; title=&quot;yushe&quot;&gt;预设链接后面加空的中括号，要求文字相同&lt;/a&gt;
+&lt;pre&gt;&lt;code&gt;![alt text][id]  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://img.t.sinajs.cn/t5/style/images/staticlogo/logoContrast_pic.png?version=1a386bde78f5d832&quot; title=&quot;weibo&quot; alt=&quot;alt text&quot; /&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;突出字体&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;__轻点__, **重点**, *一个斜*，**两个粗**，***三个又斜又粗***&lt;/code&gt; &lt;br/&gt;
+&lt;strong&gt;轻点&lt;/strong&gt;, &lt;strong&gt;重点&lt;/strong&gt;, &lt;em&gt;一个斜&lt;/em&gt;，&lt;strong&gt;两个粗&lt;/strong&gt;，&lt;strong&gt;&lt;em&gt;三个又斜又粗&lt;/em&gt;&lt;/strong&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;删除句子&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;~~删去这句话~~&lt;/code&gt;&lt;br/&gt;
+&lt;del&gt;删去这句话&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;引用链接&lt;/em&gt;&lt;/strong&gt;：
+&lt;code&gt;
+[wiki][1]，[google][2]，[预设链接后面加空的中括号，要求文字相同][]
+&lt;/code&gt;
+&lt;a href=&quot;http://www.wikipedia.org&quot; title=&quot;wiki&quot;&gt;wiki&lt;/a&gt;，&lt;a href=&quot;http://goole.com&quot; title=&quot;google&quot;&gt;google&lt;/a&gt;，&lt;a href=&quot;yushe.com&quot; title=&quot;yushe&quot;&gt;预设链接后面加空的中括号，要求文字相同&lt;/a&gt;
 &lt;br&gt;
-行内链接：this is an &lt;a href=&quot;http://example.com&quot; title=&quot;标题&quot;&gt;example link&lt;/a&gt;&lt;br/&gt;
-快速链接：&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#109;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#x74;&amp;#x6f;&amp;#58;&amp;#x33;&amp;#x35;&amp;#57;&amp;#x36;&amp;#x31;&amp;#57;&amp;#56;&amp;#51;&amp;#x39;&amp;#64;&amp;#x71;&amp;#113;&amp;#46;&amp;#x63;&amp;#111;&amp;#109;&quot;&gt;&amp;#51;&amp;#x35;&amp;#57;&amp;#x36;&amp;#x31;&amp;#57;&amp;#56;&amp;#x33;&amp;#57;&amp;#x40;&amp;#113;&amp;#x71;&amp;#46;&amp;#x63;&amp;#111;&amp;#109;&lt;/a&gt;&lt;/p&gt;
+&lt;strong&gt;&lt;em&gt;行内链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;this is an [example link](http://example.com &quot;标题&quot;)&lt;/code&gt; &lt;br/&gt;
+this is an &lt;a href=&quot;http://example.com&quot; title=&quot;标题&quot;&gt;example link&lt;/a&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;快速链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;&amp;lt;http://elviskwok.github.io&amp;gt;, &amp;lt;359619839@qq.com&amp;gt;&lt;/code&gt;  &lt;br/&gt;
+&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#x74;&amp;#111;&amp;#58;&amp;#51;&amp;#53;&amp;#x39;&amp;#54;&amp;#49;&amp;#57;&amp;#x38;&amp;#x33;&amp;#57;&amp;#64;&amp;#x71;&amp;#113;&amp;#x2e;&amp;#x63;&amp;#x6f;&amp;#109;&quot;&gt;&amp;#51;&amp;#x35;&amp;#x39;&amp;#x36;&amp;#x31;&amp;#57;&amp;#56;&amp;#x33;&amp;#x39;&amp;#64;&amp;#x71;&amp;#113;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;需要用\对下面字符转义: `,*,_,{},[],(),#,+,-,.,!&lt;br/&gt;
-`code`&lt;br/&gt;
-&lt;code&gt;code&lt;/code&gt;&lt;br/&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;转义&lt;/em&gt;&lt;/strong&gt;：需要用\对下面字符转义: `,*,_,{},[],(),#,+,-,.,!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;\`code\`  
+``code contain ` character``  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;`code`&lt;br/&gt;
 &lt;code&gt;code contain ` character&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;特殊字符转换：&amp;copy; &amp;amp; &amp;lt; AT&amp;amp;T&lt;/p&gt;
+&lt;p&gt;特殊字符转换：&lt;code&gt;&amp;amp;copy;,  &amp;amp;amp;,  &amp;amp;lt;,  AT&amp;amp;T&lt;/code&gt; &lt;br/&gt;
+&amp;copy;,  &amp;amp;,  &amp;lt;,  AT&amp;amp;T&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h4&gt;Tables&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;表格&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;A simple table looks like this:
+
+First Header | Second Header | Third Header
+------------ | ------------- | ------------
+Content Cell | Content Cell  | Content Cell
+Content Cell | Content Cell  | Content Cell
+
+If you wish, you can add a leading and tailing pipe to each line of the table:
+
+| First Header | Second Header | Third Header |
+| ------------ | ------------- | ------------ |
+| Content Cell | Content Cell  | Content Cell |
+| Content Cell | Content Cell  | Content Cell |
+
+Specify alignement for each column by adding colons to separator lines:
+
+First Header | Second Header | Third Header
+:----------- | :-----------: | -----------:
+Left         | Center        | Right
+Left         | Center        | Right
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;A simple table looks like this:&lt;/p&gt;
 

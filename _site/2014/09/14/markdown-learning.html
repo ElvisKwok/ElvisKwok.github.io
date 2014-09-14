@@ -52,31 +52,57 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 
 <h2>以下是我的学习笔记</h2>
 
-<p>段落：使用一个或多个空行，分隔文本内容。或者在段落后加上两个或以上空格<br/>
-标题：atx, setext</p>
+<p><strong><em>段落</em></strong>：使用一个或多个空行，分隔文本内容。或者在段落后加上两个或以上空格<br/>
+<strong><em>标题</em></strong>：atx, setext</p>
 
 <ul>
-<li><p>atx-style<br/>
-使用前缀"#"，"#"的个数分别对应于h1~h6,例如，</p>
+<li>atx-style<br/>
+使用前缀"#"，"#"的个数分别对应于h1~h6,例如，</li>
+</ul>
+
+
+<pre><code># This is an H1  
+###### This is an H6  
+</code></pre>
+
+<p><br></p>
 
 <h1>This is an H1</h1>
 
-<h6>This is an H6</h6></li>
-<li><p>setext-style</p>
+<h4>This is an H4</h4>
+
+<pre><code>* setext-style  
+    * 定义h1:  
+    THIS IS H1  
+    == 
+
+    * 定义h2  
+    THIS IS H2  
+    -- 
+</code></pre>
+
+<ul>
+<li>setext-style
 
 <ul>
 <li><p>定义h1:</p>
 
 <h1>THIS IS H1  </h1></li>
-<li><p>定义h2</p>
-
-<h2>THIS IS H2  </h2></li>
+<li><p>定义h2<br/>
+THIS IS H2</p></li>
 </ul>
 </li>
 </ul>
 
 
-<p>使用">"作为段落的前缀，标识该段落是引用部分，类似于Email标记的应用文字</p>
+<p><strong><em>段落引用</em></strong>：使用">"作为段落的前缀，标识该段落是引用部分，类似于Email标记的应用文字</p>
+
+<pre><code>&gt; This is the first level of quoting
+&gt;
+&gt; &gt; This is the nested blockquote
+&gt;
+&gt; Back to the first level
+</code></pre>
 
 <blockquote><p>This is the first level of quoting</p>
 
@@ -84,8 +110,12 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 
 <p>Back to the first level</p></blockquote>
 
-<p>使用 "*", "+", "-" 来表示无序的列表；<br/>
+<p><strong><em>列表</em></strong>：使用 "*", "+", "-" 来表示无序的列表；<br/>
 "+"</p>
+
+<pre><code>+ unorder +1
++ unorder +2
+</code></pre>
 
 <ul>
 <li>unorder +1</li>
@@ -94,6 +124,14 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 
 
 <p>"*"</p>
+
+<pre><code>* unorder *1
+    * 1.1
+    * 1.2
+* unorder *2
+    * 2.1
+    * 2.2
+</code></pre>
 
 <ul>
 <li>unorder *1
@@ -115,6 +153,10 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 
 <p>"-"</p>
 
+<pre><code>- unorder -1
+- unorder -2
+</code></pre>
+
 <ul>
 <li>unorder -1</li>
 <li>unorder -2</li>
@@ -123,13 +165,43 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 
 <p>使用"数字."表示有序列表</p>
 
+<pre><code>1. firstline
+2. secondline  
+</code></pre>
+
 <ol>
 <li>firstline</li>
 <li>secondline</li>
 </ol>
 
 
-<p>使用4个<strong><em>"以上"</em></strong>的空格或一个<strong>"以上"</strong>的tab标记代码段落，或者<code>code</code>,或者区块元素（4空格）, 或者前后```包围</p>
+<p><strong><em>代码段落</em></strong>：使用4个<strong><em>"以上"</em></strong>的空格或一个<strong>"以上"</strong>的tab标记代码段落，或者<code>code</code>,或者区块元素（4空格）, 或者前后```包围</p>
+
+<pre><code class="">     test code
+     ok?
+
+`test code`
+
+    区块元素的标签不会被处理，区块必须在前后加上空行
+
+    &lt;table&gt;
+        &lt;tr&gt;
+            &lt;td&gt;foo&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+
+    this is another  
+
+隔离  
+
+\`\`\`
+adfdfd
+bdfdf
+csaf
+\`\`\`
+</code></pre>
+
+<p>效果展示：</p>
 
 <pre><code> test code
  ok?
@@ -155,28 +227,69 @@ bdfdf
 csaf
 </code></pre>
 
-<p>链接：<a href="http://dfdf.com" title="标题">test</a><br/>
-图片：<img src="http://dfdf.com/img.png," title="可以是相对路径" alt="img" /><br/>
-引用图片：目前为止，Markdown还无法指定图片宽和高，如若需要，需使用&lt;img><br/>
-<img src="http://img.t.sinajs.cn/t5/style/images/staticlogo/logoContrast_pic.png?version=1a386bde78f5d832" title="weibo" alt="alt text" /><br/>
-突出字体：<strong>轻点</strong>, <strong>重点</strong>, <em>一个斜</em>，<strong>两个粗</strong>，<strong><em>三个又斜又粗</em></strong><br/>
-删除句子：<del>删去这句话</del></p>
+<p><strong><em>链接</em></strong>：<code>[test](http://dfdf.com "标题")</code>  <br/>
+<a href="http://dfdf.com" title="标题">test</a><br/>
+<strong><em>图片</em></strong>：<code>![img](http://dfdf.com/img.png, "可以是相对路径")</code><br/>
+<img src="http://dfdf.com/img.png," title="可以是相对路径" alt="img" /><br/>
+<strong><em>引用图片</em></strong>：目前为止，Markdown还无法指定图片宽和高，如若需要，需使用&lt;img></p>
 
-<p>引用链接：<a href="http://www.wikipedia.org" title="wiki">wiki</a>,<a href="http://goole.com" title="google">google</a>，<a href="yushe.com" title="yushe">预设链接后面加空的中括号，要求文字相同</a>
+<pre><code>![alt text][id]  
+</code></pre>
+
+<p><img src="http://img.t.sinajs.cn/t5/style/images/staticlogo/logoContrast_pic.png?version=1a386bde78f5d832" title="weibo" alt="alt text" /><br/>
+<strong><em>突出字体</em></strong>：<code>__轻点__, **重点**, *一个斜*，**两个粗**，***三个又斜又粗***</code> <br/>
+<strong>轻点</strong>, <strong>重点</strong>, <em>一个斜</em>，<strong>两个粗</strong>，<strong><em>三个又斜又粗</em></strong><br/>
+<strong><em>删除句子</em></strong>：<code>~~删去这句话~~</code><br/>
+<del>删去这句话</del></p>
+
+<p><strong><em>引用链接</em></strong>：
+<code>
+[wiki][1]，[google][2]，[预设链接后面加空的中括号，要求文字相同][]
+</code>
+<a href="http://www.wikipedia.org" title="wiki">wiki</a>，<a href="http://goole.com" title="google">google</a>，<a href="yushe.com" title="yushe">预设链接后面加空的中括号，要求文字相同</a>
 <br>
-行内链接：this is an <a href="http://example.com" title="标题">example link</a><br/>
-快速链接：<a href="http://elviskwok.github.io">http://elviskwok.github.io</a>, <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x33;&#x35;&#57;&#x36;&#x31;&#57;&#56;&#51;&#x39;&#64;&#x71;&#113;&#46;&#x63;&#111;&#109;">&#51;&#x35;&#57;&#x36;&#x31;&#57;&#56;&#x33;&#57;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#109;</a></p>
+<strong><em>行内链接</em></strong>：<code>this is an [example link](http://example.com "标题")</code> <br/>
+this is an <a href="http://example.com" title="标题">example link</a><br/>
+<strong><em>快速链接</em></strong>：<code>&lt;http://elviskwok.github.io&gt;, &lt;359619839@qq.com&gt;</code>  <br/>
+<a href="http://elviskwok.github.io">http://elviskwok.github.io</a>, <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#51;&#53;&#x39;&#54;&#49;&#57;&#x38;&#x33;&#57;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;">&#51;&#x35;&#x39;&#x36;&#x31;&#57;&#56;&#x33;&#x39;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;</a></p>
 
-<p>需要用\对下面字符转义: `,*,_,{},[],(),#,+,-,.,!<br/>
-`code`<br/>
-<code>code</code><br/>
+<p><strong><em>转义</em></strong>：需要用\对下面字符转义: `,*,_,{},[],(),#,+,-,.,!</p>
+
+<pre><code>\`code\`  
+``code contain ` character``  
+</code></pre>
+
+<p>`code`<br/>
 <code>code contain ` character</code></p>
 
-<p>特殊字符转换：&copy; &amp; &lt; AT&amp;T</p>
+<p>特殊字符转换：<code>&amp;copy;,  &amp;amp;,  &amp;lt;,  AT&amp;T</code> <br/>
+&copy;,  &amp;,  &lt;,  AT&amp;T</p>
 
 <p><br></p>
 
-<h4>Tables</h4>
+<p><strong><em>表格</em></strong></p>
+
+<pre><code>A simple table looks like this:
+
+First Header | Second Header | Third Header
+------------ | ------------- | ------------
+Content Cell | Content Cell  | Content Cell
+Content Cell | Content Cell  | Content Cell
+
+If you wish, you can add a leading and tailing pipe to each line of the table:
+
+| First Header | Second Header | Third Header |
+| ------------ | ------------- | ------------ |
+| Content Cell | Content Cell  | Content Cell |
+| Content Cell | Content Cell  | Content Cell |
+
+Specify alignement for each column by adding colons to separator lines:
+
+First Header | Second Header | Third Header
+:----------- | :-----------: | -----------:
+Left         | Center        | Right
+Left         | Center        | Right
+</code></pre>
 
 <p>A simple table looks like this:</p>
 
