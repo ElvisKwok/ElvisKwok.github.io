@@ -3,16 +3,16 @@ layout: post
 title: Markdown学习笔记
 ---
 
-##{{ page.title }}  
+#{{ page.title }}  
 <p class="meta">14 Sep 2014 - Guangzhou</p> 
 
 ========================================================  
 <br>
-###前言  
+##前言  
 很久前就听说过Markdown，由于最近需要记录一些东西，所以今天才开始系统的学习Markdown。  
 Markdown是一种标记语言（文本的格式化表示），之所以选择Markdown，一者,是想让文本具有更高的的可读性，相比于HTML，没有太多<tag>干扰。再者，使用Markdown可以在任何一种文本编辑器上书写，比如我正在使用的vim，简洁美观，而且方便在网页上展示（使用rdiscount解释Markdown语言很容易生成HTML），正如[Markdown语法说明][]所说的，”HTML 是一種*發佈*的格式，Markdown 是一種*編寫*的格式“。最后，Markdown在程序员社区具有较高的认可度，比如github。  
 
-###以下是我的学习笔记  
+##以下是我的学习笔记  
 段落：使用一个或多个空行，分隔文本内容。或者在段落后加上两个或以上空格  
 标题：atx, setext  
 
@@ -141,7 +141,11 @@ Left         | Center        | Right
 
 <br>
 
-###Markdown推荐教程  
-[Markdown文件](http://markdown.tw/#p)  
+##Markdown推荐教程  
+[Markdown语法说明][]
 [Markdown 作者](http://daringfireball.net/projects/markdown/)  
 [开始使用Markdown](http://ued.taobao.org/blog/2012/07/getting-started-with-markdown/)  
+
+
+
+[Markdown语法说明]: http://markdown.tw "markdown.tw"
