@@ -4,7 +4,7 @@
  <title>Tom Preston-Werner</title>
  <link href="http://tom.preston-werner.com/atom.xml" rel="self"/>
  <link href="http://tom.preston-werner.com/"/>
- <updated>2014-09-14T23:05:10+08:00</updated>
+ <updated>2014-09-14T23:21:21+08:00</updated>
  <id>http://tom.preston-werner.com/</id>
  <author>
    <name>Tom Preston-Werner</name>
@@ -17,19 +17,25 @@
    <link href="http://tom.preston-werner.com/2014/09/14/markdown-learning.html"/>
    <updated>2014-09-14T00:00:00+08:00</updated>
    <id>http://tom.preston-werner.com/2014/09/14/markdown-learning</id>
-   <content type="html">&lt;hr /&gt;
+   <content type="html">&lt;h2&gt;Markdown学习笔记&lt;/h2&gt;
 
-&lt;p class=&quot;title&quot;&gt;Markdown学习笔记&lt;/p&gt;
+&lt;p class=&quot;meta&quot;&gt;14 Sep 2014 - Guangzhou&lt;/p&gt;
 
 
-&lt;p&gt; &lt;p class=&quot;meta&quot;&gt;14 Sep 2014 - Guangzhou&lt;/p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
 
-&lt;p&gt;前言&lt;br/&gt;
-很久前就听说过Markdown，由于最近需要记录一些东西，所以今天才开始系统的学习Markdown。&lt;br/&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;很久前就听说过Markdown，由于最近需要记录一些东西，所以今天才开始系统的学习Markdown。&lt;br/&gt;
 Markdown是一种标记语言（文本的格式化表示），之所以选择Markdown，一者,是想让文本具有更高的的可读性，相比于HTML，没有太多&lt;tag&gt;干扰。再者，使用Markdown可以在任何一种文本编辑器上书写，比如我正在使用的vim，简洁美观，而且方便在网页上展示（使用rdiscount解释Markdown语言很容易生成HTML），正如[Markdown语法说明][]所说的，”HTML 是一種&lt;em&gt;發佈&lt;/em&gt;的格式，Markdown 是一種&lt;em&gt;編寫&lt;/em&gt;的格式“。最后，Markdown在程序员社区具有较高的认可度，比如github。&lt;/p&gt;
 
-&lt;p&gt;以下是我的学习笔记&lt;br/&gt;
-段落：使用一个或多个空行，分隔文本内容。或者在段落后加上两个或以上空格&lt;br/&gt;
+&lt;h3&gt;以下是我的学习笔记&lt;/h3&gt;
+
+&lt;p&gt;段落：使用一个或多个空行，分隔文本内容。或者在段落后加上两个或以上空格&lt;br/&gt;
 标题：atx, setext&lt;/p&gt;
 
 &lt;ul&gt;
@@ -142,7 +148,7 @@ csaf
 &lt;p&gt;引用链接：&lt;a href=&quot;http://www.wikipedia.org&quot; title=&quot;wiki&quot;&gt;wiki&lt;/a&gt;,&lt;a href=&quot;http://goole.com&quot; title=&quot;google&quot;&gt;google&lt;/a&gt;，&lt;a href=&quot;yushe.com&quot; title=&quot;yushe&quot;&gt;预设链接后面加空的中括号，要求文字相同&lt;/a&gt;
 &lt;br&gt;
 行内链接：this is an &lt;a href=&quot;http://example.com&quot; title=&quot;标题&quot;&gt;example link&lt;/a&gt;&lt;br/&gt;
-快速链接：&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#109;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#116;&amp;#111;&amp;#x3a;&amp;#x33;&amp;#53;&amp;#57;&amp;#54;&amp;#x31;&amp;#x39;&amp;#x38;&amp;#51;&amp;#x39;&amp;#64;&amp;#113;&amp;#x71;&amp;#x2e;&amp;#x63;&amp;#x6f;&amp;#109;&quot;&gt;&amp;#x33;&amp;#53;&amp;#x39;&amp;#54;&amp;#49;&amp;#57;&amp;#x38;&amp;#x33;&amp;#x39;&amp;#64;&amp;#x71;&amp;#113;&amp;#46;&amp;#99;&amp;#x6f;&amp;#109;&lt;/a&gt;&lt;/p&gt;
+快速链接：&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#109;&amp;#97;&amp;#105;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#x33;&amp;#53;&amp;#x39;&amp;#x36;&amp;#49;&amp;#x39;&amp;#56;&amp;#51;&amp;#57;&amp;#x40;&amp;#x71;&amp;#x71;&amp;#x2e;&amp;#99;&amp;#111;&amp;#x6d;&quot;&gt;&amp;#51;&amp;#x35;&amp;#57;&amp;#x36;&amp;#x31;&amp;#57;&amp;#x38;&amp;#51;&amp;#57;&amp;#x40;&amp;#113;&amp;#x71;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;需要用\对下面字符转义: `,*,_,{},[],(),#,+,-,.,!&lt;br/&gt;
 `code`&lt;br/&gt;
@@ -232,8 +238,9 @@ csaf
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;p&gt;Markdown推荐教程&lt;br/&gt;
-&lt;a href=&quot;http://markdown.tw/#p&quot;&gt;Markdown文件&lt;/a&gt;&lt;br/&gt;
+&lt;h3&gt;Markdown推荐教程&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://markdown.tw/#p&quot;&gt;Markdown文件&lt;/a&gt;&lt;br/&gt;
 &lt;a href=&quot;http://daringfireball.net/projects/markdown/&quot;&gt;Markdown 作者&lt;/a&gt;&lt;br/&gt;
 &lt;a href=&quot;http://ued.taobao.org/blog/2012/07/getting-started-with-markdown/&quot;&gt;开始使用Markdown&lt;/a&gt;&lt;/p&gt;
 </content>
