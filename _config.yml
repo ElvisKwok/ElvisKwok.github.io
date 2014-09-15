@@ -3,8 +3,9 @@ pygments: true
 
 #comment config
 disqus:
-config: false
-id: everendless
+  config: false
+  id: everendless
+
 duoshuo:
-config: true
-id: elviskwok
+  config: true
+  id: elviskwok
