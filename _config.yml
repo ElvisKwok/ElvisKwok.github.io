@@ -1,11 +1,2 @@
 markdown: rdiscount
 pygments: true
-
-#comment config
-disqus:
-  config: false
-  id: everendless
-
-duoshuo:
-  config: true
-  id: elviskwok
