@@ -24,7 +24,7 @@ title:      算法设计的作业
 
 
 ###1.3、测试数据
-a, ab, !a, !ab, a+b, !a+b, a+!b, a+df, (a+b), a+b\*c, a+b>c, (a+b)>c, (a>b)*!
+a, ab, !a, !ab, a+b, !a+b, a+!b, a+df, (a+b), a+b\*c, a+b>c, (a+b)>c, (a>b)*!c  
 
 ###1.4、运行结果
 ![img][1.4]
@@ -69,8 +69,8 @@ a, ab, !a, !ab, a+b, !a+b, a+!b, a+df, (a+b), a+b\*c, a+b>c, (a+b)>c, (a>b)*!
 
 
 ###3.2、实现说明
-设置函数void dec_to_bin(int n, int *a)， 将十进制数n转换为二进制数，二进制数的每一位储存在数组a上（逆序存储）。  
-设置函数void zuhe(int *input, int n)，完成全组合问题的输出，其中，input数组为需要进行全组合的元素，n为元素个数。  
+设置函数void dec_to_bin(int n, int \*a)， 将十进制数n转换为二进制数，二进制数的每一位储存在数组a上（逆序存储）。  
+设置函数void zuhe(int \*input, int n)，完成全组合问题的输出，其中，input数组为需要进行全组合的元素，n为元素个数。  
 
 ###3.3、测试数据
 2，{2，4};  
