@@ -4,7 +4,7 @@
  <title>Elvis Kwok</title>
  <link href="http://elviskwok.github.io/atom.xml" rel="self"/>
  <link href="http://elviskwok.github.io/"/>
- <updated>2014-09-15T16:58:33+08:00</updated>
+ <updated>2014-09-15T22:07:42+08:00</updated>
  <id>http://elviskwok.github.io/</id>
  <author>
    <name>elviskwok.github.io</name>
@@ -336,7 +336,7 @@ csaf
 &lt;strong&gt;&lt;em&gt;行内链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;this is an [example link](http://example.com &quot;标题&quot;)&lt;/code&gt; &lt;br/&gt;
 this is an &lt;a href=&quot;http://example.com&quot; title=&quot;标题&quot;&gt;example link&lt;/a&gt;&lt;br/&gt;
 &lt;strong&gt;&lt;em&gt;快速链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;&amp;lt;http://elviskwok.github.io&amp;gt;, &amp;lt;359619839@qq.com&amp;gt;&lt;/code&gt;  &lt;br/&gt;
-&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#116;&amp;#111;&amp;#x3a;&amp;#51;&amp;#53;&amp;#x39;&amp;#54;&amp;#49;&amp;#57;&amp;#x38;&amp;#x33;&amp;#57;&amp;#x40;&amp;#113;&amp;#113;&amp;#46;&amp;#x63;&amp;#111;&amp;#109;&quot;&gt;&amp;#51;&amp;#x35;&amp;#57;&amp;#54;&amp;#x31;&amp;#57;&amp;#56;&amp;#x33;&amp;#x39;&amp;#x40;&amp;#x71;&amp;#113;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#109;&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#116;&amp;#x6f;&amp;#x3a;&amp;#x33;&amp;#53;&amp;#57;&amp;#x36;&amp;#x31;&amp;#x39;&amp;#56;&amp;#x33;&amp;#x39;&amp;#64;&amp;#113;&amp;#113;&amp;#x2e;&amp;#99;&amp;#111;&amp;#109;&quot;&gt;&amp;#51;&amp;#53;&amp;#57;&amp;#54;&amp;#49;&amp;#x39;&amp;#x38;&amp;#x33;&amp;#57;&amp;#64;&amp;#x71;&amp;#x71;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#109;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;&lt;em&gt;转义&lt;/em&gt;&lt;/strong&gt;：需要用\对下面字符转义: `,*,_,{},[],(),#,+,-,.,!&lt;/p&gt;
 
@@ -463,9 +463,9 @@ Left         | Center        | Right
  
  <entry>
    <title>算法设计的作业</title>
-   <link href="http://elviskwok.github.io/2014/09/11/original-article-1.html"/>
+   <link href="http://elviskwok.github.io/2014/09/11/alg-homework.html"/>
    <updated>2014-09-11T00:00:00+08:00</updated>
-   <id>http://elviskwok.githu.io/2014/09/11/original-article-1</id>
+   <id>http://elviskwok.githu.io/2014/09/11/alg-homework</id>
    <content type="html">&lt;h1&gt;算法设计的作业&lt;/h1&gt;
 
 &lt;p class=&quot;meta&quot;&gt;11 Sep 2014 - Guangzhou&lt;/p&gt;
