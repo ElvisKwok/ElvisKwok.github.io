@@ -1,22 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
  
- <title>Tom Preston-Werner</title>
- <link href="http://tom.preston-werner.com/atom.xml" rel="self"/>
- <link href="http://tom.preston-werner.com/"/>
- <updated>2014-09-15T01:22:46+08:00</updated>
- <id>http://tom.preston-werner.com/</id>
+ <title>Elvis Kwok</title>
+ <link href="http://elviskwok.github.io/atom.xml" rel="self"/>
+ <link href="http://elviskwok.github.io/"/>
+ <updated>2014-09-15T16:58:33+08:00</updated>
+ <id>http://elviskwok.github.io/</id>
  <author>
-   <name>Tom Preston-Werner</name>
-   <email>tom@mojombo.com</email>
+   <name>elviskwok.github.io</name>
+   <email>359619839@qq.com</email>
  </author>
 
  
  <entry>
+   <title>Notes of the C Programming Language</title>
+   <link href="http://elviskwok.github.io/2014/09/15/notes-of-the-c-programming-language.html"/>
+   <updated>2014-09-15T00:00:00+08:00</updated>
+   <id>http://elviskwok.githu.io/2014/09/15/notes-of-the-c-programming-language</id>
+   <content type="html">&lt;h1&gt;Notes of the C Programming Language&lt;/h1&gt;
+
+&lt;p class=&quot;meta&quot;&gt;15 Sep 2014 - Guangzhou&lt;/p&gt;
+
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;chapter 1: 导言&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;变量、算术表达式;基本数据类型&lt;/li&gt;
+&lt;li&gt;for语句;&lt;/li&gt;
+&lt;li&gt;符号常量;#define 大写名字 被替换文本&lt;/li&gt;
+&lt;li&gt;字符输入/输出;c = getchar(); putchar(c); EOF&lt;/li&gt;
+&lt;li&gt;数组;&lt;/li&gt;
+&lt;li&gt;函数;&lt;/li&gt;
+&lt;li&gt;参数传值;&lt;/li&gt;
+&lt;li&gt;字符数组;&lt;/li&gt;
+&lt;li&gt;外部变量、作用域;&lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;chapter 2:类型、运算符与表达式&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;变量名;&lt;/li&gt;
+&lt;li&gt;数据类型及长度;&lt;/li&gt;
+&lt;li&gt;常量;整数常量;结尾l/L,u/U;前缀 0,0x;字符常量是一个整数;字符串常量&lt;/li&gt;
+&lt;li&gt;声明;const不能修改&lt;/li&gt;
+&lt;li&gt;算术运算符;&lt;/li&gt;
+&lt;li&gt;关系运算符与逻辑运算符&lt;/li&gt;
+&lt;li&gt;类型转换;隐式(自动)(char,short￫int、其中一个float则另外一个提升为float。。。);强制(int)n, n本身的值没有改变&lt;/li&gt;
+&lt;li&gt;自增自减运算符;&lt;/li&gt;
+&lt;li&gt;按位运算符;&amp;amp;|^异或&amp;lt;&amp;lt; &gt;&gt;~; 部分位:清零&amp;amp;0,置1|1,求反&lt;sup&gt;1&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;赋值运算符与表达式; +=,-=,/=,*=,&gt;&gt;=&lt;/li&gt;
+&lt;li&gt;条件表达式z = (a &gt; b) ?a : b;&lt;/li&gt;
+&lt;li&gt;运算符优先级与求值次序(结合性)&lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;chapter 3:控制流&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;语句与程序块;语句结束符;&lt;/li&gt;
+&lt;li&gt;if-else语句;配对&lt;/li&gt;
+&lt;li&gt;else-if语句;&lt;/li&gt;
+&lt;li&gt;switch语句; break&lt;/li&gt;
+&lt;li&gt;while循环for循环;&lt;/li&gt;
+&lt;li&gt;do-while循环;&lt;/li&gt;
+&lt;li&gt;break、continue;&lt;/li&gt;
+&lt;li&gt;goto语句与标号;常用于深度嵌套的跳出;维护可读性差&lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;chapter 4:函数与程序结构&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;函数的基本知识；&lt;/li&gt;
+&lt;li&gt;返回非整型值的函数；atof科学表示法123.45e-6, %g是什么&lt;/li&gt;
+&lt;li&gt;外部变量；&lt;/li&gt;
+&lt;li&gt;作用域规则；&lt;/li&gt;
+&lt;li&gt;头文件；&lt;/li&gt;
+&lt;li&gt;静态变量；只被初始化一次；static可限定外部变量and函数，使得其他文件无法访问&lt;/li&gt;
+&lt;li&gt;寄存器变量；取决于底层硬件环境、编译器，寄存器变量的数目类型有所限制&lt;/li&gt;
+&lt;li&gt;初始化； 外部变量和静态变量初始化为0（没有显式初始化的情况下）&lt;/li&gt;
+&lt;li&gt;递归；&lt;/li&gt;
+&lt;li&gt;C预处理器；文件包含#include、宏替换#define、条件包含 &lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;chapter 5:指针与数组&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;指针与地址；&lt;/li&gt;
+&lt;li&gt;指针与函数参数；&lt;/li&gt;
+&lt;li&gt;指针与数组；*(a+i) is a[i]；数组名不是变量，指针是一个变量&lt;/li&gt;
+&lt;li&gt;地址算术运算；char *alloc(int n); void afree(char *p); strlen&lt;/li&gt;
+&lt;li&gt;字符指针与函数；while( *s++ = *t++);  *s++(先*s,再s++)&lt;/li&gt;
+&lt;li&gt;指针数组以及指向指针的指针；字符串排序&lt;/li&gt;
+&lt;li&gt;多维数组；逻辑表达式leap做数组下标； int (*)a[10] 指向数组的指针，这个指针指向具有10个元素的一维数组； int *a[10] 指针数组，数组的元素a[0]~a[9]都是指向int对象的指针&lt;/li&gt;
+&lt;li&gt;指针数组的的初始化&lt;/li&gt;
+&lt;li&gt;指针与多维数组；二维数组与指针数组的区别，空间分配，矩阵下标计算；指针数组优点每一行长度可以不同，常用于存放不同长度的字符串&lt;/li&gt;
+&lt;li&gt;命令行参数；int argc 参数个数（包括执行的程序）. char *argv[]；printf的参数可以是表达式，如printf((argc &gt; 1) ? “%s “ : “%s”, *++argv);&lt;/li&gt;
+&lt;li&gt;指向函数的指针；qsort 命令行模式，int (*comp)(void *, void *); 返回指针的函数 int *comp(void *, void *)；&lt;/li&gt;
+&lt;/ul&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
    <title>Markdown学习笔记</title>
-   <link href="http://tom.preston-werner.com/2014/09/14/markdown-learning.html"/>
+   <link href="http://elviskwok.github.io/2014/09/14/markdown-learning.html"/>
    <updated>2014-09-14T00:00:00+08:00</updated>
-   <id>http://tom.preston-werner.com/2014/09/14/markdown-learning</id>
+   <id>http://elviskwok.githu.io/2014/09/14/markdown-learning</id>
    <content type="html">&lt;h1&gt;Markdown学习笔记&lt;/h1&gt;
 
 &lt;p class=&quot;meta&quot;&gt;14 Sep 2014 - Guangzhou&lt;/p&gt;
@@ -234,7 +336,7 @@ csaf
 &lt;strong&gt;&lt;em&gt;行内链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;this is an [example link](http://example.com &quot;标题&quot;)&lt;/code&gt; &lt;br/&gt;
 this is an &lt;a href=&quot;http://example.com&quot; title=&quot;标题&quot;&gt;example link&lt;/a&gt;&lt;br/&gt;
 &lt;strong&gt;&lt;em&gt;快速链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;&amp;lt;http://elviskwok.github.io&amp;gt;, &amp;lt;359619839@qq.com&amp;gt;&lt;/code&gt;  &lt;br/&gt;
-&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#x74;&amp;#111;&amp;#58;&amp;#51;&amp;#53;&amp;#x39;&amp;#54;&amp;#49;&amp;#57;&amp;#x38;&amp;#x33;&amp;#57;&amp;#64;&amp;#x71;&amp;#113;&amp;#x2e;&amp;#x63;&amp;#x6f;&amp;#109;&quot;&gt;&amp;#51;&amp;#x35;&amp;#x39;&amp;#x36;&amp;#x31;&amp;#57;&amp;#56;&amp;#x33;&amp;#x39;&amp;#64;&amp;#x71;&amp;#113;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#116;&amp;#111;&amp;#x3a;&amp;#51;&amp;#53;&amp;#x39;&amp;#54;&amp;#49;&amp;#57;&amp;#x38;&amp;#x33;&amp;#57;&amp;#x40;&amp;#113;&amp;#113;&amp;#46;&amp;#x63;&amp;#111;&amp;#109;&quot;&gt;&amp;#51;&amp;#x35;&amp;#57;&amp;#54;&amp;#x31;&amp;#57;&amp;#56;&amp;#x33;&amp;#x39;&amp;#x40;&amp;#x71;&amp;#113;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#109;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;&lt;em&gt;转义&lt;/em&gt;&lt;/strong&gt;：需要用\对下面字符转义: `,*,_,{},[],(),#,+,-,.,!&lt;/p&gt;
 
@@ -361,10 +463,21 @@ Left         | Center        | Right
  
  <entry>
    <title>算法设计的作业</title>
-   <link href="http://tom.preston-werner.com/blog/2014/09/11/original-article-1.html"/>
+   <link href="http://elviskwok.github.io/2014/09/11/original-article-1.html"/>
    <updated>2014-09-11T00:00:00+08:00</updated>
-   <id>http://tom.preston-werner.com/blog/2014/09/11/original-article-1</id>
-   <content type="html">&lt;h2&gt;1、合式公式判断&lt;/h2&gt;
+   <id>http://elviskwok.githu.io/2014/09/11/original-article-1</id>
+   <content type="html">&lt;h1&gt;算法设计的作业&lt;/h1&gt;
+
+&lt;p class=&quot;meta&quot;&gt;11 Sep 2014 - Guangzhou&lt;/p&gt;
+
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;1、合式公式判断&lt;/h2&gt;
 
 &lt;p&gt;判断一个字符串是否为合式公式&lt;br/&gt;
 输入：由小写字母，逻辑运算符（+,*,&gt;,!），括号组成的字符串&lt;br/&gt;
@@ -452,9 +565,9 @@ i+P(j1)+P(j2)+…P(jn)，其中j1~jn小于i&lt;br/&gt;
  
  <entry>
    <title>我为什么写博客？(转载于[BeiYuu])</title>
-   <link href="http://tom.preston-werner.com/blog/2011/12/18/why-blog.html"/>
+   <link href="http://elviskwok.github.io/blog/2011/12/18/why-blog.html"/>
    <updated>2011-12-18T00:00:00+08:00</updated>
-   <id>http://tom.preston-werner.com/blog/2011/12/18/why-blog</id>
+   <id>http://elviskwok.githu.io/blog/2011/12/18/why-blog</id>
    <content type="html">&lt;h2&gt;世界这么乱，装纯给谁看&lt;/h2&gt;
 
 &lt;p&gt;写博客这个不知道几个“互联网世纪”前的东西，现在还有必要拿出来说吗？不想用太多的理论去说这个命题，先看看两个最近对我影响比较大的两个博客：&lt;/p&gt;
