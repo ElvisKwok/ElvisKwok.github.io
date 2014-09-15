@@ -16,7 +16,8 @@ html, body {
 }
 
 body {
-  background-color: #3A4148;
+  /*background-color: #3A4148;*/
+  background-color: #285050
   font: 14.34px helvetica, arial, clean, sans-serif;
   *font-size: small;
   text-align: center;
