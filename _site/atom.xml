@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>Elvis Kwok</title>
+ <link href="http://elviskwok.github.io/atom.xml" rel="self"/>
+ <link href="http://elviskwok.github.io/"/>
+ <updated>2014-09-16T01:04:13+08:00</updated>
+ <id>http://elviskwok.github.io/</id>
+ <author>
+   <name>elviskwok.github.io</name>
+   <email>359619839@qq.com</email>
+ </author>
+
+ 
+ <entry>
+   <title>Notes of the C Programming Language</title>
+   <link href="http://elviskwok.github.io/2014/09/15/notes-of-the-c-programming-language.html"/>
+   <updated>2014-09-15T00:00:00+08:00</updated>
+   <id>http://elviskwok.githu.io/2014/09/15/notes-of-the-c-programming-language</id>
+   <content type="html">&lt;h1&gt;Notes of the C Programming Language&lt;/h1&gt;
+
+&lt;p class=&quot;meta&quot;&gt;15 Sep 2014 - Guangzhou&lt;/p&gt;
+
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;chapter 1: 导言&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;变量、算术表达式;基本数据类型&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;for&lt;/code&gt;语句;&lt;/li&gt;
+&lt;li&gt;符号常量;&lt;code&gt;#define&lt;/code&gt; 大写名字 被替换文本&lt;/li&gt;
+&lt;li&gt;字符输入/输出;&lt;code&gt;c = getchar();&lt;/code&gt; &lt;code&gt;putchar(c);&lt;/code&gt; &lt;code&gt;EOF&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;数组;&lt;/li&gt;
+&lt;li&gt;函数;&lt;/li&gt;
+&lt;li&gt;参数传值;&lt;/li&gt;
+&lt;li&gt;字符数组;&lt;/li&gt;
+&lt;li&gt;外部变量、作用域;&lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;h2&gt;chapter 2:类型、运算符与表达式&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;变量名;&lt;/li&gt;
+&lt;li&gt;数据类型及长度;&lt;/li&gt;
+&lt;li&gt;常量;整数常量;结尾&lt;code&gt;l/L,u/U&lt;/code&gt;;前缀 &lt;code&gt;0,0x&lt;/code&gt;;字符常量是一个整数;字符串常量&lt;/li&gt;
+&lt;li&gt;声明;&lt;code&gt;const&lt;/code&gt;不能修改&lt;/li&gt;
+&lt;li&gt;算术运算符;&lt;/li&gt;
+&lt;li&gt;关系运算符与逻辑运算符&lt;/li&gt;
+&lt;li&gt;类型转换;隐式(自动)(&lt;code&gt;char,short￫int&lt;/code&gt;、其中一个float则另外一个提升为float。。。);强制&lt;code&gt;(int)n&lt;/code&gt;, n本身的值没有改变&lt;/li&gt;
+&lt;li&gt;自增自减运算符;&lt;/li&gt;
+&lt;li&gt;按位运算符;&lt;code&gt;&amp;amp;|^异或&amp;lt;&amp;lt; &amp;gt;&amp;gt;~&lt;/code&gt;; 部分位:清零&lt;code&gt;&amp;amp;0&lt;/code&gt;,置1&lt;code&gt;|1&lt;/code&gt;,求反&lt;code&gt;^1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;赋值运算符与表达式; &lt;code&gt;+=,-=,/=,*=,&amp;gt;&amp;gt;=&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;条件表达式&lt;code&gt;z = (a &amp;gt; b) ?a : b;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;运算符优先级与求值次序(结合性)&lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;h2&gt;chapter 3:控制流&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;语句与程序块;语句结束符;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;if-else&lt;/code&gt;语句;配对&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;else-if&lt;/code&gt;语句;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;switch&lt;/code&gt;语句; &lt;code&gt;break&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;while&lt;/code&gt;循环&lt;code&gt;for&lt;/code&gt;循环;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;do-while&lt;/code&gt;循环;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;break&lt;/code&gt;、&lt;code&gt;continue&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;goto&lt;/code&gt;语句与标号;常用于深度嵌套的跳出;维护可读性差&lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;h2&gt;chapter 4:函数与程序结构&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;函数的基本知识；&lt;/li&gt;
+&lt;li&gt;返回非整型值的函数；&lt;code&gt;atof&lt;/code&gt;科学表示法123.45e-6, %g是什么&lt;/li&gt;
+&lt;li&gt;外部变量；&lt;/li&gt;
+&lt;li&gt;作用域规则；&lt;/li&gt;
+&lt;li&gt;头文件；&lt;/li&gt;
+&lt;li&gt;静态变量；只被初始化一次；&lt;code&gt;static&lt;/code&gt;可限定外部变量and函数，使得其他文件无法访问&lt;/li&gt;
+&lt;li&gt;寄存器变量；取决于底层硬件环境、编译器，寄存器变量的数目类型有所限制&lt;/li&gt;
+&lt;li&gt;初始化； 外部变量和静态变量初始化为0（没有显式初始化的情况下）&lt;/li&gt;
+&lt;li&gt;递归；&lt;/li&gt;
+&lt;li&gt;C预处理器；文件包含&lt;code&gt;#include&lt;/code&gt;、宏替换&lt;code&gt;#define&lt;/code&gt;、条件包含 &lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;h2&gt;chapter 5:指针与数组&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;指针与地址；&lt;/li&gt;
+&lt;li&gt;指针与函数参数；&lt;/li&gt;
+&lt;li&gt;指针与数组；&lt;code&gt;*(a+i)&lt;/code&gt; is &lt;code&gt;a[i]&lt;/code&gt;；数组名不是变量，指针是一个变量&lt;/li&gt;
+&lt;li&gt;地址算术运算；&lt;code&gt;char *alloc(int n);&lt;/code&gt; &lt;code&gt;void afree(char *p)&lt;/code&gt;; &lt;code&gt;strlen&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;字符指针与函数；&lt;code&gt;while( *s++ = *t++);&lt;/code&gt;  &lt;code&gt;*s++&lt;/code&gt;(先&lt;code&gt;*s&lt;/code&gt;,再&lt;code&gt;s++&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;指针数组以及指向指针的指针；字符串排序&lt;/li&gt;
+&lt;li&gt;多维数组；逻辑表达式leap做数组下标； &lt;code&gt;int (*)a[10]&lt;/code&gt; 指向数组的指针，这个指针指向具有10个元素的一维数组；&lt;code&gt;int *a[10]&lt;/code&gt; 指针数组，数组的元素a[0]~a[9]都是指向int对象的指针&lt;/li&gt;
+&lt;li&gt;指针数组的的初始化&lt;/li&gt;
+&lt;li&gt;指针与多维数组；二维数组与指针数组的区别，空间分配，矩阵下标计算；指针数组优点每一行长度可以不同，常用于存放不同长度的字符串&lt;/li&gt;
+&lt;li&gt;命令行参数；&lt;code&gt;int argc&lt;/code&gt; 参数个数（包括执行的程序）. &lt;code&gt;char *argv[]&lt;/code&gt;；printf的参数可以是表达式，如&lt;code&gt;printf((argc &amp;gt; 1) ? “%s “ : “%s”, *++argv)&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;指向函数的指针&lt;code&gt;int (*pf)()；&lt;/code&gt;qsort 命令行模式，&lt;code&gt;int (*comp)(void *, void *);&lt;/code&gt; 返回指针的函数 &lt;code&gt;int *comp(void *, void *)；&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;复杂声明;编写程序输出字符串解释函数的声明&lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;h2&gt;chapter 6:结构&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;结构的基本知识;结构有助于组织复杂数据，图像坐标表示；&lt;code&gt;struct&lt;/code&gt;关键字+结构标记+{结构声明}；成员，成员运算符&lt;code&gt;.&lt;/code&gt;; 初始化&lt;/li&gt;
+&lt;li&gt;结构与函数&lt;/li&gt;
+&lt;/ol&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Markdown学习笔记</title>
+   <link href="http://elviskwok.github.io/2014/09/14/markdown-learning.html"/>
+   <updated>2014-09-14T00:00:00+08:00</updated>
+   <id>http://elviskwok.githu.io/2014/09/14/markdown-learning</id>
+   <content type="html">&lt;h1&gt;Markdown学习笔记&lt;/h1&gt;
+
+&lt;p class=&quot;meta&quot;&gt;14 Sep 2014 - Guangzhou&lt;/p&gt;
+
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;前言&lt;/h2&gt;
+
+&lt;p&gt;很久前就听说过Markdown，由于最近需要记录一些东西，所以今天才开始系统的学习Markdown。&lt;br/&gt;
+Markdown是一种标记语言（文本的格式化表示），之所以选择Markdown，一者,是想让文本具有更高的的可读性，相比于HTML，没有太多&lt;tag&gt;干扰。再者，使用Markdown可以在任何一种文本编辑器上书写，比如我正在使用的vim，简洁美观，而且方便在网页上展示（使用rdiscount解释Markdown语言很容易生成HTML），正如&lt;a href=&quot;http://markdown.tw&quot; title=&quot;markdown.tw&quot;&gt;Markdown语法说明&lt;/a&gt;所说的，”HTML 是一種&lt;em&gt;發佈&lt;/em&gt;的格式，Markdown 是一種&lt;em&gt;編寫&lt;/em&gt;的格式“。最后，Markdown在程序员社区具有较高的认可度，比如github。&lt;/p&gt;
+
+&lt;h2&gt;以下是我的学习笔记&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;段落&lt;/em&gt;&lt;/strong&gt;：使用一个或多个空行，分隔文本内容。或者在段落后加上两个或以上空格&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;标题&lt;/em&gt;&lt;/strong&gt;：atx, setext&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;atx-style&lt;br/&gt;
+使用前缀&quot;#&quot;，&quot;#&quot;的个数分别对应于h1~h6,例如，&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;pre&gt;&lt;code&gt;# This is an H1  
+###### This is an H6  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h1&gt;This is an H1&lt;/h1&gt;
+
+&lt;h4&gt;This is an H4&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;* setext-style  
+    * 定义h1:  
+    THIS IS H1  
+    == 
+
+    * 定义h2  
+    THIS IS H2  
+    -- 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;setext-style
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;定义h1:&lt;/p&gt;
+
+&lt;h1&gt;THIS IS H1  &lt;/h1&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;定义h2&lt;br/&gt;
+THIS IS H2&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;段落引用&lt;/em&gt;&lt;/strong&gt;：使用&quot;&gt;&quot;作为段落的前缀，标识该段落是引用部分，类似于Email标记的应用文字&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt; This is the first level of quoting
+&amp;gt;
+&amp;gt; &amp;gt; This is the nested blockquote
+&amp;gt;
+&amp;gt; Back to the first level
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;&lt;p&gt;This is the first level of quoting&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;This is the nested blockquote&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;Back to the first level&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;列表&lt;/em&gt;&lt;/strong&gt;：使用 &quot;*&quot;, &quot;+&quot;, &quot;-&quot; 来表示无序的列表；&lt;br/&gt;
+&quot;+&quot;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+ unorder +1
++ unorder +2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;unorder +1&lt;/li&gt;
+&lt;li&gt;unorder +2&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&quot;*&quot;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;* unorder *1
+    * 1.1
+    * 1.2
+* unorder *2
+    * 2.1
+    * 2.2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;unorder *1
+
+&lt;ul&gt;
+&lt;li&gt;1.1&lt;/li&gt;
+&lt;li&gt;1.2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;unorder *2
+
+&lt;ul&gt;
+&lt;li&gt;2.1&lt;/li&gt;
+&lt;li&gt;2.2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&quot;-&quot;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- unorder -1
+- unorder -2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;unorder -1&lt;/li&gt;
+&lt;li&gt;unorder -2&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;使用&quot;数字.&quot;表示有序列表&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. firstline
+2. secondline  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;firstline&lt;/li&gt;
+&lt;li&gt;secondline&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;代码段落&lt;/em&gt;&lt;/strong&gt;：使用4个&lt;strong&gt;&lt;em&gt;&quot;以上&quot;&lt;/em&gt;&lt;/strong&gt;的空格或一个&lt;strong&gt;&quot;以上&quot;&lt;/strong&gt;的tab标记代码段落，或者&lt;code&gt;code&lt;/code&gt;,或者区块元素（4空格）, 或者前后```包围&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;&quot;&gt;     test code
+     ok?
+
+`test code`
+
+    区块元素的标签不会被处理，区块必须在前后加上空行
+
+    &amp;lt;table&amp;gt;
+        &amp;lt;tr&amp;gt;
+            &amp;lt;td&amp;gt;foo&amp;lt;/td&amp;gt;
+        &amp;lt;/tr&amp;gt;
+    &amp;lt;/table&amp;gt;
+
+    this is another  
+
+隔离  
+
+\`\`\`
+adfdfd
+bdfdf
+csaf
+\`\`\`
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果展示：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; test code
+ ok?
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;test code&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;区块元素的标签不会被处理，区块必须在前后加上空行
+
+&amp;lt;table&amp;gt;
+    &amp;lt;tr&amp;gt;
+        &amp;lt;td&amp;gt;foo&amp;lt;/td&amp;gt;
+    &amp;lt;/tr&amp;gt;
+&amp;lt;/table&amp;gt;
+
+this is another  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;隔离&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;adfdfd
+bdfdf
+csaf
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;[test](http://dfdf.com &quot;标题&quot;)&lt;/code&gt;  &lt;br/&gt;
+&lt;a href=&quot;http://dfdf.com&quot; title=&quot;标题&quot;&gt;test&lt;/a&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;图片&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;![img](http://dfdf.com/img.png, &quot;可以是相对路径&quot;)&lt;/code&gt;&lt;br/&gt;
+&lt;img src=&quot;http://dfdf.com/img.png,&quot; title=&quot;可以是相对路径&quot; alt=&quot;img&quot; /&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;引用图片&lt;/em&gt;&lt;/strong&gt;：目前为止，Markdown还无法指定图片宽和高，如若需要，需使用&amp;lt;img&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;![alt text][id]  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://img.t.sinajs.cn/t5/style/images/staticlogo/logoContrast_pic.png?version=1a386bde78f5d832&quot; title=&quot;weibo&quot; alt=&quot;alt text&quot; /&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;突出字体&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;__轻点__, **重点**, *一个斜*，**两个粗**，***三个又斜又粗***&lt;/code&gt; &lt;br/&gt;
+&lt;strong&gt;轻点&lt;/strong&gt;, &lt;strong&gt;重点&lt;/strong&gt;, &lt;em&gt;一个斜&lt;/em&gt;，&lt;strong&gt;两个粗&lt;/strong&gt;，&lt;strong&gt;&lt;em&gt;三个又斜又粗&lt;/em&gt;&lt;/strong&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;删除句子&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;~~删去这句话~~&lt;/code&gt;&lt;br/&gt;
+&lt;del&gt;删去这句话&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;引用链接&lt;/em&gt;&lt;/strong&gt;：
+&lt;code&gt;
+[wiki][1]，[google][2]，[预设链接后面加空的中括号，要求文字相同][]
+&lt;/code&gt;
+&lt;a href=&quot;http://www.wikipedia.org&quot; title=&quot;wiki&quot;&gt;wiki&lt;/a&gt;，&lt;a href=&quot;http://goole.com&quot; title=&quot;google&quot;&gt;google&lt;/a&gt;，&lt;a href=&quot;yushe.com&quot; title=&quot;yushe&quot;&gt;预设链接后面加空的中括号，要求文字相同&lt;/a&gt;
+&lt;br&gt;
+&lt;strong&gt;&lt;em&gt;行内链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;this is an [example link](http://example.com &quot;标题&quot;)&lt;/code&gt; &lt;br/&gt;
+this is an &lt;a href=&quot;http://example.com&quot; title=&quot;标题&quot;&gt;example link&lt;/a&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;快速链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;&amp;lt;http://elviskwok.github.io&amp;gt;, &amp;lt;359619839@qq.com&amp;gt;&lt;/code&gt;  &lt;br/&gt;
+&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#109;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#116;&amp;#x6f;&amp;#58;&amp;#51;&amp;#x35;&amp;#57;&amp;#54;&amp;#x31;&amp;#57;&amp;#x38;&amp;#51;&amp;#57;&amp;#x40;&amp;#113;&amp;#x71;&amp;#x2e;&amp;#x63;&amp;#x6f;&amp;#109;&quot;&gt;&amp;#x33;&amp;#53;&amp;#57;&amp;#x36;&amp;#x31;&amp;#x39;&amp;#56;&amp;#51;&amp;#x39;&amp;#x40;&amp;#113;&amp;#113;&amp;#x2e;&amp;#99;&amp;#111;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;转义&lt;/em&gt;&lt;/strong&gt;：需要用\对下面字符转义: `,*,_,{},[],(),#,+,-,.,!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;\`code\`  
+``code contain ` character``  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;`code`&lt;br/&gt;
+&lt;code&gt;code contain ` character&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;特殊字符转换：&lt;code&gt;&amp;amp;copy;,  &amp;amp;amp;,  &amp;amp;lt;,  AT&amp;amp;T&lt;/code&gt; &lt;br/&gt;
+&amp;copy;,  &amp;amp;,  &amp;lt;,  AT&amp;amp;T&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;表格&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;A simple table looks like this:
+
+First Header | Second Header | Third Header
+------------ | ------------- | ------------
+Content Cell | Content Cell  | Content Cell
+Content Cell | Content Cell  | Content Cell
+
+If you wish, you can add a leading and tailing pipe to each line of the table:
+
+| First Header | Second Header | Third Header |
+| ------------ | ------------- | ------------ |
+| Content Cell | Content Cell  | Content Cell |
+| Content Cell | Content Cell  | Content Cell |
+
+Specify alignement for each column by adding colons to separator lines:
+
+First Header | Second Header | Third Header
+:----------- | :-----------: | -----------:
+Left         | Center        | Right
+Left         | Center        | Right
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A simple table looks like this:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;First Header &lt;/th&gt;
+&lt;th&gt; Second Header &lt;/th&gt;
+&lt;th&gt; Third Header&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Content Cell &lt;/td&gt;
+&lt;td&gt; Content Cell  &lt;/td&gt;
+&lt;td&gt; Content Cell&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Content Cell &lt;/td&gt;
+&lt;td&gt; Content Cell  &lt;/td&gt;
+&lt;td&gt; Content Cell&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;p&gt;If you wish, you can add a leading and tailing pipe to each line of the table:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt; First Header &lt;/th&gt;
+&lt;th&gt; Second Header &lt;/th&gt;
+&lt;th&gt; Third Header &lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt; Content Cell &lt;/td&gt;
+&lt;td&gt; Content Cell  &lt;/td&gt;
+&lt;td&gt; Content Cell &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt; Content Cell &lt;/td&gt;
+&lt;td&gt; Content Cell  &lt;/td&gt;
+&lt;td&gt; Content Cell &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;p&gt;Specify alignement for each column by adding colons to separator lines:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&quot;text-align:left;&quot;&gt;First Header &lt;/th&gt;
+&lt;th style=&quot;text-align:center;&quot;&gt; Second Header &lt;/th&gt;
+&lt;th style=&quot;text-align:right;&quot;&gt; Third Header&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left;&quot;&gt;Left         &lt;/td&gt;
+&lt;td style=&quot;text-align:center;&quot;&gt; Center        &lt;/td&gt;
+&lt;td style=&quot;text-align:right;&quot;&gt; Right&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left;&quot;&gt;Left         &lt;/td&gt;
+&lt;td style=&quot;text-align:center;&quot;&gt; Center        &lt;/td&gt;
+&lt;td style=&quot;text-align:right;&quot;&gt; Right&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;Markdown推荐教程&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://markdown.tw&quot; title=&quot;markdown.tw&quot;&gt;Markdown语法说明&lt;/a&gt;&lt;br/&gt;
+&lt;a href=&quot;http://daringfireball.net/projects/markdown/&quot;&gt;Markdown 作者&lt;/a&gt;&lt;br/&gt;
+&lt;a href=&quot;http://ued.taobao.org/blog/2012/07/getting-started-with-markdown/&quot;&gt;开始使用Markdown&lt;/a&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>算法设计的作业</title>
+   <link href="http://elviskwok.github.io/2014/09/11/alg-homework.html"/>
+   <updated>2014-09-11T00:00:00+08:00</updated>
+   <id>http://elviskwok.githu.io/2014/09/11/alg-homework</id>
+   <content type="html">&lt;h1&gt;算法设计的作业&lt;/h1&gt;
+
+&lt;p class=&quot;meta&quot;&gt;11 Sep 2014 - Guangzhou&lt;/p&gt;
+
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;1、合式公式判断&lt;/h2&gt;
+
+&lt;p&gt;判断一个字符串是否为合式公式&lt;br/&gt;
+输入：由小写字母，逻辑运算符（+,*,&gt;,!），括号组成的字符串&lt;br/&gt;
+输出：1（是），0（否）&lt;/p&gt;
+
+&lt;h3&gt;1.1、算法思想&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_1.1.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;h3&gt;1.2、实现说明&lt;/h3&gt;
+
+&lt;p&gt;设置函数int heshi( char *str),递归判断字符串str是否为合式公式，是则返回1，否则返回0。&lt;br/&gt;
+设置变量balance，初值为0，用于判断左右括号的匹配。遇到左括号’(‘，balance++，遇到右括号，balance—，函数结束处判断balance的值是否为0。&lt;/p&gt;
+
+&lt;h3&gt;1.3、测试数据&lt;/h3&gt;
+
+&lt;p&gt;a, ab, !a, !ab, a+b, !a+b, a+!b, a+df, (a+b), a+b*c, a+b&gt;c, (a+b)&gt;c, (a&gt;b)*!c&lt;/p&gt;
+
+&lt;h3&gt;1.4、运行结果&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_1.4.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;h2&gt;2、整数划分&lt;/h2&gt;
+
+&lt;p&gt;将正整数n表示成一系列正整数之和：n=n1+n2+…+nk，其中n1≥n2≥…≥nk≥1，k≥1。&lt;br/&gt;
+输入：一个正整数&lt;br/&gt;
+输出：全部划分结果&lt;/p&gt;
+
+&lt;h3&gt;2.1、算法思想&lt;/h3&gt;
+
+&lt;p&gt;本节所说的n都是递归调用是的参数n&lt;br/&gt;
+对于正整数n，从大到小依次输出第一个划分数分别为n,n-1,n-2,…,1的情况。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;第一个划分数为n，直接输出。&lt;/li&gt;
+&lt;li&gt;第一个划分为1，输出n个1。&lt;/li&gt;
+&lt;li&gt;第一个划分数为i，在递归函数上做了如下限制：&lt;br/&gt;
+i+P(j1)+P(j2)+…P(jn)，其中j1~jn小于i&lt;br/&gt;
+从而避免重复输出（例如第一个划分数为2，限制输出2+P(4)的这种情况）&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_2.1.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;h3&gt;2.2、实现说明&lt;/h3&gt;
+
+&lt;p&gt;设置全局指针变量 int *a，用于储存划分结果。&lt;br/&gt;
+设置函数 void display(int m)，用于输出数组元素a[0]~a[m-1]。&lt;br/&gt;
+设置递归函数 void partition(int n, int m)，用于划分正整数n，其中m表示加总到n的元素个数，初值为0。&lt;br/&gt;
+在main函数中根据终端输入的正整数n，分配n个int型变量大小的内存空间给指针a（因为划分正整数n最多个数是n个1汇总），使得本程序可执行大整数的划分。&lt;/p&gt;
+
+&lt;h3&gt;2.3、测试数据&lt;/h3&gt;
+
+&lt;p&gt;5,6,7&lt;/p&gt;
+
+&lt;h3&gt;2.4、运行结果&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_2.4.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;h2&gt;3、全组合问题&lt;/h2&gt;
+
+&lt;p&gt;输入：元素个数n，n个元素 &lt;br/&gt;
+输出：n个元素的全组合&lt;/p&gt;
+
+&lt;h3&gt;3.1、算法思想&lt;/h3&gt;
+
+&lt;p&gt;根据二进制数的特点，对于数组n个元素的每一个元素，我们可以选择该元素是否输出（0，1），于是n个数就有“2的n次方减一” 种输出，一一对应于全组合的全部输出。&lt;/p&gt;
+
+&lt;h3&gt;3.2、实现说明&lt;/h3&gt;
+
+&lt;p&gt;设置函数void dec_to_bin(int n, int *a)， 将十进制数n转换为二进制数，二进制数的每一位储存在数组a上（逆序存储）。&lt;br/&gt;
+设置函数void zuhe(int *input, int n)，完成全组合问题的输出，其中，input数组为需要进行全组合的元素，n为元素个数。&lt;/p&gt;
+
+&lt;h3&gt;3.3、测试数据&lt;/h3&gt;
+
+&lt;p&gt;2，{2，4};&lt;br/&gt;
+3，{1，2，3}；&lt;br/&gt;
+4，{2，8，5，6}；&lt;/p&gt;
+
+&lt;h3&gt;3.4、运行结果&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_3.4.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>我为什么写博客？(转载于[BeiYuu])</title>
+   <link href="http://elviskwok.github.io/blog/2011/12/18/why-blog.html"/>
+   <updated>2011-12-18T00:00:00+08:00</updated>
+   <id>http://elviskwok.githu.io/blog/2011/12/18/why-blog</id>
+   <content type="html">&lt;h2&gt;世界这么乱，装纯给谁看&lt;/h2&gt;
+
+&lt;p&gt;写博客这个不知道几个“互联网世纪”前的东西，现在还有必要拿出来说吗？不想用太多的理论去说这个命题，先看看两个最近对我影响比较大的两个博客：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stevelosh.com/&quot; title=&quot;Steve Losh&quot;&gt;Steve Losh&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://sivers.org/&quot; title=&quot;Derek Sivers&quot;&gt;Derek Sivers&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;第一个是&lt;a href=&quot;http://stevelosh.com/&quot; title=&quot;Steve Losh&quot;&gt;Steve Losh&lt;/a&gt;的博客，我在搜索了&lt;a href=&quot;http://stevelosh.com/blog/2011/09/writing-vim-plugins/&quot; title=&quot;Write Vim Plugins&quot;&gt;VIM&lt;/a&gt;相关的关键字之后被带到了这里。简洁的风格和关屏的利落就已经吸引了我，顺手点开其他的文章看了看，博主非常的谨慎认真，每一篇都是高质量的作品，看得出他的用心，整个网站也是异常的简洁舒适，深深的被这种淡然的心态打动，躲进小楼成一统，哪管他春夏与秋冬。再看看他的介绍：&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&quot;I’m a programmer, photographer, dancer &amp;amp; bassist from Rochester, New York.&quot;&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;呵呵，他完全就过着我期望的生活。&lt;/p&gt;
+
+&lt;p&gt;第二位博主的&lt;a href=&quot;http://sivers.org/sharing&quot; title=&quot;The co-op business model: share whatever you&#39;ve got&quot;&gt;&#39;Co-op Business Model&#39;&lt;/a&gt;文章也是让我茅厕顿开，这种分享的精神，用博主自己活生生的例子讲述出来之后，读者自然会被感动的，我也在团队内分享过这篇文章，下面我简要介绍一下他的事迹吧：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;1994年，他把需要邮寄才能得到的版权申请表单扫描上传到网上，为大家申请提供方便的下载服务，直到版权机构将表单上网之前，他的网站是全美唯一一个可以下载到表单的地方，他也并没有盈利。&lt;/li&gt;
+&lt;li&gt;1995年，他为自己的乐队注册了一个名字，并且把注册过程详细的写在自己的博客上，很长一段时间内，他的这篇文章几乎成了注册乐队名称的标准教程。&lt;/li&gt;
+&lt;li&gt;1996年，他有了一个&lt;a href=&quot;http://artificialrecords.com&quot;&gt;小唱片公司&lt;/a&gt;，也就有了一个条形码账户，他需要支付$750给条码协会，这样他就拥有了十万个条码，一开始他免费把这些条码给朋友们要出售的CD用，后来，越来越多人知道了他有条码，又懒得去自己申请账户，就给他付一定的费用，方便的使用，他每个收费$20，在过去的12年里，他靠出售这个条码就赚到了二百万美元。&lt;/li&gt;
+&lt;li&gt;1997年，他花费$1000申请了一个信用卡商户账户，用来销售自己的CD，一开始也免费给他的做音乐的朋友们帮忙卖，后来有越来越多的陌生人希望能使用他的账号，省的自己去申请，因为他有一些劳动量，所以也收取一定费用，每张专辑收取$35的制作费，然后每卖一张收$4，在过去的12年中，他赚到了二千万美元。&lt;/li&gt;
+&lt;li&gt;1999年，他学会了制作网站，一开始是为了展示自己的CD，后来他的朋友们抱怨自己的网站服务商很糟糕，希望能使用&lt;a href=&quot;http://sivers.org/&quot; title=&quot;Derek Sivers&quot;&gt;Derek Sivers&lt;/a&gt;的系统，因为也有一些劳动量，所以会一开始收取$300，然后每个月收取$20，在过去的9年中，他赚到了五百万美元。&lt;/li&gt;
+&lt;li&gt;2000年以后，他会无偿的分享所有他学到的东西，或许“&lt;a href=&quot;http://sivers.org/below-average&quot; title=&quot;probably below average&quot;&gt;他不是最聪明的人&lt;/a&gt;”，但是分享没有什么成本，而且这是正确的事，所以在后来的11年里，他收获了很多的好运与快乐，遇见了很多有趣的人。&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;找到了一个神交的外国博主，又有这么励志“好人好报”的故事，我想大道理不用讲太多也都明白了。&lt;/p&gt;
+
+&lt;p&gt;还有一篇理论性很强的文章做参考，&lt;a href=&quot;http://www.cnblogs.com/bangerlee/archive/2011/09/11/2173632.html&quot; title=&quot;Why I Blog翻译版&quot;&gt;我为什么写博客&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h2&gt;那些虚的没用，说点实际的&lt;/h2&gt;
+
+&lt;p&gt;或许这些看起来很美好的东西，你会觉得离自己很远，那就说点直接的收益，看看是否够诱人。&lt;/p&gt;
+
+&lt;p&gt;我还是先推荐一篇文章：&lt;a href=&quot;http://mindhacks.cn/2011/11/04/how-to-interview-a-person-for-two-years/&quot; title=&quot;怎样花两年时间去面试一个人&quot;&gt;怎样花两年时间去面试一个人&lt;/a&gt;，招聘永远是公司和个人的难题，双方的信息不对称，导致这个矛盾无法调和，这篇文章就是告诉你，如何自己去推销自己，让公司得到你的全部优质信息，尤其在现在的网络环境下，将自己工作有用的能力搬上网，那么就是最好的能力证明，就是最好的面试答案。无论你是程序员，还是设计师。&lt;/p&gt;
+
+&lt;p&gt;或许你会想，好吧好吧，那我找个博客站开一个博客好了，我不太会同意这个做法，有一个个人的品牌，对于自己的发展只有好处，行走网络江湖，有同一个ID标识，无论在哪里都会让人看到你，这样长期的潜移默化，个人的品牌效力也就展现出来了。然后有一个自己独立的域名，并且用心去经营，肯定会有人欣赏的。而且经过我的一番研究，成本并不是很高。&lt;/p&gt;
+
+&lt;p&gt;我期望的博客内容，并不是贴一段代码，或者胡言乱语两句，具体的质量可以参考&lt;a href=&quot;http://stevelosh.com/&quot; title=&quot;Steve Losh&quot;&gt;Steve Losh&lt;/a&gt;，这样的高质量，更能展现自己的态度，或许你说有一些小心得小点滴也想和大家分享，那也可以在自己的空间下开一个Wiki频道，专门存放琐碎的知识点。&lt;/p&gt;
+
+&lt;p&gt;高质量的博文，肯定需要自己缜密的思考，并且需要一定的文笔才能将自己的想法完整清晰的表达出来，我在这两个方面都还差了很多，还需要大量的练习才好，给自己这样的机会。&lt;/p&gt;
+
+&lt;p&gt;在快知识、微段子横行的今天，能对一个个问题深入的去思考，一方面得到的是心灵的平静，更多的则是深入思考之后的收获的喜悦感，会有不一样的体会的。&lt;/p&gt;
+
+&lt;h2&gt;技术很简单，不用担心&lt;/h2&gt;
+
+&lt;p&gt;或者你很幸运不是一个程序员，或者你是一个不用搞这些乱七八糟东西的程序员，那么相信我，你一样可以搭起来一个跟我的一模一样的个人站点的。&lt;/p&gt;
+
+&lt;p&gt;我要特别鸣谢以下几个站点、技术：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://godaddy.com&quot; title=&quot;Godaddy&quot;&gt;GoDaddy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://dnspod.cn&quot; title=&quot;DNSPod&quot;&gt;DNSPod&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://github.com&quot; title=&quot;Github:social coding&quot;&gt;GitHub&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;Jekyll&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://disqus.com&quot; title=&quot;Disqus&quot;&gt;Disqus&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;下面我来做一个简要说明，完整的搭建方法，我后面会专门写一篇博客分享给大家，等不及的可以自己去找资料哈。&lt;/p&gt;
+
+&lt;h3&gt;GoDaddy &amp;amp; DNSPod&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://godaddy.com&quot; title=&quot;Godaddy&quot;&gt;GoDaddy&lt;/a&gt;是一家非常不错的域名注册商，良好的用户体验，飞快的生效速度，给力的优惠码，也支持支付宝，永远不用担心国内那些流氓厂商的流氓行为，注册了域名，就可以放心不会被别人抢走。在Godaddy注册域名是一件很简单的事情，按照提示走就完全没有问题，唯一需要动脑筋的可能是，你要想一个既有个人标识，又没有被别人注册的域名了，我觉得我的&lt;a href=&quot;http://beiyuu.com&quot; title=&quot;BeiYuu&quot;&gt;BeiYuu&lt;/a&gt;还是不错的，呵呵。&lt;/p&gt;
+
+&lt;p&gt;Godaddy一切都很完美，直到遇到了GFW，原因你肯定懂。前段时间推上风传Godaddy的DNS服务器被墙，导致域名不能解析，看起来好像自己的站被墙了一样，这个确实是个闹心的事情，还好国内有DNS服务的替代产品，而且做得还非常的不错，也是免费的，功能强大，速度快，不用担心被和谐，所以隆重推荐&lt;a href=&quot;http://dnspod.cn&quot; title=&quot;DNSPod&quot;&gt;DNSPod&lt;/a&gt;给大家，可以试用一下，把DNS服务迁移到DNSPod来，解决后顾之忧，配置比较简单，不懂的可以等我后面的博客啦，哈。&lt;/p&gt;
+
+&lt;h3&gt;GitHub &amp;amp; Jekyll&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://github.com&quot; title=&quot;Github:social coding&quot;&gt;GitHub&lt;/a&gt;是一个非常优秀的产品，爆发式的增长，各大优质开源软件的蜂涌而至，只能说明人们太需要他了。&lt;strong&gt;Social Coding&lt;/strong&gt;是他的Slogan，产品的设计确实解决了很多代码交流的难题，让世界更平，让交流更畅，关于Git的学习，大家可以移步这里&lt;a href=&quot;http://progit.org/book/zh/&quot; title=&quot;Pro Git&quot;&gt;Pro Git中文版&lt;/a&gt;，这也是一个本身就在Github维护的一个项目，高质量的翻译了Git入门书，讲解详细，是学习Git的好资料。&lt;/p&gt;
+
+&lt;p&gt;GitHub是一个伟大的产品，&lt;a href=&quot;http://pages.github.com&quot; title=&quot;GitHub Pages&quot;&gt;GitHub Pages&lt;/a&gt;是他伟大的一部分，GitHub Pages基于&lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;Jekyll&lt;/a&gt;博客引擎，当我深入的研究了他之后，我深深的想给Jekyll的作者一个拥抱，列举一下Jekyll的优点：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;可以单独放在自己的服务器上，他也是GitHub Pages的基础，质量可靠&lt;/li&gt;
+&lt;li&gt;将博客最重要的功能抽取出来，去除了&lt;a href=&quot;http://wordpress.org&quot; title=&quot;WordPress&quot;&gt;WordPress&lt;/a&gt;的复杂、烦躁的东西，一切都是清晰可控的&lt;/li&gt;
+&lt;li&gt;可以方便的使用&lt;a href=&quot;http://markdown.tw/&quot; title=&quot;Markdown语法&quot;&gt;Markdown&lt;/a&gt;等其他标记语言
+&lt;li&gt;清晰、简洁的文件组织，完美的永久链接方案，既漂亮、又可定制&lt;/li&gt;
+&lt;li&gt;博客静态化，速度快&lt;/li&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;Jekyll&lt;/a&gt;是完美的&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h3&gt;Disqus&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;Jekyll&lt;/a&gt;都很不错，但是可能有些童鞋会不满意于他不提供评论功能，这个时候，&lt;a href=&quot;http://disqus.com&quot; title=&quot;Disqus&quot;&gt;Disqus&lt;/a&gt;的出现就显得是雪中送炭了。&lt;/p&gt;
+
+&lt;p&gt;Disqus是一个社会化的评论解决方案，请允许我使用这个烂透了的词，调用它的接口非常简单，在自己的页面加载他的一段JS代码即可，如果别人注册了Disqus，那么就可以方便的留言，交流，一处登录，处处方便，而且Disqus也提供了一些spam等策略，不用自己操心了，并且可以和一些现有的博客系统很好的转换对接。越来越多的网站开始使用Disqus的服务了，这是一个非常不错的趋势，Jekyll配合&lt;a href=&quot;http://disqus.com&quot; title=&quot;Disqus&quot;&gt;Disqus&lt;/a&gt;实在是完美了。我别无所求了。&lt;/p&gt;
+
+&lt;h2&gt;TL;DR&lt;/h2&gt;
+
+&lt;p&gt;写到这里，基本的点已经介绍完毕，看看Jekyll生成的博客页面，我心满意足，虽然文笔很烂，语句多不通顺，但是这是一个新的开始了，我觉得心灵都纯洁了不少，这不是发一条微博什么能带来的快乐。&lt;/p&gt;
+
+&lt;p&gt;对于那些对上述技术不是很熟悉的童鞋来说，搭建起来可能还是需要花费些功夫的，我会在后面写一篇专门的教程，给有需要的人，等不及了的，可以自己研究下，&lt;strong&gt;生命在于折腾&lt;/strong&gt;。&lt;/p&gt;
+</content>
+ </entry>
+ 
+ 
+</feed>
