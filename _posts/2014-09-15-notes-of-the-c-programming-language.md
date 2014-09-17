@@ -20,7 +20,7 @@ title: Notes of the C Programming Language
 9. 外部变量、作用域;  
 <br>
 
-##chapter 2:类型、运算符与表达式
+##chapter 2: 类型、运算符与表达式
 1. 变量名;
 2. 数据类型及长度;
 3. 常量;整数常量;结尾`l/L,u/U`;前缀 `0,0x`;字符常量是一个整数;字符串常量
@@ -35,7 +35,7 @@ title: Notes of the C Programming Language
 12. 运算符优先级与求值次序(结合性)  
 <br>
 
-##chapter 3:控制流
+##chapter 3: 控制流
 1. 语句与程序块;语句结束符; 
 2. `if-else`语句;配对
 3. `else-if`语句;
@@ -46,7 +46,7 @@ title: Notes of the C Programming Language
 8. `goto`语句与标号;常用于深度嵌套的跳出;维护可读性差  
 <br>
 
-##chapter 4:函数与程序结构
+##chapter 4: 函数与程序结构
 1. 函数的基本知识；
 2. 返回非整型值的函数；`atof`科学表示法123.45e-6, %g是什么
 3. 外部变量；
@@ -59,7 +59,7 @@ title: Notes of the C Programming Language
 10. C预处理器；文件包含`#include`、宏替换`#define`、条件包含   
 <br>
 
-##chapter 5:指针与数组
+##chapter 5: 指针与数组
 1. 指针与地址；
 2. 指针与函数参数；
 3. 指针与数组；`*(a+i)` is `a[i]`；数组名不是变量，指针是一个变量
@@ -78,4 +78,14 @@ title: Notes of the C Programming Language
 1. 结构的基本知识;结构有助于组织复杂数据，图像坐标表示；`struct`关键字+结构标记+\{结构声明\}；成员，成员运算符`.`; 初始化
 2. 结构与函数;传递：分别传递各个结构成员、传递整个结构、传递指向结构的指针，各有利弊；指向结构的指针`struct rect *p;`, `p->x`==`(*p).x`；`++p->len`==`++(p->len)`
 3. 结构数组; `struct key { char *word, int count;} keytab[NKEYS];`；编写一个统计c关键字的程序
-4. 指向结构的指针
+4. 指向结构的指针; `mid = low + (high-low) /2`
+5. 自引用结构; 统计所有单词出现次数，使用二叉树左右子树字典顺序
+6. 表查找
+7. 类型定义
+8. 联合
+9. 位字段  
+
+***页码缺失6.5~6.9***   
+
+##chapter 7: 输入与输出
+1. 标准输入/输出
