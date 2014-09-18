@@ -111,7 +111,14 @@ title: Notes of the C Programming Language
     6. 数学函数都是double to double；`sin,cos,exp,log,pow,sqrt,fabs`
     7. 随机数发生器函数; `rand()`生成0~RAND_MAX；
     生成0~1`#define frand() ((double) rand() / (RAND_MAX+1.0))`
+
 <br>
 
 ##chapter 8: UNIX系统接口
-1. 文件描述符
+1. 文件描述符;文件描述符标识文件，非负整数，012(stdin, stdout, stderr)
+2. 低级I/O——read和write；输入输出是通过read和write系统调用实现的；  
+  `int n_read = read(int fd, char *buf, int n);` 文件描述符fd， 读写数据，传输字节数；返回实际传输字节数  
+  `int n_written = write(int fd, char *buf, int n);`  
+   原书`#include "syscalls.h"`报错，`#include <sys/syscall.h>`ok；实现输入复制到输出；  
+   用read和write构造getchar,putchar等高级函数  
+3. open、creat、close和unlink
