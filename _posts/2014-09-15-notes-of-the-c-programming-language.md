@@ -86,6 +86,32 @@ title: Notes of the C Programming Language
 9. 位字段  
 
 ***页码缺失6.5~6.9***   
+<br>
 
 ##chapter 7: 输入与输出
-1. 标准输入/输出
+1. 标准输入/输出; 输入/输出重定向`./a.out < infile`, `./a.out > outfile`；管道`1.exe | 2.exe`;
+2. 格式化输出——printf函数；格式字符串包括普通字符和转换说明；
+3. 变长参数表；mimprintf
+4. 格式化输入——scanf函数；
+5. 文件访问；文件指针，指向包含文件信息的结构（体），`FILE *fp`,`FILE`是一个类似int的类型名，由`typedef`定义; `int getc(FILE *fp)`,`int putc(intc, FILE *fp)`,实现filecopy；cat命令
+6. 错误处理——`stderr`和`exit`; `feof`文件结尾则返回非0值
+7. 行输入和行输出；`char *fgets(char *line, int maxline, FILE *fp)`从fp指向的文件读取一行，存放在line数组；`int fputs(char *line, FILE *fp)`将line字符串写入fp指向的文件，错误返回EOF、正确返回非负值；
+8. 其他函数
+    1. 字符串操作函数`strlen`, `strcpy`, `strcat`, `strcmp`,`strchr(s, c)`在s中找c第一次出现的位置
+    2. 字符类别测试和转换函数;  
+    `isalpha(c)`字母返回非0, `isupper(c)`,`islower(c)`,`isdigit(c)`,`isalnum(c)`数字或字母,`isspace(c)`,`toupper(c)`,`tolower(c)`
+    3. `int ungetc(int c, FILE *fp)`将c写回文件fp，成功返回c，否则EOF
+    4. 命令执行函数;`system("ls")`执行命令ls输出，然后继续执行当前程序
+    5. 存储管理函数;`void *malloc(size_t n)`,分配成功返回指针，指向n个**字节**长度的未初始化的存储空间，否则返回NULL；`void *calloc(size_t n, size_t size)`, 指针指向n个**指定长度size的对象**的空间；  
+    ``` 
+    int *ip;  
+    ip = (int *) calloc(n, sizeof(int));
+    ```  
+    `free(p)`***只能释放由malloc或calloc得到的p***，使用已经释放的空间是典型错误，释放项目之前要保存必要信息，如暂存`q = p->next;`才`free(p)`
+    6. 数学函数都是double to double；`sin,cos,exp,log,pow,sqrt,fabs`
+    7. 随机数发生器函数; `rand()`生成0~RAND_MAX；
+    生成0~1`#define frand() ((double) rand() / (RAND_MAX+1.0))`
+<br>
+
+##chapter 8: UNIX系统接口
+1. 文件描述符
