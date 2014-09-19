@@ -117,8 +117,14 @@ title: Notes of the C Programming Language
 ##chapter 8: UNIX系统接口
 1. 文件描述符;文件描述符标识文件，非负整数，012(stdin, stdout, stderr)
 2. 低级I/O——read和write；输入输出是通过read和write系统调用实现的；  
-  `int n_read = read(int fd, char *buf, int n);` 文件描述符fd， 读写数据，传输字节数；返回实际传输字节数  
+  `int n_read = read(int fd, char *buf, int n);` 文件描述符fd， 读写数据buf，传输字节数n；返回实际传输字节数  
   `int n_written = write(int fd, char *buf, int n);`  
    原书`#include "syscalls.h"`报错，`#include <sys/syscall.h>`ok；实现输入复制到输出；  
    用read和write构造getchar,putchar等高级函数  
 3. open、creat、close和unlink
+    `int fd; int open(char *name, int flags, int perms);`, 文件名name，打开方式flags，权限perms，如`#define PERMS 0755`, 返回文件描述符fd
+    `int creat(char *name, int perms);`返回文件描述符
+    close(int fd)断开文件描述符与已打开文件之间的连接，并释放文件描述符
+    unlink(char *name)将文件name从文件系统删除
+4. 随机访问——lseek; `long lseek(int fd, long offset, int origin);` origin可以0、1、2，分别是文件开始、当前、结束位置
+5. 实例——fopen和getc函数的实现
