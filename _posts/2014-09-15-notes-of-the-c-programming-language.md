@@ -129,4 +129,6 @@ title: Notes of the C Programming Language
 4. 随机访问——lseek; `long lseek(int fd, long offset, int origin);` origin可以0、1、2，分别是文件开始、当前、结束位置
 5. 实例——fopen和getc函数的实现
 6. 实例——目录列表；`opendir``readdir``closedir``Dirent``DIR``stat`
-7. 实例——存储分配程序;`malloc``free`；malloc管理的空间不一定是连续的，空闲存储空间以空闲块链表组织，malloc返回的块=头部+分配空间；头部——块开始处的控制信息——“指向下一个空闲块的指针+size”，对齐——块大小为头部大小的整数倍，`union`实现——定义一个数据类型强制头部最坏情况下对齐align；“首次适应”（first fit）;sbrk函数；free函数释放的块若与空闲块相邻，则合并（设置指针，重设块大小）;
+7. 实例——存储分配程序;`malloc``free`；malloc管理的空间不一定是连续的，空闲存储空间以空闲块链表组织，malloc返回的块=头部+分配空间；头部——块开始处的控制信息——“指向下一个空闲块的指针+size”，对齐——块大小为头部大小的整数倍，`union`实现——定义一个数据类型强制头部最坏情况下对齐align；“首次适应”（first fit）;sbrk函数；free函数释放的块若与空闲块相邻，则合并（设置指针，重设块大小）;  
+
+声明（declaration）说明每个标识符的含义，不为标识符预留存储空间；定义（definition）是预留存储空间的声明
