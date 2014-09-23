@@ -4,7 +4,7 @@
  <title>Elvis Kwok</title>
  <link href="http://elviskwok.github.io/atom.xml" rel="self"/>
  <link href="http://elviskwok.github.io/"/>
- <updated>2014-09-23T22:06:46+08:00</updated>
+ <updated>2014-09-23T22:10:28+08:00</updated>
  <id>http://elviskwok.github.io/</id>
  <author>
    <name>elviskwok.github.io</name>
@@ -102,9 +102,9 @@
 &lt;li&gt;&lt;p&gt;路径名；&lt;br/&gt;
 ls命令的简单实现&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;struct dirent *dirp = opendir(argv[1]);
-while((dirp = readdir(dp) != NULL)
-     printf(&quot;%s\n&quot;, dirp-&amp;gt;d_name);
+&lt;pre&gt;&lt;code&gt;struct dirent *dirp = opendir(argv[1]);  
+while((dirp = readdir(dp) != NULL)   
+     printf(&quot;%s\n&quot;, dirp-&amp;gt;d_name);   
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;工作目录（current）&lt;/li&gt;
 &lt;li&gt;起始目录（登陆时的工作目录）&lt;/li&gt;
@@ -131,12 +131,12 @@ while((dirp = readdir(dp) != NULL)
 &lt;li&gt;&lt;p&gt;出错处理；errno整型变量；出错恢复（致命性：无法恢复，最多print出错信息；非致命性：例如资源紧缺，可延迟再试）
  打印出错信息的两个函数&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;`&quot;&gt; #include &amp;lt;string.h&amp;gt;
- char *strerro(int errnum);  /* 返回值：指向消息字符串的指针 */
+&lt;pre&gt;&lt;code class=&quot;`&quot;&gt; #include &amp;lt;string.h&amp;gt;  
+ char *strerro(int errnum);  /* 返回值：指向消息字符串的指针 */  
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;pre&gt;&lt;code class=&quot;`&quot;&gt; #include &amp;lt;stdio.h&amp;gt;
- void perro(const char *msg);    /* 输出msg字符串： errno值对应的出错信息 */
+&lt;pre&gt;&lt;code class=&quot;`&quot;&gt; #include &amp;lt;stdio.h&amp;gt;  
+ void perro(const char *msg);    /* 输出msg字符串： errno值对应的出错信息 */  
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;用户标识
 
@@ -262,31 +262,31 @@ AT&amp;amp;T贝尔实验室的UNIX研究版
  0、1、2分别与stdin、stdout、stderr关联&lt;/li&gt;
 &lt;li&gt;open函数&lt;br/&gt;
  &lt;code&gt;
- #include &amp;lt;fcntl.h&amp;gt;
- int open(const char *pathname, int oflag, ...);
+ #include &amp;lt;fcntl.h&amp;gt;  
+ int open(const char *pathname, int oflag, ...);  
 &lt;/code&gt; &lt;br/&gt;
  oflag可为O_RDONLY,O_WRONLY,O_RDWR，还有其他可选参数，这些常量在&lt;code&gt;&amp;lt;fcntl.h&amp;gt;&lt;/code&gt;定义&lt;br/&gt;
  返回最小的未用描述符数值&lt;/li&gt;
 &lt;li&gt;creat函数&lt;br/&gt;
  &lt;code&gt;
- #include &amp;lt;fcntl.h&amp;gt;
- int creat(const char *pathname, mode_t mode);
+ #include &amp;lt;fcntl.h&amp;gt;  
+ int creat(const char *pathname, mode_t mode);  
 &lt;/code&gt;&lt;br/&gt;
  等效于&lt;code&gt;open(pathname, O_WRONLY | O_CREAT | O_TRUNC, mode)&lt;/code&gt;&lt;br/&gt;
  creat缺点：只能以&lt;em&gt;只写方式&lt;/em&gt;打开创建的文件，如果要先写后读，只能调用creat,再close,再调用open。现在可以这样&lt;code&gt;open(pathname, O_RDWR | O_CREAT |O_TRUNC, mode)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;close函数&lt;br/&gt;
  &lt;code&gt;
- #include &amp;lt;unistd.h&amp;gt;
- int close(int fd);
+ #include &amp;lt;unistd.h&amp;gt;  
+ int close(int fd);  
 &lt;/code&gt; &lt;br/&gt;
  关闭文件还会释放&lt;em&gt;加在文件上的所有记录锁&lt;/em&gt;&lt;br/&gt;
  进程终止，内核自动关闭该进程打开的文件&lt;/li&gt;
 &lt;li&gt;lseek函数&lt;br/&gt;
  &lt;strong&gt;当前文件偏移量&lt;/strong&gt;&lt;br/&gt;
  &lt;code&gt;
- #include &amp;lt;unistd.h&amp;gt;
- off_t lseek(int fd, off_t offset, int whence);
- /* 返回值： 成功则返回新的文件偏移量，否则返回-1 */
+ #include &amp;lt;unistd.h&amp;gt;  
+ off_t lseek(int fd, off_t offset, int whence);  
+ /* 返回值： 成功则返回新的文件偏移量，否则返回-1 */  
 &lt;/code&gt; &lt;br/&gt;
  whence可为:
 
@@ -702,7 +702,7 @@ csaf
 &lt;strong&gt;&lt;em&gt;行内链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;this is an [example link](http://example.com &quot;标题&quot;)&lt;/code&gt; &lt;br/&gt;
 this is an &lt;a href=&quot;http://example.com&quot; title=&quot;标题&quot;&gt;example link&lt;/a&gt;&lt;br/&gt;
 &lt;strong&gt;&lt;em&gt;快速链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;&amp;lt;http://elviskwok.github.io&amp;gt;, &amp;lt;359619839@qq.com&amp;gt;&lt;/code&gt;  &lt;br/&gt;
-&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#x74;&amp;#x6f;&amp;#x3a;&amp;#51;&amp;#x35;&amp;#x39;&amp;#x36;&amp;#x31;&amp;#x39;&amp;#56;&amp;#51;&amp;#57;&amp;#64;&amp;#x71;&amp;#113;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#109;&quot;&gt;&amp;#x33;&amp;#x35;&amp;#x39;&amp;#x36;&amp;#x31;&amp;#x39;&amp;#56;&amp;#x33;&amp;#x39;&amp;#x40;&amp;#113;&amp;#113;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#116;&amp;#x6f;&amp;#58;&amp;#51;&amp;#x35;&amp;#x39;&amp;#54;&amp;#49;&amp;#x39;&amp;#x38;&amp;#51;&amp;#57;&amp;#64;&amp;#x71;&amp;#113;&amp;#46;&amp;#x63;&amp;#111;&amp;#x6d;&quot;&gt;&amp;#51;&amp;#53;&amp;#x39;&amp;#54;&amp;#49;&amp;#57;&amp;#56;&amp;#x33;&amp;#x39;&amp;#x40;&amp;#113;&amp;#x71;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#109;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;&lt;em&gt;转义&lt;/em&gt;&lt;/strong&gt;：需要用\对下面字符转义: `,*,_,{},[],(),#,+,-,.,!&lt;/p&gt;
 

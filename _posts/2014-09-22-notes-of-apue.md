@@ -52,9 +52,9 @@ title: Notes of APUE
        ls命令的简单实现
 
        ```
-       struct dirent *dirp = opendir(argv[1]);
-       while((dirp = readdir(dp) != NULL)
-            printf("%s\n", dirp->d_name);
+       struct dirent *dirp = opendir(argv[1]);  
+       while((dirp = readdir(dp) != NULL)   
+            printf("%s\n", dirp->d_name);   
        ```
     4. 工作目录（current）
     5. 起始目录（登陆时的工作目录）
@@ -72,13 +72,13 @@ title: Notes of APUE
     打印出错信息的两个函数  
     
     ```
-    #include <string.h>
-    char *strerro(int errnum);  /* 返回值：指向消息字符串的指针 */
+    #include <string.h>  
+    char *strerro(int errnum);  /* 返回值：指向消息字符串的指针 */  
     ```  
 
     ```
-    #include <stdio.h>
-    void perro(const char *msg);    /* 输出msg字符串： errno值对应的出错信息 */
+    #include <stdio.h>  
+    void perro(const char *msg);    /* 输出msg字符串： errno值对应的出错信息 */  
     ```
 8. 用户标识  
     1. 用户ID；`getuid()`
@@ -172,31 +172,31 @@ title: Notes of APUE
     0、1、2分别与stdin、stdout、stderr关联  
 3. open函数  
     ```
-    #include <fcntl.h>
-    int open(const char *pathname, int oflag, ...);
+    #include <fcntl.h>  
+    int open(const char *pathname, int oflag, ...);  
     ```   
     oflag可为O_RDONLY,O_WRONLY,O_RDWR，还有其他可选参数，这些常量在`<fcntl.h>`定义  
     返回最小的未用描述符数值  
 4. creat函数  
     ```
-    #include <fcntl.h>
-    int creat(const char *pathname, mode_t mode);
+    #include <fcntl.h>  
+    int creat(const char *pathname, mode_t mode);  
     ```  
     等效于`open(pathname, O_WRONLY | O_CREAT | O_TRUNC, mode)`  
     creat缺点：只能以*只写方式*打开创建的文件，如果要先写后读，只能调用creat,再close,再调用open。现在可以这样`open(pathname, O_RDWR | O_CREAT |O_TRUNC, mode)`  
 5. close函数  
     ```
-    #include <unistd.h>
-    int close(int fd);
+    #include <unistd.h>  
+    int close(int fd);  
     ```   
     关闭文件还会释放*加在文件上的所有记录锁*  
     进程终止，内核自动关闭该进程打开的文件
 6. lseek函数  
     **当前文件偏移量**  
     ```
-    #include <unistd.h>
-    off_t lseek(int fd, off_t offset, int whence);
-    /* 返回值： 成功则返回新的文件偏移量，否则返回-1 */
+    #include <unistd.h>  
+    off_t lseek(int fd, off_t offset, int whence);  
+    /* 返回值： 成功则返回新的文件偏移量，否则返回-1 */  
     ```   
     whence可为: 
     * `SEEK_SET`(0, 最终偏移量=文件开始+offset)   

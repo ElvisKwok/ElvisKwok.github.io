@@ -119,9 +119,9 @@ var WRInitTime=(new Date()).getTime();
 <li><p>路径名；<br/>
 ls命令的简单实现</p>
 
-<pre><code>struct dirent *dirp = opendir(argv[1]);
-while((dirp = readdir(dp) != NULL)
-     printf("%s\n", dirp-&gt;d_name);
+<pre><code>struct dirent *dirp = opendir(argv[1]);  
+while((dirp = readdir(dp) != NULL)   
+     printf("%s\n", dirp-&gt;d_name);   
 </code></pre></li>
 <li>工作目录（current）</li>
 <li>起始目录（登陆时的工作目录）</li>
@@ -148,12 +148,12 @@ while((dirp = readdir(dp) != NULL)
 <li><p>出错处理；errno整型变量；出错恢复（致命性：无法恢复，最多print出错信息；非致命性：例如资源紧缺，可延迟再试）
  打印出错信息的两个函数</p>
 
-<pre><code class="`"> #include &lt;string.h&gt;
- char *strerro(int errnum);  /* 返回值：指向消息字符串的指针 */
+<pre><code class="`"> #include &lt;string.h&gt;  
+ char *strerro(int errnum);  /* 返回值：指向消息字符串的指针 */  
 </code></pre>
 
-<pre><code class="`"> #include &lt;stdio.h&gt;
- void perro(const char *msg);    /* 输出msg字符串： errno值对应的出错信息 */
+<pre><code class="`"> #include &lt;stdio.h&gt;  
+ void perro(const char *msg);    /* 输出msg字符串： errno值对应的出错信息 */  
 </code></pre></li>
 <li>用户标识
 
@@ -279,31 +279,31 @@ AT&amp;T贝尔实验室的UNIX研究版
  0、1、2分别与stdin、stdout、stderr关联</li>
 <li>open函数<br/>
  <code>
- #include &lt;fcntl.h&gt;
- int open(const char *pathname, int oflag, ...);
+ #include &lt;fcntl.h&gt;  
+ int open(const char *pathname, int oflag, ...);  
 </code> <br/>
  oflag可为O_RDONLY,O_WRONLY,O_RDWR，还有其他可选参数，这些常量在<code>&lt;fcntl.h&gt;</code>定义<br/>
  返回最小的未用描述符数值</li>
 <li>creat函数<br/>
  <code>
- #include &lt;fcntl.h&gt;
- int creat(const char *pathname, mode_t mode);
+ #include &lt;fcntl.h&gt;  
+ int creat(const char *pathname, mode_t mode);  
 </code><br/>
  等效于<code>open(pathname, O_WRONLY | O_CREAT | O_TRUNC, mode)</code><br/>
  creat缺点：只能以<em>只写方式</em>打开创建的文件，如果要先写后读，只能调用creat,再close,再调用open。现在可以这样<code>open(pathname, O_RDWR | O_CREAT |O_TRUNC, mode)</code></li>
 <li>close函数<br/>
  <code>
- #include &lt;unistd.h&gt;
- int close(int fd);
+ #include &lt;unistd.h&gt;  
+ int close(int fd);  
 </code> <br/>
  关闭文件还会释放<em>加在文件上的所有记录锁</em><br/>
  进程终止，内核自动关闭该进程打开的文件</li>
 <li>lseek函数<br/>
  <strong>当前文件偏移量</strong><br/>
  <code>
- #include &lt;unistd.h&gt;
- off_t lseek(int fd, off_t offset, int whence);
- /* 返回值： 成功则返回新的文件偏移量，否则返回-1 */
+ #include &lt;unistd.h&gt;  
+ off_t lseek(int fd, off_t offset, int whence);  
+ /* 返回值： 成功则返回新的文件偏移量，否则返回-1 */  
 </code> <br/>
  whence可为:
 
