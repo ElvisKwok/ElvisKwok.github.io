@@ -171,6 +171,7 @@ title: Notes of APUE
     使用open或creat时，内核向进程返回fd，作为参数传给read或write
     0、1、2分别与stdin、stdout、stderr关联  
 3. open函数  
+
     ```
     #include <fcntl.h>  
     int open(const char *pathname, int oflag, ...);  
@@ -178,6 +179,7 @@ title: Notes of APUE
     oflag可为O_RDONLY,O_WRONLY,O_RDWR，还有其他可选参数，这些常量在`<fcntl.h>`定义  
     返回最小的未用描述符数值  
 4. creat函数  
+
     ```
     #include <fcntl.h>  
     int creat(const char *pathname, mode_t mode);  
@@ -185,6 +187,7 @@ title: Notes of APUE
     等效于`open(pathname, O_WRONLY | O_CREAT | O_TRUNC, mode)`  
     creat缺点：只能以*只写方式*打开创建的文件，如果要先写后读，只能调用creat,再close,再调用open。现在可以这样`open(pathname, O_RDWR | O_CREAT |O_TRUNC, mode)`  
 5. close函数  
+
     ```
     #include <unistd.h>  
     int close(int fd);  
@@ -193,6 +196,7 @@ title: Notes of APUE
     进程终止，内核自动关闭该进程打开的文件
 6. lseek函数  
     **当前文件偏移量**  
+
     ```
     #include <unistd.h>  
     off_t lseek(int fd, off_t offset, int whence);  

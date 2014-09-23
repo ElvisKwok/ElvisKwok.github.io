@@ -1,0 +1,1041 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>Elvis Kwok</title>
+ <link href="http://elviskwok.github.io/atom.xml" rel="self"/>
+ <link href="http://elviskwok.github.io/"/>
+ <updated>2014-09-23T22:13:22+08:00</updated>
+ <id>http://elviskwok.github.io/</id>
+ <author>
+   <name>elviskwok.github.io</name>
+   <email>359619839@qq.com</email>
+ </author>
+
+ 
+ <entry>
+   <title>Notes of APUE</title>
+   <link href="http://elviskwok.github.io/2014/09/22/notes-of-apue.html"/>
+   <updated>2014-09-22T00:00:00+08:00</updated>
+   <id>http://elviskwok.githu.io/2014/09/22/notes-of-apue</id>
+   <content type="html">&lt;h1&gt;Notes of APUE&lt;/h1&gt;
+
+&lt;p class=&quot;meta&quot;&gt;22 Sep 2014 - Guangzhou&lt;/p&gt;
+
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;ps: apue.h设置，在&lt;a href=&quot;http://www.apuebook.com&quot;&gt;apue官网&lt;/a&gt;下载所有实例代码，并将&lt;code&gt;apue.2e/include/apue.h&lt;/code&gt;和&lt;code&gt;apue/lib/error.c&lt;/code&gt;复制到&lt;code&gt;/usr/lib/&lt;/code&gt;,然后在&lt;code&gt;/usr/lib/apue.h&lt;/code&gt;末尾添加&lt;code&gt;#include &quot;error.c&quot;&lt;/code&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;h1&gt;outline&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;UNIX基本概念(1)，各种UNIX标准化工作(2)&lt;/li&gt;
+&lt;li&gt;I/O
+
+&lt;ul&gt;
+&lt;li&gt;不带缓冲的I/O(3)&lt;/li&gt;
+&lt;li&gt;文件和目录(4)&lt;/li&gt;
+&lt;li&gt;标准I/O库(5)&lt;/li&gt;
+&lt;li&gt;标准系统数据文件(6)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;进程
+
+&lt;ul&gt;
+&lt;li&gt;进程的环境(7)&lt;/li&gt;
+&lt;li&gt;进程控制(8)&lt;/li&gt;
+&lt;li&gt;进程之间的关系(9)&lt;/li&gt;
+&lt;li&gt;信号(10)&lt;/li&gt;
+&lt;li&gt;线程(11, 12)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;更多的I/O
+
+&lt;ul&gt;
+&lt;li&gt;终端I/O(18)&lt;/li&gt;
+&lt;li&gt;高级I/O(14)&lt;/li&gt;
+&lt;li&gt;守护进程(13)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;IPC
+
+&lt;ul&gt;
+&lt;li&gt;进程间通信(15)&lt;/li&gt;
+&lt;li&gt;网络IPC: 套接字(16)&lt;/li&gt;
+&lt;li&gt;高级进程间通信(17)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;实例
+
+&lt;ul&gt;
+&lt;li&gt;数据库的函数库(20)&lt;/li&gt;
+&lt;li&gt;打印机通信(21)&lt;/li&gt;
+&lt;li&gt;伪终端(19)&lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h1&gt;chapter 1: UNIX基础知识&lt;/h1&gt;
+
+&lt;ol&gt;
+&lt;li&gt;引言&lt;/li&gt;
+&lt;li&gt;UNIX体系结构&lt;br/&gt;
+ &lt;img src=&quot;/images/apue/1.2.png&quot; title=&quot;unix architecture&quot; alt=&quot;img&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;登录
+
+&lt;ol&gt;
+&lt;li&gt;登录名&lt;/li&gt;
+&lt;li&gt;shell；&lt;strong&gt;命令解释器&lt;/strong&gt;，读取用户输入（终端交互、shell脚本），然后执行命令&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;文件和目录
+
+&lt;ol&gt;
+&lt;li&gt;文件系统：&lt;strong&gt;“目录+文件”&lt;/strong&gt;组成的层次结构；目录是一个包含n个&lt;strong&gt;“目录项”&lt;/strong&gt;，目录项包含文件名+文件属性信息（这是逻辑视图上，实际存储不是这样）；&lt;code&gt;stat&lt;/code&gt;和&lt;code&gt;fstat&lt;/code&gt;函数返回包含文件属性的一个信息结构&lt;/li&gt;
+&lt;li&gt;文件名&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;路径名；&lt;br/&gt;
+ls命令的简单实现&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct dirent *dirp = opendir(argv[1]);  
+while((dirp = readdir(dp) != NULL)   
+     printf(&quot;%s\n&quot;, dirp-&amp;gt;d_name);   
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;工作目录（current）&lt;/li&gt;
+&lt;li&gt;起始目录（登陆时的工作目录）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;输入和输出
+
+&lt;ol&gt;
+&lt;li&gt;文件描述符（file descriptor）;非负整数，内核用它标识一个特定进程正在访问的文件&lt;/li&gt;
+&lt;li&gt;标准输入、输出、出错（这是运行任何程序时shell打开的三个&lt;strong&gt;文件描述符&lt;/strong&gt;）&lt;/li&gt;
+&lt;li&gt;不同缓冲的I/O；函数&lt;code&gt;open&lt;/code&gt;,&lt;code&gt;read&lt;/code&gt;,&lt;code&gt;write&lt;/code&gt;,&lt;code&gt;lseek&lt;/code&gt;,&lt;code&gt;close&lt;/code&gt;；自定义BUFFSIZE，缓存由内核负责（并非没有缓存）&lt;/li&gt;
+&lt;li&gt;标准I/O；带缓冲的接口，无需担心最佳缓冲区大小，使用缓冲区进行输入输出；如&lt;code&gt;&amp;lt;stdio.h&amp;gt;&lt;/code&gt;的&lt;code&gt;printf&lt;/code&gt;；用标准I/O将&lt;code&gt;stdin&lt;/code&gt;复制到&lt;code&gt;stdout&lt;/code&gt;，从而实现文件复制，&lt;code&gt;c = getc(stdin); putc(c, stdout);&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;程序与进程
+
+&lt;ol&gt;
+&lt;li&gt;程序：存放在磁盘的可执行文件，由内核将程序读入存储器（使用&lt;code&gt;exec&lt;/code&gt;函数）&lt;/li&gt;
+&lt;li&gt;进程（程序的执行实例），进程ID（唯一的数字标识符，非负整数，&lt;code&gt;getpid()&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;进程控制（3个函数）：&lt;code&gt;fork&lt;/code&gt;(创建新进程，向父进程返回新子进程的进程ID，向子进程返回0)、&lt;code&gt;exec（执行命令）&lt;/code&gt;、&lt;code&gt;waitpid（可以用来实现父进程等待子进程的种植）&lt;/code&gt;; shell程序的简单实现（从标准输入读命令并执行）；&lt;code&gt;if(buf[strlen(buf) -1] == '\n')&lt;/code&gt;,&lt;code&gt;pid_t pid = fork();&lt;/code&gt;,&lt;code&gt;execlp(buf, buf, (char *)0);&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;线程和线程ID；&lt;strong&gt;一个进程内&lt;/strong&gt;的所有线程共享同一地址空间、文件描述符、栈以及与进程相关的属性，能访问同意存储区，访问共享数据时需要采取同步措施&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;出错处理；errno整型变量；出错恢复（致命性：无法恢复，最多print出错信息；非致命性：例如资源紧缺，可延迟再试）
+ 打印出错信息的两个函数&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;`&quot;&gt; #include &amp;lt;string.h&amp;gt;  
+ char *strerro(int errnum);  /* 返回值：指向消息字符串的指针 */  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;`&quot;&gt; #include &amp;lt;stdio.h&amp;gt;  
+ void perro(const char *msg);    /* 输出msg字符串： errno值对应的出错信息 */  
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;用户标识
+
+&lt;ol&gt;
+&lt;li&gt;用户ID；&lt;code&gt;getuid()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;组ID；&lt;code&gt;getgid()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;附加组ID&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;信号；通知进程已经发生某种情况的一种技术；编写sign_int函数&lt;/li&gt;
+&lt;li&gt;时间值； &lt;br/&gt;
+日历时间（国际标准时间UTC）
+进程时间（CPU时间）：时钟时间（进程运行时间总量，与同时运行的进程数有关）、用户CPU时间（用户指令）、系统CPU时间（内核程序）&lt;/li&gt;
+&lt;li&gt;系统调用和库函数&lt;br/&gt;
+系统调用：程序向内核请求服务，OS所提供的进入内核的&lt;strong&gt;入口点&lt;/strong&gt;　　
+库函数可替换，系统调用不能替换；malloc&lt;strong&gt;函数&lt;/strong&gt;（用户层次）， sbrk&lt;strong&gt;系统调用&lt;/strong&gt;（内核层次）&lt;br/&gt;
+区别：从用户的角度来看，它们都可以通过C来调用；从实现的角度来看，系统调用是操作系统内核提供的服务，库函数则一般基于系统调用实现；系统调用提供&lt;strong&gt;最小接口&lt;/strong&gt;，库函数提供比较复杂的功能&lt;br/&gt;
+&lt;img src=&quot;/images/apue/1.11.png&quot; title=&quot;diff between library function and system call&quot; alt=&quot;img&quot; /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h1&gt;chapter 2: UNIX标准化及实现&lt;/h1&gt;
+
+&lt;ol&gt;
+&lt;li&gt;引言&lt;/li&gt;
+&lt;li&gt;UNIX标准化
+
+&lt;ol&gt;
+&lt;li&gt;ISO C&lt;br/&gt;
+1989年，C程序设计语言的ANSI（American National Standards Institute）标准X3.159-1989得到批准(ANSI 1989)。此标准已被采用为国际标准ISO/IEC 9899:1990。1999年，ISO C被更新为ISO/IEC 9899:1999，改善了对数值处理的支持。&lt;br/&gt;
+ISO C标准的意图是提供C程序在不同OS的可移植性。&lt;br/&gt;
+按照ISO C标准定义的各个头文件（header），可将ISO C库分成24个区。下表列出了C标准定义的各个头文件。&lt;br/&gt;
+&lt;img src=&quot;/images/apue/2.2.1.png&quot; title=&quot;iso c&quot; alt=&quot;img&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;IEEE POSIX &lt;br/&gt;
+POSIX是一系列由IEEE（Institute of Electrical and Electronics Engineers）制定的标准，POSIX（Portable Operating System Interface）是指可移植的操作系统接口。&lt;br/&gt;
+本书使用POSIX.1，下面4个表总结了POSIX.1指定的必需和可选的头文件。因为POSIX.1包含ISO C标准库函数，所以还需要ISO C中列出的头文件。&lt;br/&gt;
+下表为POSIX标准定义的必需的头文件&lt;br/&gt;
+&lt;img src=&quot;/images/apue/2.2.2.1.png&quot; alt=&quot;img&quot; /&gt;&lt;br/&gt;
+下表为POSIX标准定义的XSI扩展头文件&lt;br/&gt;
+&lt;img src=&quot;/images/apue/2.2.2.2.png&quot; alt=&quot;img&quot; /&gt;&lt;br/&gt;
+下表为POSIX标准定义的可选头文件&lt;br/&gt;
+&lt;img src=&quot;/images/apue/2.2.2.3.png&quot; alt=&quot;img&quot; /&gt;&lt;br/&gt;
+POSIX接口可以分为必需接口和可选接口，可选接口按功能又进一步分成50个区，下表总结了没有被弃用的编程接口&lt;br/&gt;
+&lt;img src=&quot;/images/apue/2.2.2.4.png&quot; alt=&quot;img&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;Single UNIX Specification&lt;br/&gt;
+Single UNIX Specification（单一UNIX规范）是POSIX.1标准的一个超集，它定义了一些附加的接口，这些接口扩展了POSIX.1规范所提供的功能。相应的系统接口全集被称为X/open系统接口（XSI，X/Open System Interface）。XSI还定义了必须支持POSIX.1中的哪些可选部分才能认为是遵循XSI的（上表中的SUS强制要求），只有遵循XSI的实现才能成为UNIX系统。&lt;/li&gt;
+&lt;li&gt;FIPS&lt;br/&gt;
+FIPS的含义是联邦信息处理标准（Federal Information Processing Standard），它是由美国政府出版，用于计算机系统的采购&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;UNIX系统实现&lt;br/&gt;
+UNIX主要有三个分支：&lt;br/&gt;
+AT&amp;amp;T分支，导出了系统Ⅲ和系统Ⅴ（被称为UNIX的商用版本）&lt;br/&gt;
+加州大学伯克利分校分支，导出了4.xBSD实现。&lt;br/&gt;
+AT&amp;amp;T贝尔实验室的UNIX研究版
+
+&lt;ol&gt;
+&lt;li&gt;SVR4（UNIX System V Release 4）, AT&amp;amp;T的UNIX系统实验室产品&lt;/li&gt;
+&lt;li&gt;4.4BSD（Berkeley Software Distribution）加州大学伯克利分校的计算机系统研究组研究开发和分发&lt;/li&gt;
+&lt;li&gt;FreeBSD&lt;br/&gt;
+加州大学伯克利分校的计算机系统研究组决定终止其在UNIX操作系统的BSD版本上的研发中作后，设立了FreeBSD项目。&lt;/li&gt;
+&lt;li&gt;Linux
+其实不是UNIX，Linus Torvalds在1991年为替代MINIX而研发的&lt;/li&gt;
+&lt;li&gt;Mac OS X，核心操作系统为Darwin，基于Mach内核和FreeBSD OS的组合&lt;/li&gt;
+&lt;li&gt;Solaris，Sun公司开发的UNIX版本&lt;/li&gt;
+&lt;li&gt;其他UNIX系统
+
+&lt;ul&gt;
+&lt;li&gt;AIX， IBM版的UNIX系统&lt;/li&gt;
+&lt;li&gt;HP-UX， HP版&lt;/li&gt;
+&lt;li&gt;IRIX， Silicon Graphics版的UNIX&lt;/li&gt;
+&lt;li&gt;Unix Ware, SVR4衍生的UNIX系统&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;标准和实现的关系&lt;/li&gt;
+&lt;li&gt;限制&lt;br/&gt;
+ UNIX使用以下两种类型的限制：&lt;br/&gt;
+ 编译时限制（例如：短整型最大值是多少？）&lt;br/&gt;
+ 运行时限制（例如：文件名可以有多少个字符？）&lt;br/&gt;
+ 对于上面的2种限制具体是怎么实现的呢：&lt;br/&gt;
+ 编译时限制（使用头文件）&lt;br/&gt;
+ 不与文件或目录相关联的运行时限制（使用sysconf函数）&lt;br/&gt;
+ 与文件或目录相关联的运行时限制（使用pathconf函数和fpathconf函数）
+
+&lt;ol&gt;
+&lt;li&gt;ISO C限制&lt;/li&gt;
+&lt;li&gt;POSIX限制&lt;/li&gt;
+&lt;li&gt;XSI限制&lt;/li&gt;
+&lt;li&gt;sysconf、pathconf和fpathconf函数&lt;/li&gt;
+&lt;li&gt;不确定的运行时限制
+
+&lt;ol&gt;
+&lt;li&gt;路径名&lt;/li&gt;
+&lt;li&gt;最大打开文件数&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;选项&lt;/li&gt;
+&lt;li&gt;功能测试宏&lt;/li&gt;
+&lt;li&gt;基本系统数据类型，头文件&lt;code&gt;&amp;lt;sys/type.h&amp;gt;&lt;/code&gt;定义，大多数以&lt;code&gt;_t&lt;/code&gt;结尾，如&lt;code&gt;dev_t&lt;/code&gt;,&lt;code&gt;pid_t&lt;/code&gt;,&lt;code&gt;size_t&lt;/code&gt;,&lt;code&gt;time_t&lt;/code&gt;等待，具体含义如下表所示&lt;br/&gt;
+ &lt;img src=&quot;/images/apue/2.8.png&quot; title=&quot;primitive system data type&quot; alt=&quot;img&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;标准之间的冲突&lt;/li&gt;
+&lt;li&gt;小结；本章对ISO C, POSIX和Single UNIX Specification三个标准进行说明，以及这些标准对各种UNIX OS的印象。标准化工作的重要部分是说明“各种实现定义的各种&lt;strong&gt;限制&lt;/strong&gt;”&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h1&gt;chapter 3: 文件I/O&lt;/h1&gt;
+
+&lt;ol&gt;
+&lt;li&gt;引言&lt;br/&gt;
+ 5个文件I/O函数：&lt;code&gt;open&lt;/code&gt;，&lt;code&gt;read&lt;/code&gt;，&lt;code&gt;write&lt;/code&gt;，&lt;code&gt;lseek&lt;/code&gt;，&lt;code&gt;close&lt;/code&gt;，不同缓冲区长度对read和write的影响&lt;br/&gt;
+ 本章所说明的函数被称为&lt;strong&gt;不带缓冲的I/O&lt;/strong&gt;（unbuffered I/O），&lt;strong&gt;不带缓冲&lt;/strong&gt;指的是每个read和write都调用内核的一个系统调用。不带缓冲的I/O函数不是ISO C的组成成分，是POSIX.1和Single UNIX Specification的组成部分&lt;br/&gt;
+ 原子操作，通过文件I/O和open函数的参数来讨论；多进程共享文件，涉及的内核数据结构；&lt;code&gt;dup&lt;/code&gt;，&lt;code&gt;fcntl&lt;/code&gt;，&lt;code&gt;sync&lt;/code&gt;，&lt;code&gt;fsync&lt;/code&gt;和&lt;code&gt;ioctl&lt;/code&gt;函数&lt;/li&gt;
+&lt;li&gt;文件描述符&lt;br/&gt;
+ 使用open或creat时，内核向进程返回fd，作为参数传给read或write
+ 0、1、2分别与stdin、stdout、stderr关联&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;open函数&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;`&quot;&gt; #include &amp;lt;fcntl.h&amp;gt;  
+ int open(const char *pathname, int oflag, ...);  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt; oflag可为O_RDONLY,O_WRONLY,O_RDWR，还有其他可选参数，这些常量在&lt;code&gt;&amp;lt;fcntl.h&amp;gt;&lt;/code&gt;定义&lt;br/&gt;
+ 返回最小的未用描述符数值&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;creat函数&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;`&quot;&gt; #include &amp;lt;fcntl.h&amp;gt;  
+ int creat(const char *pathname, mode_t mode);  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt; 等效于&lt;code&gt;open(pathname, O_WRONLY | O_CREAT | O_TRUNC, mode)&lt;/code&gt;&lt;br/&gt;
+ creat缺点：只能以&lt;em&gt;只写方式&lt;/em&gt;打开创建的文件，如果要先写后读，只能调用creat,再close,再调用open。现在可以这样&lt;code&gt;open(pathname, O_RDWR | O_CREAT |O_TRUNC, mode)&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;close函数&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;`&quot;&gt; #include &amp;lt;unistd.h&amp;gt;  
+ int close(int fd);  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt; 关闭文件还会释放&lt;em&gt;加在文件上的所有记录锁&lt;/em&gt;&lt;br/&gt;
+ 进程终止，内核自动关闭该进程打开的文件&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;lseek函数&lt;br/&gt;
+ &lt;strong&gt;当前文件偏移量&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;`&quot;&gt; #include &amp;lt;unistd.h&amp;gt;  
+ off_t lseek(int fd, off_t offset, int whence);  
+ /* 返回值： 成功则返回新的文件偏移量，否则返回-1 */  
+&lt;/code&gt;&lt;/pre&gt;
+
+ whence可为:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;SEEK_SET&lt;/code&gt;(0, 最终偏移量=文件开始+offset)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SEEK_CUR&lt;/code&gt;(1, 最终偏移量=当前位置+offset)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SEEK_END&lt;/code&gt;(2, 最终偏移量=文件末尾+offset)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Notes of the C Programming Language</title>
+   <link href="http://elviskwok.github.io/2014/09/15/notes-of-the-c-programming-language.html"/>
+   <updated>2014-09-15T00:00:00+08:00</updated>
+   <id>http://elviskwok.githu.io/2014/09/15/notes-of-the-c-programming-language</id>
+   <content type="html">&lt;h1&gt;Notes of the C Programming Language&lt;/h1&gt;
+
+&lt;p class=&quot;meta&quot;&gt;15 Sep 2014 - Guangzhou&lt;/p&gt;
+
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;chapter 1: 导言&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;变量、算术表达式;基本数据类型&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;for&lt;/code&gt;语句;&lt;/li&gt;
+&lt;li&gt;符号常量;&lt;code&gt;#define&lt;/code&gt; 大写名字 被替换文本&lt;/li&gt;
+&lt;li&gt;字符输入/输出;&lt;code&gt;c = getchar();&lt;/code&gt; &lt;code&gt;putchar(c);&lt;/code&gt; &lt;code&gt;EOF&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;数组;&lt;/li&gt;
+&lt;li&gt;函数;&lt;/li&gt;
+&lt;li&gt;参数传值;&lt;/li&gt;
+&lt;li&gt;字符数组;&lt;/li&gt;
+&lt;li&gt;外部变量、作用域;&lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;h2&gt;chapter 2: 类型、运算符与表达式&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;变量名;&lt;/li&gt;
+&lt;li&gt;数据类型及长度;&lt;/li&gt;
+&lt;li&gt;常量;整数常量;结尾&lt;code&gt;l/L,u/U&lt;/code&gt;;前缀 &lt;code&gt;0,0x&lt;/code&gt;;字符常量是一个整数;字符串常量&lt;/li&gt;
+&lt;li&gt;声明;&lt;code&gt;const&lt;/code&gt;不能修改&lt;/li&gt;
+&lt;li&gt;算术运算符;&lt;/li&gt;
+&lt;li&gt;关系运算符与逻辑运算符&lt;/li&gt;
+&lt;li&gt;类型转换;隐式(自动)(&lt;code&gt;char,short￫int&lt;/code&gt;、其中一个float则另外一个提升为float。。。);强制&lt;code&gt;(int)n&lt;/code&gt;, n本身的值没有改变&lt;/li&gt;
+&lt;li&gt;自增自减运算符;&lt;/li&gt;
+&lt;li&gt;按位运算符;&lt;code&gt;&amp;amp;|^异或&amp;lt;&amp;lt; &amp;gt;&amp;gt;~&lt;/code&gt;; 部分位:清零&lt;code&gt;&amp;amp;0&lt;/code&gt;,置1&lt;code&gt;|1&lt;/code&gt;,求反&lt;code&gt;^1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;赋值运算符与表达式; &lt;code&gt;+=,-=,/=,*=,&amp;gt;&amp;gt;=&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;条件表达式&lt;code&gt;z = (a &amp;gt; b) ?a : b;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;运算符优先级与求值次序(结合性)&lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;h2&gt;chapter 3: 控制流&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;语句与程序块;语句结束符;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;if-else&lt;/code&gt;语句;配对&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;else-if&lt;/code&gt;语句;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;switch&lt;/code&gt;语句; &lt;code&gt;break&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;while&lt;/code&gt;循环&lt;code&gt;for&lt;/code&gt;循环;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;do-while&lt;/code&gt;循环;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;break&lt;/code&gt;、&lt;code&gt;continue&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;goto&lt;/code&gt;语句与标号;常用于深度嵌套的跳出;维护可读性差&lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;h2&gt;chapter 4: 函数与程序结构&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;函数的基本知识；&lt;/li&gt;
+&lt;li&gt;返回非整型值的函数；&lt;code&gt;atof&lt;/code&gt;科学表示法123.45e-6, %g是什么&lt;/li&gt;
+&lt;li&gt;外部变量；&lt;/li&gt;
+&lt;li&gt;作用域规则；&lt;/li&gt;
+&lt;li&gt;头文件；&lt;/li&gt;
+&lt;li&gt;静态变量；只被初始化一次；&lt;code&gt;static&lt;/code&gt;可限定外部变量and函数，使得其他文件无法访问&lt;/li&gt;
+&lt;li&gt;寄存器变量；取决于底层硬件环境、编译器，寄存器变量的数目类型有所限制&lt;/li&gt;
+&lt;li&gt;初始化； 外部变量和静态变量初始化为0（没有显式初始化的情况下）&lt;/li&gt;
+&lt;li&gt;递归；&lt;/li&gt;
+&lt;li&gt;C预处理器；文件包含&lt;code&gt;#include&lt;/code&gt;、宏替换&lt;code&gt;#define&lt;/code&gt;、条件包含 &lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;h2&gt;chapter 5: 指针与数组&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;指针与地址；&lt;/li&gt;
+&lt;li&gt;指针与函数参数；&lt;/li&gt;
+&lt;li&gt;指针与数组；&lt;code&gt;*(a+i)&lt;/code&gt; is &lt;code&gt;a[i]&lt;/code&gt;；数组名不是变量，指针是一个变量&lt;/li&gt;
+&lt;li&gt;地址算术运算；&lt;code&gt;char *alloc(int n);&lt;/code&gt; &lt;code&gt;void afree(char *p)&lt;/code&gt;; &lt;code&gt;strlen&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;字符指针与函数；&lt;code&gt;while( *s++ = *t++);&lt;/code&gt;  &lt;code&gt;*s++&lt;/code&gt;(先&lt;code&gt;*s&lt;/code&gt;,再&lt;code&gt;s++&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;指针数组以及指向指针的指针；字符串排序&lt;/li&gt;
+&lt;li&gt;多维数组；逻辑表达式leap做数组下标； &lt;code&gt;int (*)a[10]&lt;/code&gt; 指向数组的指针，这个指针指向具有10个元素的一维数组；&lt;code&gt;int *a[10]&lt;/code&gt; 指针数组，数组的元素a[0]~a[9]都是指向int对象的指针&lt;/li&gt;
+&lt;li&gt;指针数组的的初始化&lt;/li&gt;
+&lt;li&gt;指针与多维数组；二维数组与指针数组的区别，空间分配，矩阵下标计算；指针数组优点每一行长度可以不同，常用于存放不同长度的字符串&lt;/li&gt;
+&lt;li&gt;命令行参数；&lt;code&gt;int argc&lt;/code&gt; 参数个数（包括执行的程序）. &lt;code&gt;char *argv[]&lt;/code&gt;；printf的参数可以是表达式，如&lt;code&gt;printf((argc &amp;gt; 1) ? “%s “ : “%s”, *++argv)&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;指向函数的指针&lt;code&gt;int (*pf)()；&lt;/code&gt;qsort 命令行模式，&lt;code&gt;int (*comp)(void *, void *);&lt;/code&gt; 返回指针的函数 &lt;code&gt;int *comp(void *, void *)；&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;复杂声明;编写程序输出字符串解释函数的声明&lt;br/&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;h2&gt;chapter 6: 结构&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;结构的基本知识;结构有助于组织复杂数据，图像坐标表示；&lt;code&gt;struct&lt;/code&gt;关键字+结构标记+{结构声明}；成员，成员运算符&lt;code&gt;.&lt;/code&gt;; 初始化&lt;/li&gt;
+&lt;li&gt;结构与函数;传递：分别传递各个结构成员、传递整个结构、传递指向结构的指针，各有利弊；指向结构的指针&lt;code&gt;struct rect *p;&lt;/code&gt;, &lt;code&gt;p-&amp;gt;x&lt;/code&gt;==&lt;code&gt;(*p).x&lt;/code&gt;；&lt;code&gt;++p-&amp;gt;len&lt;/code&gt;==&lt;code&gt;++(p-&amp;gt;len)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;结构数组; &lt;code&gt;struct key { char *word, int count;} keytab[NKEYS];&lt;/code&gt;；编写一个统计c关键字的程序&lt;/li&gt;
+&lt;li&gt;指向结构的指针; &lt;code&gt;mid = low + (high-low) /2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;自引用结构; 统计所有单词出现次数，使用二叉树左右子树字典顺序&lt;/li&gt;
+&lt;li&gt;表查找&lt;/li&gt;
+&lt;li&gt;类型定义&lt;/li&gt;
+&lt;li&gt;联合&lt;/li&gt;
+&lt;li&gt;位字段&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;页码缺失6.5~6.9&lt;/em&gt;&lt;/strong&gt; &lt;br/&gt;
+&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;chapter 7: 输入与输出&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;标准输入/输出; 输入/输出重定向&lt;code&gt;./a.out &amp;lt; infile&lt;/code&gt;, &lt;code&gt;./a.out &amp;gt; outfile&lt;/code&gt;；管道&lt;code&gt;1.exe | 2.exe&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;格式化输出——printf函数；格式字符串包括普通字符和转换说明；&lt;/li&gt;
+&lt;li&gt;变长参数表；mimprintf&lt;/li&gt;
+&lt;li&gt;格式化输入——scanf函数；&lt;/li&gt;
+&lt;li&gt;文件访问；文件指针，指向包含文件信息的结构（体），&lt;code&gt;FILE *fp&lt;/code&gt;,&lt;code&gt;FILE&lt;/code&gt;是一个类似int的类型名，由&lt;code&gt;typedef&lt;/code&gt;定义; &lt;code&gt;int getc(FILE *fp)&lt;/code&gt;,&lt;code&gt;int putc(intc, FILE *fp)&lt;/code&gt;,实现filecopy；cat命令&lt;/li&gt;
+&lt;li&gt;错误处理——&lt;code&gt;stderr&lt;/code&gt;和&lt;code&gt;exit&lt;/code&gt;; &lt;code&gt;feof&lt;/code&gt;文件结尾则返回非0值&lt;/li&gt;
+&lt;li&gt;行输入和行输出；&lt;code&gt;char *fgets(char *line, int maxline, FILE *fp)&lt;/code&gt;从fp指向的文件读取一行，存放在line数组；&lt;code&gt;int fputs(char *line, FILE *fp)&lt;/code&gt;将line字符串写入fp指向的文件，错误返回EOF、正确返回非负值；&lt;/li&gt;
+&lt;li&gt;其他函数
+
+&lt;ol&gt;
+&lt;li&gt;字符串操作函数&lt;code&gt;strlen&lt;/code&gt;, &lt;code&gt;strcpy&lt;/code&gt;, &lt;code&gt;strcat&lt;/code&gt;, &lt;code&gt;strcmp&lt;/code&gt;,&lt;code&gt;strchr(s, c)&lt;/code&gt;在s中找c第一次出现的位置&lt;/li&gt;
+&lt;li&gt;字符类别测试和转换函数;&lt;br/&gt;
+&lt;code&gt;isalpha(c)&lt;/code&gt;字母返回非0, &lt;code&gt;isupper(c)&lt;/code&gt;,&lt;code&gt;islower(c)&lt;/code&gt;,&lt;code&gt;isdigit(c)&lt;/code&gt;,&lt;code&gt;isalnum(c)&lt;/code&gt;数字或字母,&lt;code&gt;isspace(c)&lt;/code&gt;,&lt;code&gt;toupper(c)&lt;/code&gt;,&lt;code&gt;tolower(c)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int ungetc(int c, FILE *fp)&lt;/code&gt;将c写回文件fp，成功返回c，否则EOF&lt;/li&gt;
+&lt;li&gt;命令执行函数;&lt;code&gt;system(&quot;ls&quot;)&lt;/code&gt;执行命令ls输出，然后继续执行当前程序&lt;/li&gt;
+&lt;li&gt;存储管理函数;&lt;code&gt;void *malloc(size_t n)&lt;/code&gt;,分配成功返回指针，指向n个&lt;strong&gt;字节&lt;/strong&gt;长度的未初始化的存储空间，否则返回NULL；&lt;code&gt;void *calloc(size_t n, size_t size)&lt;/code&gt;, 指针指向n个&lt;strong&gt;指定长度size的对象&lt;/strong&gt;的空间；&lt;br/&gt;
+&lt;code&gt;
+int *ip;  
+ip = (int *) calloc(n, sizeof(int));
+&lt;/code&gt;&lt;br/&gt;
+&lt;code&gt;free(p)&lt;/code&gt;&lt;strong&gt;&lt;em&gt;只能释放由malloc或calloc得到的p&lt;/em&gt;&lt;/strong&gt;，使用已经释放的空间是典型错误，释放项目之前要保存必要信息，如暂存&lt;code&gt;q = p-&amp;gt;next;&lt;/code&gt;才&lt;code&gt;free(p)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;数学函数都是double to double；&lt;code&gt;sin,cos,exp,log,pow,sqrt,fabs&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;随机数发生器函数; &lt;code&gt;rand()&lt;/code&gt;生成0~RAND_MAX；
+生成0~1&lt;code&gt;#define frand() ((double) rand() / (RAND_MAX+1.0))&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;chapter 8: UNIX系统接口&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;文件描述符;文件描述符标识文件，非负整数，012(stdin, stdout, stderr)&lt;/li&gt;
+&lt;li&gt;低级I/O——read和write；输入输出是通过read和write系统调用实现的；&lt;br/&gt;
+&lt;code&gt;int n_read = read(int fd, char *buf, int n);&lt;/code&gt; 文件描述符fd， 读写数据buf，传输字节数n；返回实际传输字节数&lt;br/&gt;
+&lt;code&gt;int n_written = write(int fd, char *buf, int n);&lt;/code&gt;&lt;br/&gt;
+原书&lt;code&gt;#include &quot;syscalls.h&quot;&lt;/code&gt;报错，&lt;code&gt;#include &amp;lt;sys/syscall.h&amp;gt;&lt;/code&gt;ok；实现输入复制到输出；&lt;br/&gt;
+用read和write构造getchar,putchar等高级函数&lt;/li&gt;
+&lt;li&gt;open、creat、close和unlink
+ &lt;code&gt;int fd; int open(char *name, int flags, int perms);&lt;/code&gt;, 文件名name，打开方式flags，权限perms，如&lt;code&gt;#define PERMS 0755&lt;/code&gt;, 返回文件描述符fd
+ &lt;code&gt;int creat(char *name, int perms);&lt;/code&gt;返回文件描述符
+ close(int fd)断开文件描述符与已打开文件之间的连接，并释放文件描述符
+ unlink(char *name)将文件name从文件系统删除&lt;/li&gt;
+&lt;li&gt;随机访问——lseek; &lt;code&gt;long lseek(int fd, long offset, int origin);&lt;/code&gt; origin可以0、1、2，分别是文件开始、当前、结束位置&lt;/li&gt;
+&lt;li&gt;实例——fopen和getc函数的实现&lt;/li&gt;
+&lt;li&gt;实例——目录列表；&lt;code&gt;opendir``readdir``closedir``Dirent``DIR``stat&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;实例——存储分配程序;&lt;code&gt;malloc``free&lt;/code&gt;；malloc管理的空间不一定是连续的，空闲存储空间以空闲块链表组织，malloc返回的块=头部+分配空间；头部——块开始处的控制信息——“指向下一个空闲块的指针+size”，对齐——块大小为头部大小的整数倍，&lt;code&gt;union&lt;/code&gt;实现——定义一个数据类型强制头部最坏情况下对齐align；“首次适应”（first fit）;sbrk函数；free函数释放的块若与空闲块相邻，则合并（设置指针，重设块大小）;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;声明（declaration）说明每个标识符的含义，不为标识符预留存储空间；定义（definition）是预留存储空间的声明&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Markdown学习笔记</title>
+   <link href="http://elviskwok.github.io/2014/09/14/markdown-learning.html"/>
+   <updated>2014-09-14T00:00:00+08:00</updated>
+   <id>http://elviskwok.githu.io/2014/09/14/markdown-learning</id>
+   <content type="html">&lt;h1&gt;Markdown学习笔记&lt;/h1&gt;
+
+&lt;p class=&quot;meta&quot;&gt;14 Sep 2014 - Guangzhou&lt;/p&gt;
+
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;前言&lt;/h2&gt;
+
+&lt;p&gt;很久前就听说过Markdown，由于最近需要记录一些东西，所以今天才开始系统的学习Markdown。&lt;br/&gt;
+Markdown是一种标记语言（文本的格式化表示），之所以选择Markdown，一者,是想让文本具有更高的的可读性，相比于HTML，没有太多&lt;tag&gt;干扰。再者，使用Markdown可以在任何一种文本编辑器上书写，比如我正在使用的vim，简洁美观，而且方便在网页上展示（使用rdiscount解释Markdown语言很容易生成HTML），正如&lt;a href=&quot;http://markdown.tw&quot; title=&quot;markdown.tw&quot;&gt;Markdown语法说明&lt;/a&gt;所说的，”HTML 是一種&lt;em&gt;發佈&lt;/em&gt;的格式，Markdown 是一種&lt;em&gt;編寫&lt;/em&gt;的格式“。最后，Markdown在程序员社区具有较高的认可度，比如github。&lt;/p&gt;
+
+&lt;h2&gt;以下是我的学习笔记&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;段落&lt;/em&gt;&lt;/strong&gt;：使用一个或多个空行，分隔文本内容。或者在段落后加上两个或以上空格&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;标题&lt;/em&gt;&lt;/strong&gt;：atx, setext&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;atx-style&lt;br/&gt;
+使用前缀&quot;#&quot;，&quot;#&quot;的个数分别对应于h1~h6,例如，&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;pre&gt;&lt;code&gt;# This is an H1  
+###### This is an H6  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h1&gt;This is an H1&lt;/h1&gt;
+
+&lt;h4&gt;This is an H4&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;* setext-style  
+    * 定义h1:  
+    THIS IS H1  
+    == 
+
+    * 定义h2  
+    THIS IS H2  
+    -- 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;setext-style
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;定义h1:&lt;/p&gt;
+
+&lt;h1&gt;THIS IS H1  &lt;/h1&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;定义h2&lt;br/&gt;
+THIS IS H2&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;段落引用&lt;/em&gt;&lt;/strong&gt;：使用&quot;&gt;&quot;作为段落的前缀，标识该段落是引用部分，类似于Email标记的应用文字&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt; This is the first level of quoting
+&amp;gt;
+&amp;gt; &amp;gt; This is the nested blockquote
+&amp;gt;
+&amp;gt; Back to the first level
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;&lt;p&gt;This is the first level of quoting&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;This is the nested blockquote&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;Back to the first level&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;列表&lt;/em&gt;&lt;/strong&gt;：使用 &quot;*&quot;, &quot;+&quot;, &quot;-&quot; 来表示无序的列表；&lt;br/&gt;
+&quot;+&quot;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+ unorder +1
++ unorder +2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;unorder +1&lt;/li&gt;
+&lt;li&gt;unorder +2&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&quot;*&quot;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;* unorder *1
+    * 1.1
+    * 1.2
+* unorder *2
+    * 2.1
+    * 2.2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;unorder *1
+
+&lt;ul&gt;
+&lt;li&gt;1.1&lt;/li&gt;
+&lt;li&gt;1.2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;unorder *2
+
+&lt;ul&gt;
+&lt;li&gt;2.1&lt;/li&gt;
+&lt;li&gt;2.2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&quot;-&quot;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- unorder -1
+- unorder -2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;unorder -1&lt;/li&gt;
+&lt;li&gt;unorder -2&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;使用&quot;数字.&quot;表示有序列表&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. firstline
+2. secondline  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;firstline&lt;/li&gt;
+&lt;li&gt;secondline&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;代码段落&lt;/em&gt;&lt;/strong&gt;：使用4个&lt;strong&gt;&lt;em&gt;&quot;以上&quot;&lt;/em&gt;&lt;/strong&gt;的空格或一个&lt;strong&gt;&quot;以上&quot;&lt;/strong&gt;的tab标记代码段落，或者&lt;code&gt;code&lt;/code&gt;,或者区块元素（4空格）, 或者前后```包围&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;&quot;&gt;     test code
+     ok?
+
+`test code`
+
+    区块元素的标签不会被处理，区块必须在前后加上空行
+
+    &amp;lt;table&amp;gt;
+        &amp;lt;tr&amp;gt;
+            &amp;lt;td&amp;gt;foo&amp;lt;/td&amp;gt;
+        &amp;lt;/tr&amp;gt;
+    &amp;lt;/table&amp;gt;
+
+    this is another  
+
+隔离  
+
+\`\`\`
+adfdfd
+bdfdf
+csaf
+\`\`\`
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果展示：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; test code
+ ok?
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;test code&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;区块元素的标签不会被处理，区块必须在前后加上空行
+
+&amp;lt;table&amp;gt;
+    &amp;lt;tr&amp;gt;
+        &amp;lt;td&amp;gt;foo&amp;lt;/td&amp;gt;
+    &amp;lt;/tr&amp;gt;
+&amp;lt;/table&amp;gt;
+
+this is another  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;隔离&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;adfdfd
+bdfdf
+csaf
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;[test](http://dfdf.com &quot;标题&quot;)&lt;/code&gt;  &lt;br/&gt;
+&lt;a href=&quot;http://dfdf.com&quot; title=&quot;标题&quot;&gt;test&lt;/a&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;图片&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;![img](http://dfdf.com/img.png, &quot;可以是相对路径&quot;)&lt;/code&gt;&lt;br/&gt;
+&lt;img src=&quot;http://dfdf.com/img.png,&quot; title=&quot;可以是相对路径&quot; alt=&quot;img&quot; /&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;引用图片&lt;/em&gt;&lt;/strong&gt;：目前为止，Markdown还无法指定图片宽和高，如若需要，需使用&amp;lt;img&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;![alt text][id]  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://img.t.sinajs.cn/t5/style/images/staticlogo/logoContrast_pic.png?version=1a386bde78f5d832&quot; title=&quot;weibo&quot; alt=&quot;alt text&quot; /&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;突出字体&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;__轻点__, **重点**, *一个斜*，**两个粗**，***三个又斜又粗***&lt;/code&gt; &lt;br/&gt;
+&lt;strong&gt;轻点&lt;/strong&gt;, &lt;strong&gt;重点&lt;/strong&gt;, &lt;em&gt;一个斜&lt;/em&gt;，&lt;strong&gt;两个粗&lt;/strong&gt;，&lt;strong&gt;&lt;em&gt;三个又斜又粗&lt;/em&gt;&lt;/strong&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;删除句子&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;~~删去这句话~~&lt;/code&gt;&lt;br/&gt;
+&lt;del&gt;删去这句话&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;引用链接&lt;/em&gt;&lt;/strong&gt;：
+&lt;code&gt;
+[wiki][1]，[google][2]，[预设链接后面加空的中括号，要求文字相同][]
+&lt;/code&gt;
+&lt;a href=&quot;http://www.wikipedia.org&quot; title=&quot;wiki&quot;&gt;wiki&lt;/a&gt;，&lt;a href=&quot;http://goole.com&quot; title=&quot;google&quot;&gt;google&lt;/a&gt;，&lt;a href=&quot;yushe.com&quot; title=&quot;yushe&quot;&gt;预设链接后面加空的中括号，要求文字相同&lt;/a&gt;
+&lt;br&gt;
+&lt;strong&gt;&lt;em&gt;行内链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;this is an [example link](http://example.com &quot;标题&quot;)&lt;/code&gt; &lt;br/&gt;
+this is an &lt;a href=&quot;http://example.com&quot; title=&quot;标题&quot;&gt;example link&lt;/a&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;em&gt;快速链接&lt;/em&gt;&lt;/strong&gt;：&lt;code&gt;&amp;lt;http://elviskwok.github.io&amp;gt;, &amp;lt;359619839@qq.com&amp;gt;&lt;/code&gt;  &lt;br/&gt;
+&lt;a href=&quot;http://elviskwok.github.io&quot;&gt;http://elviskwok.github.io&lt;/a&gt;, &lt;a href=&quot;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#x6f;&amp;#58;&amp;#x33;&amp;#53;&amp;#57;&amp;#54;&amp;#49;&amp;#x39;&amp;#x38;&amp;#51;&amp;#x39;&amp;#x40;&amp;#x71;&amp;#113;&amp;#46;&amp;#99;&amp;#111;&amp;#109;&quot;&gt;&amp;#51;&amp;#x35;&amp;#57;&amp;#x36;&amp;#49;&amp;#x39;&amp;#x38;&amp;#x33;&amp;#x39;&amp;#x40;&amp;#113;&amp;#113;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;转义&lt;/em&gt;&lt;/strong&gt;：需要用\对下面字符转义: `,*,_,{},[],(),#,+,-,.,!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;\`code\`  
+``code contain ` character``  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;`code`&lt;br/&gt;
+&lt;code&gt;code contain ` character&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;特殊字符转换：&lt;code&gt;&amp;amp;copy;,  &amp;amp;amp;,  &amp;amp;lt;,  AT&amp;amp;T&lt;/code&gt; &lt;br/&gt;
+&amp;copy;,  &amp;amp;,  &amp;lt;,  AT&amp;amp;T&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;表格&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;A simple table looks like this:
+
+First Header | Second Header | Third Header
+------------ | ------------- | ------------
+Content Cell | Content Cell  | Content Cell
+Content Cell | Content Cell  | Content Cell
+
+If you wish, you can add a leading and tailing pipe to each line of the table:
+
+| First Header | Second Header | Third Header |
+| ------------ | ------------- | ------------ |
+| Content Cell | Content Cell  | Content Cell |
+| Content Cell | Content Cell  | Content Cell |
+
+Specify alignement for each column by adding colons to separator lines:
+
+First Header | Second Header | Third Header
+:----------- | :-----------: | -----------:
+Left         | Center        | Right
+Left         | Center        | Right
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A simple table looks like this:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;First Header &lt;/th&gt;
+&lt;th&gt; Second Header &lt;/th&gt;
+&lt;th&gt; Third Header&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Content Cell &lt;/td&gt;
+&lt;td&gt; Content Cell  &lt;/td&gt;
+&lt;td&gt; Content Cell&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Content Cell &lt;/td&gt;
+&lt;td&gt; Content Cell  &lt;/td&gt;
+&lt;td&gt; Content Cell&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;p&gt;If you wish, you can add a leading and tailing pipe to each line of the table:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt; First Header &lt;/th&gt;
+&lt;th&gt; Second Header &lt;/th&gt;
+&lt;th&gt; Third Header &lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt; Content Cell &lt;/td&gt;
+&lt;td&gt; Content Cell  &lt;/td&gt;
+&lt;td&gt; Content Cell &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt; Content Cell &lt;/td&gt;
+&lt;td&gt; Content Cell  &lt;/td&gt;
+&lt;td&gt; Content Cell &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;p&gt;Specify alignement for each column by adding colons to separator lines:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&quot;text-align:left;&quot;&gt;First Header &lt;/th&gt;
+&lt;th style=&quot;text-align:center;&quot;&gt; Second Header &lt;/th&gt;
+&lt;th style=&quot;text-align:right;&quot;&gt; Third Header&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left;&quot;&gt;Left         &lt;/td&gt;
+&lt;td style=&quot;text-align:center;&quot;&gt; Center        &lt;/td&gt;
+&lt;td style=&quot;text-align:right;&quot;&gt; Right&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left;&quot;&gt;Left         &lt;/td&gt;
+&lt;td style=&quot;text-align:center;&quot;&gt; Center        &lt;/td&gt;
+&lt;td style=&quot;text-align:right;&quot;&gt; Right&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;Markdown推荐教程&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://markdown.tw&quot; title=&quot;markdown.tw&quot;&gt;Markdown语法说明&lt;/a&gt;&lt;br/&gt;
+&lt;a href=&quot;http://daringfireball.net/projects/markdown/&quot;&gt;Markdown 作者&lt;/a&gt;&lt;br/&gt;
+&lt;a href=&quot;http://ued.taobao.org/blog/2012/07/getting-started-with-markdown/&quot;&gt;开始使用Markdown&lt;/a&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>算法设计的作业</title>
+   <link href="http://elviskwok.github.io/2014/09/11/alg-homework.html"/>
+   <updated>2014-09-11T00:00:00+08:00</updated>
+   <id>http://elviskwok.githu.io/2014/09/11/alg-homework</id>
+   <content type="html">&lt;h1&gt;算法设计的作业&lt;/h1&gt;
+
+&lt;p class=&quot;meta&quot;&gt;11 Sep 2014 - Guangzhou&lt;/p&gt;
+
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;1、合式公式判断&lt;/h2&gt;
+
+&lt;p&gt;判断一个字符串是否为合式公式&lt;br/&gt;
+输入：由小写字母，逻辑运算符（+,*,&gt;,!），括号组成的字符串&lt;br/&gt;
+输出：1（是），0（否）&lt;/p&gt;
+
+&lt;h3&gt;1.1、算法思想&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_1.1.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;h3&gt;1.2、实现说明&lt;/h3&gt;
+
+&lt;p&gt;设置函数int heshi( char *str),递归判断字符串str是否为合式公式，是则返回1，否则返回0。&lt;br/&gt;
+设置变量balance，初值为0，用于判断左右括号的匹配。遇到左括号’(‘，balance++，遇到右括号，balance—，函数结束处判断balance的值是否为0。&lt;/p&gt;
+
+&lt;h3&gt;1.3、测试数据&lt;/h3&gt;
+
+&lt;p&gt;a, ab, !a, !ab, a+b, !a+b, a+!b, a+df, (a+b), a+b*c, a+b&gt;c, (a+b)&gt;c, (a&gt;b)*!c&lt;/p&gt;
+
+&lt;h3&gt;1.4、运行结果&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_1.4.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;h2&gt;2、整数划分&lt;/h2&gt;
+
+&lt;p&gt;将正整数n表示成一系列正整数之和：n=n1+n2+…+nk，其中n1≥n2≥…≥nk≥1，k≥1。&lt;br/&gt;
+输入：一个正整数&lt;br/&gt;
+输出：全部划分结果&lt;/p&gt;
+
+&lt;h3&gt;2.1、算法思想&lt;/h3&gt;
+
+&lt;p&gt;本节所说的n都是递归调用是的参数n&lt;br/&gt;
+对于正整数n，从大到小依次输出第一个划分数分别为n,n-1,n-2,…,1的情况。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;第一个划分数为n，直接输出。&lt;/li&gt;
+&lt;li&gt;第一个划分为1，输出n个1。&lt;/li&gt;
+&lt;li&gt;第一个划分数为i，在递归函数上做了如下限制：&lt;br/&gt;
+i+P(j1)+P(j2)+…P(jn)，其中j1~jn小于i&lt;br/&gt;
+从而避免重复输出（例如第一个划分数为2，限制输出2+P(4)的这种情况）&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_2.1.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;h3&gt;2.2、实现说明&lt;/h3&gt;
+
+&lt;p&gt;设置全局指针变量 int *a，用于储存划分结果。&lt;br/&gt;
+设置函数 void display(int m)，用于输出数组元素a[0]~a[m-1]。&lt;br/&gt;
+设置递归函数 void partition(int n, int m)，用于划分正整数n，其中m表示加总到n的元素个数，初值为0。&lt;br/&gt;
+在main函数中根据终端输入的正整数n，分配n个int型变量大小的内存空间给指针a（因为划分正整数n最多个数是n个1汇总），使得本程序可执行大整数的划分。&lt;/p&gt;
+
+&lt;h3&gt;2.3、测试数据&lt;/h3&gt;
+
+&lt;p&gt;5,6,7&lt;/p&gt;
+
+&lt;h3&gt;2.4、运行结果&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_2.4.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
+&lt;h2&gt;3、全组合问题&lt;/h2&gt;
+
+&lt;p&gt;输入：元素个数n，n个元素 &lt;br/&gt;
+输出：n个元素的全组合&lt;/p&gt;
+
+&lt;h3&gt;3.1、算法思想&lt;/h3&gt;
+
+&lt;p&gt;根据二进制数的特点，对于数组n个元素的每一个元素，我们可以选择该元素是否输出（0，1），于是n个数就有“2的n次方减一” 种输出，一一对应于全组合的全部输出。&lt;/p&gt;
+
+&lt;h3&gt;3.2、实现说明&lt;/h3&gt;
+
+&lt;p&gt;设置函数void dec_to_bin(int n, int *a)， 将十进制数n转换为二进制数，二进制数的每一位储存在数组a上（逆序存储）。&lt;br/&gt;
+设置函数void zuhe(int *input, int n)，完成全组合问题的输出，其中，input数组为需要进行全组合的元素，n为元素个数。&lt;/p&gt;
+
+&lt;h3&gt;3.3、测试数据&lt;/h3&gt;
+
+&lt;p&gt;2，{2，4};&lt;br/&gt;
+3，{1，2，3}；&lt;br/&gt;
+4，{2，8，5，6}；&lt;/p&gt;
+
+&lt;h3&gt;3.4、运行结果&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/alg/alg_3.4.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>我为什么写博客？(转载于[BeiYuu])</title>
+   <link href="http://elviskwok.github.io/blog/2011/12/18/why-blog.html"/>
+   <updated>2011-12-18T00:00:00+08:00</updated>
+   <id>http://elviskwok.githu.io/blog/2011/12/18/why-blog</id>
+   <content type="html">&lt;h2&gt;世界这么乱，装纯给谁看&lt;/h2&gt;
+
+&lt;p&gt;写博客这个不知道几个“互联网世纪”前的东西，现在还有必要拿出来说吗？不想用太多的理论去说这个命题，先看看两个最近对我影响比较大的两个博客：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stevelosh.com/&quot; title=&quot;Steve Losh&quot;&gt;Steve Losh&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://sivers.org/&quot; title=&quot;Derek Sivers&quot;&gt;Derek Sivers&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;第一个是&lt;a href=&quot;http://stevelosh.com/&quot; title=&quot;Steve Losh&quot;&gt;Steve Losh&lt;/a&gt;的博客，我在搜索了&lt;a href=&quot;http://stevelosh.com/blog/2011/09/writing-vim-plugins/&quot; title=&quot;Write Vim Plugins&quot;&gt;VIM&lt;/a&gt;相关的关键字之后被带到了这里。简洁的风格和关屏的利落就已经吸引了我，顺手点开其他的文章看了看，博主非常的谨慎认真，每一篇都是高质量的作品，看得出他的用心，整个网站也是异常的简洁舒适，深深的被这种淡然的心态打动，躲进小楼成一统，哪管他春夏与秋冬。再看看他的介绍：&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&quot;I’m a programmer, photographer, dancer &amp;amp; bassist from Rochester, New York.&quot;&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;呵呵，他完全就过着我期望的生活。&lt;/p&gt;
+
+&lt;p&gt;第二位博主的&lt;a href=&quot;http://sivers.org/sharing&quot; title=&quot;The co-op business model: share whatever you've got&quot;&gt;'Co-op Business Model'&lt;/a&gt;文章也是让我茅厕顿开，这种分享的精神，用博主自己活生生的例子讲述出来之后，读者自然会被感动的，我也在团队内分享过这篇文章，下面我简要介绍一下他的事迹吧：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;1994年，他把需要邮寄才能得到的版权申请表单扫描上传到网上，为大家申请提供方便的下载服务，直到版权机构将表单上网之前，他的网站是全美唯一一个可以下载到表单的地方，他也并没有盈利。&lt;/li&gt;
+&lt;li&gt;1995年，他为自己的乐队注册了一个名字，并且把注册过程详细的写在自己的博客上，很长一段时间内，他的这篇文章几乎成了注册乐队名称的标准教程。&lt;/li&gt;
+&lt;li&gt;1996年，他有了一个&lt;a href=&quot;http://artificialrecords.com&quot;&gt;小唱片公司&lt;/a&gt;，也就有了一个条形码账户，他需要支付$750给条码协会，这样他就拥有了十万个条码，一开始他免费把这些条码给朋友们要出售的CD用，后来，越来越多人知道了他有条码，又懒得去自己申请账户，就给他付一定的费用，方便的使用，他每个收费$20，在过去的12年里，他靠出售这个条码就赚到了二百万美元。&lt;/li&gt;
+&lt;li&gt;1997年，他花费$1000申请了一个信用卡商户账户，用来销售自己的CD，一开始也免费给他的做音乐的朋友们帮忙卖，后来有越来越多的陌生人希望能使用他的账号，省的自己去申请，因为他有一些劳动量，所以也收取一定费用，每张专辑收取$35的制作费，然后每卖一张收$4，在过去的12年中，他赚到了二千万美元。&lt;/li&gt;
+&lt;li&gt;1999年，他学会了制作网站，一开始是为了展示自己的CD，后来他的朋友们抱怨自己的网站服务商很糟糕，希望能使用&lt;a href=&quot;http://sivers.org/&quot; title=&quot;Derek Sivers&quot;&gt;Derek Sivers&lt;/a&gt;的系统，因为也有一些劳动量，所以会一开始收取$300，然后每个月收取$20，在过去的9年中，他赚到了五百万美元。&lt;/li&gt;
+&lt;li&gt;2000年以后，他会无偿的分享所有他学到的东西，或许“&lt;a href=&quot;http://sivers.org/below-average&quot; title=&quot;probably below average&quot;&gt;他不是最聪明的人&lt;/a&gt;”，但是分享没有什么成本，而且这是正确的事，所以在后来的11年里，他收获了很多的好运与快乐，遇见了很多有趣的人。&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;找到了一个神交的外国博主，又有这么励志“好人好报”的故事，我想大道理不用讲太多也都明白了。&lt;/p&gt;
+
+&lt;p&gt;还有一篇理论性很强的文章做参考，&lt;a href=&quot;http://www.cnblogs.com/bangerlee/archive/2011/09/11/2173632.html&quot; title=&quot;Why I Blog翻译版&quot;&gt;我为什么写博客&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h2&gt;那些虚的没用，说点实际的&lt;/h2&gt;
+
+&lt;p&gt;或许这些看起来很美好的东西，你会觉得离自己很远，那就说点直接的收益，看看是否够诱人。&lt;/p&gt;
+
+&lt;p&gt;我还是先推荐一篇文章：&lt;a href=&quot;http://mindhacks.cn/2011/11/04/how-to-interview-a-person-for-two-years/&quot; title=&quot;怎样花两年时间去面试一个人&quot;&gt;怎样花两年时间去面试一个人&lt;/a&gt;，招聘永远是公司和个人的难题，双方的信息不对称，导致这个矛盾无法调和，这篇文章就是告诉你，如何自己去推销自己，让公司得到你的全部优质信息，尤其在现在的网络环境下，将自己工作有用的能力搬上网，那么就是最好的能力证明，就是最好的面试答案。无论你是程序员，还是设计师。&lt;/p&gt;
+
+&lt;p&gt;或许你会想，好吧好吧，那我找个博客站开一个博客好了，我不太会同意这个做法，有一个个人的品牌，对于自己的发展只有好处，行走网络江湖，有同一个ID标识，无论在哪里都会让人看到你，这样长期的潜移默化，个人的品牌效力也就展现出来了。然后有一个自己独立的域名，并且用心去经营，肯定会有人欣赏的。而且经过我的一番研究，成本并不是很高。&lt;/p&gt;
+
+&lt;p&gt;我期望的博客内容，并不是贴一段代码，或者胡言乱语两句，具体的质量可以参考&lt;a href=&quot;http://stevelosh.com/&quot; title=&quot;Steve Losh&quot;&gt;Steve Losh&lt;/a&gt;，这样的高质量，更能展现自己的态度，或许你说有一些小心得小点滴也想和大家分享，那也可以在自己的空间下开一个Wiki频道，专门存放琐碎的知识点。&lt;/p&gt;
+
+&lt;p&gt;高质量的博文，肯定需要自己缜密的思考，并且需要一定的文笔才能将自己的想法完整清晰的表达出来，我在这两个方面都还差了很多，还需要大量的练习才好，给自己这样的机会。&lt;/p&gt;
+
+&lt;p&gt;在快知识、微段子横行的今天，能对一个个问题深入的去思考，一方面得到的是心灵的平静，更多的则是深入思考之后的收获的喜悦感，会有不一样的体会的。&lt;/p&gt;
+
+&lt;h2&gt;技术很简单，不用担心&lt;/h2&gt;
+
+&lt;p&gt;或者你很幸运不是一个程序员，或者你是一个不用搞这些乱七八糟东西的程序员，那么相信我，你一样可以搭起来一个跟我的一模一样的个人站点的。&lt;/p&gt;
+
+&lt;p&gt;我要特别鸣谢以下几个站点、技术：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://godaddy.com&quot; title=&quot;Godaddy&quot;&gt;GoDaddy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://dnspod.cn&quot; title=&quot;DNSPod&quot;&gt;DNSPod&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://github.com&quot; title=&quot;Github:social coding&quot;&gt;GitHub&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;Jekyll&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://disqus.com&quot; title=&quot;Disqus&quot;&gt;Disqus&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;下面我来做一个简要说明，完整的搭建方法，我后面会专门写一篇博客分享给大家，等不及的可以自己去找资料哈。&lt;/p&gt;
+
+&lt;h3&gt;GoDaddy &amp;amp; DNSPod&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://godaddy.com&quot; title=&quot;Godaddy&quot;&gt;GoDaddy&lt;/a&gt;是一家非常不错的域名注册商，良好的用户体验，飞快的生效速度，给力的优惠码，也支持支付宝，永远不用担心国内那些流氓厂商的流氓行为，注册了域名，就可以放心不会被别人抢走。在Godaddy注册域名是一件很简单的事情，按照提示走就完全没有问题，唯一需要动脑筋的可能是，你要想一个既有个人标识，又没有被别人注册的域名了，我觉得我的&lt;a href=&quot;http://beiyuu.com&quot; title=&quot;BeiYuu&quot;&gt;BeiYuu&lt;/a&gt;还是不错的，呵呵。&lt;/p&gt;
+
+&lt;p&gt;Godaddy一切都很完美，直到遇到了GFW，原因你肯定懂。前段时间推上风传Godaddy的DNS服务器被墙，导致域名不能解析，看起来好像自己的站被墙了一样，这个确实是个闹心的事情，还好国内有DNS服务的替代产品，而且做得还非常的不错，也是免费的，功能强大，速度快，不用担心被和谐，所以隆重推荐&lt;a href=&quot;http://dnspod.cn&quot; title=&quot;DNSPod&quot;&gt;DNSPod&lt;/a&gt;给大家，可以试用一下，把DNS服务迁移到DNSPod来，解决后顾之忧，配置比较简单，不懂的可以等我后面的博客啦，哈。&lt;/p&gt;
+
+&lt;h3&gt;GitHub &amp;amp; Jekyll&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://github.com&quot; title=&quot;Github:social coding&quot;&gt;GitHub&lt;/a&gt;是一个非常优秀的产品，爆发式的增长，各大优质开源软件的蜂涌而至，只能说明人们太需要他了。&lt;strong&gt;Social Coding&lt;/strong&gt;是他的Slogan，产品的设计确实解决了很多代码交流的难题，让世界更平，让交流更畅，关于Git的学习，大家可以移步这里&lt;a href=&quot;http://progit.org/book/zh/&quot; title=&quot;Pro Git&quot;&gt;Pro Git中文版&lt;/a&gt;，这也是一个本身就在Github维护的一个项目，高质量的翻译了Git入门书，讲解详细，是学习Git的好资料。&lt;/p&gt;
+
+&lt;p&gt;GitHub是一个伟大的产品，&lt;a href=&quot;http://pages.github.com&quot; title=&quot;GitHub Pages&quot;&gt;GitHub Pages&lt;/a&gt;是他伟大的一部分，GitHub Pages基于&lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;Jekyll&lt;/a&gt;博客引擎，当我深入的研究了他之后，我深深的想给Jekyll的作者一个拥抱，列举一下Jekyll的优点：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;可以单独放在自己的服务器上，他也是GitHub Pages的基础，质量可靠&lt;/li&gt;
+&lt;li&gt;将博客最重要的功能抽取出来，去除了&lt;a href=&quot;http://wordpress.org&quot; title=&quot;WordPress&quot;&gt;WordPress&lt;/a&gt;的复杂、烦躁的东西，一切都是清晰可控的&lt;/li&gt;
+&lt;li&gt;可以方便的使用&lt;a href=&quot;http://markdown.tw/&quot; title=&quot;Markdown语法&quot;&gt;Markdown&lt;/a&gt;等其他标记语言
+&lt;li&gt;清晰、简洁的文件组织，完美的永久链接方案，既漂亮、又可定制&lt;/li&gt;
+&lt;li&gt;博客静态化，速度快&lt;/li&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;Jekyll&lt;/a&gt;是完美的&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h3&gt;Disqus&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;Jekyll&lt;/a&gt;都很不错，但是可能有些童鞋会不满意于他不提供评论功能，这个时候，&lt;a href=&quot;http://disqus.com&quot; title=&quot;Disqus&quot;&gt;Disqus&lt;/a&gt;的出现就显得是雪中送炭了。&lt;/p&gt;
+
+&lt;p&gt;Disqus是一个社会化的评论解决方案，请允许我使用这个烂透了的词，调用它的接口非常简单，在自己的页面加载他的一段JS代码即可，如果别人注册了Disqus，那么就可以方便的留言，交流，一处登录，处处方便，而且Disqus也提供了一些spam等策略，不用自己操心了，并且可以和一些现有的博客系统很好的转换对接。越来越多的网站开始使用Disqus的服务了，这是一个非常不错的趋势，Jekyll配合&lt;a href=&quot;http://disqus.com&quot; title=&quot;Disqus&quot;&gt;Disqus&lt;/a&gt;实在是完美了。我别无所求了。&lt;/p&gt;
+
+&lt;h2&gt;TL;DR&lt;/h2&gt;
+
+&lt;p&gt;写到这里，基本的点已经介绍完毕，看看Jekyll生成的博客页面，我心满意足，虽然文笔很烂，语句多不通顺，但是这是一个新的开始了，我觉得心灵都纯洁了不少，这不是发一条微博什么能带来的快乐。&lt;/p&gt;
+
+&lt;p&gt;对于那些对上述技术不是很熟悉的童鞋来说，搭建起来可能还是需要花费些功夫的，我会在后面写一篇专门的教程，给有需要的人，等不及了的，可以自己研究下，&lt;strong&gt;生命在于折腾&lt;/strong&gt;。&lt;/p&gt;
+</content>
+ </entry>
+ 
+ 
+</feed>
