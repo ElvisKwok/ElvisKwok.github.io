@@ -155,7 +155,7 @@ title: Notes of APUE
         2. 最大打开文件数
 6. 选项
 7. 功能测试宏
-8. 基本系统数据类型，头文件`<sys/type.h>`定义，大多数以`_t`结尾，如`dev_t`,`pid_t`,`size_t`,`time_t`等待，具体含义如下表所示  
+8. 基本系统数据类型，头文件`<sys/type.h>`定义，大多数以`_t`结尾，如`dev_t`,`pid_t`,`size_t`,`time_t`等等，具体含义如下表所示  
     ![img][2.8]
 9. 标准之间的冲突
 10. 小结；本章对ISO C, POSIX和Single UNIX Specification三个标准进行说明，以及这些标准对各种UNIX OS的印象。标准化工作的重要部分是说明“各种实现定义的各种**限制**”
@@ -169,7 +169,7 @@ title: Notes of APUE
     原子操作，通过文件I/O和open函数的参数来讨论；多进程共享文件，涉及的内核数据结构；`dup`，`fcntl`，`sync`，`fsync`和`ioctl`函数  
 2. 文件描述符  
     使用open或creat时，内核向进程返回fd，作为参数传给read或write
-    0、1、2分别与stdin、stdout、stderr关联  
+    0、1、2分别与stdin、stdout、stderr关联,头文件`<unistd.h>`分别定义为常量`STDIN_FILENO`, `STDOUT_FILENO`和`STDERR_FILENO`  
 3. open函数  
 
     ```
@@ -206,9 +206,29 @@ title: Notes of APUE
     * `SEEK_SET`(0, 最终偏移量=文件开始+offset)   
     * `SEEK_CUR`(1, 最终偏移量=当前位置+offset)  
     * `SEEK_END`(2, 最终偏移量=文件末尾+offset)  
+    文件**空洞**：文件偏移量大于文件当前长度，导致下一次写文件将加长该文件，并在文件中构成一个空洞（**原文件末端与新开始写的部分**），（位于文件中但没写过的字节被读为0，用od -c 该文件显示为'\0'），空洞不分配磁盘块，但是空洞后新写入的数据需要分配磁盘块
+7. read函数  
+
+    ```
+    #include <unistd.h>
+    ssize_t read(int fd, void *buf, size_t nbytes);
+    /* 返回值：成功返回读到的字节数,到达文件末尾返回0，出错返回-1 */
+    ```  
+    e.g.: 离文件末尾剩余30字节，要求读100字节，则read返回30，下一次调用read时返回0
+8. write函数  
     
-
-
+    ```
+    #include <unistd.h>
+    ssize_t write(int fd, const void *buf, size_t nbytes);
+    /* 返回值：成功返回已写字节数，出错返回-1 */
+    ```  
+    返回值通常与nbytes相等，否则表示出错  
+    write出错常见原因：磁盘已写满，或者超过一个给定进程的文件长度限制   
+    read和write都是从**打开的文件**的**当前**偏移量开始read/write，结束后文件偏移量增加**实际**read/write的字节数  
+9. I/O的效率  
+    选取不同的BUFFSIZE产生CPU时间不同，如下表所示，其中系统CPU时间最小值出现在BUFFSIZE=4096处  
+    ![img][3.9]
+10. 文件共享  
 
 
 
@@ -227,3 +247,4 @@ title: Notes of APUE
 [2.2.2.3]: /images/apue/2.2.2.3.png
 [2.2.2.4]: /images/apue/2.2.2.4.png
 [2.8]: /images/apue/2.8.png "primitive system data type"
+[3.9]: /images/apue/3.9.png "BUFFSIZE influence efficiency"
