@@ -166,6 +166,27 @@ bdfdf
 csaf
 ```
 
+***代码高亮highlight***: 修改 _config.yml 为`markdown: redcarpet`
+
+\`\`\`c  
+\#include <stdio.h>  
+int main(int argc, char \*argv[])  
+{  
+    printf("hello world!\n");  
+    return 0;  
+}  
+\`\`\`
+
+```c
+#include <stdio.h>
+int main(int argc, char *argv[])
+{
+    printf("hello world!\n");
+    return 0;
+}
+```
+
+
 ***链接***：`[test](http://dfdf.com "标题")`    
 [test](http://dfdf.com "标题")  
 ***图片***：`![img](http://dfdf.com/img.png, "可以是相对路径") `  

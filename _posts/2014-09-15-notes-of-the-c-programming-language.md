@@ -103,13 +103,14 @@ title: Notes of the C Programming Language
     3. `int ungetc(int c, FILE *fp)`将c写回文件fp，成功返回c，否则EOF
     4. 命令执行函数;`system("ls")`执行命令ls输出，然后继续执行当前程序
     5. 存储管理函数;`void *malloc(size_t n)`,分配成功返回指针，指向n个**字节**长度的未初始化的存储空间，否则返回NULL；`void *calloc(size_t n, size_t size)`, 指针指向n个**指定长度size的对象**的空间；  
+     
     ```c
     int *ip;  
     ip = (int *) calloc(n, sizeof(int));
-    ```  
-    `free(p)`***只能释放由malloc或calloc得到的p***，使用已经释放的空间是典型错误，释放项目之前要保存必要信息，如暂存`q = p->next;`才`free(p)`
-    6. 数学函数都是double to double；`sin,cos,exp,log,pow,sqrt,fabs`
-    7. 随机数发生器函数; `rand()`生成0~RAND_MAX；
+    ```    
+    `free(p)`***只能释放由malloc或calloc得到的p***，使用已经释放的空间是典型错误，释放项目之前要保存必要信息，如暂存`q = p->next;`才`free(p)`  
+    6. 数学函数都是double to double；`sin,cos,exp,log,pow,sqrt,fabs`  
+    7. 随机数发生器函数; `rand()`生成0~RAND_MAX；  
     生成0~1`#define frand() ((double) rand() / (RAND_MAX+1.0))`
 
 <br>

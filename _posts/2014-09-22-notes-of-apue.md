@@ -45,19 +45,19 @@ title: Notes of APUE
 3. 登录
     1. 登录名
     2. shell；**命令解释器**，读取用户输入（终端交互、shell脚本），然后执行命令
-4. 文件和目录
-    1. 文件系统：**“目录+文件”**组成的层次结构；目录是一个包含n个**“目录项”**，目录项包含文件名+文件属性信息（这是逻辑视图上，实际存储不是这样）；`stat`和`fstat`函数返回包含文件属性的一个信息结构
-    2. 文件名
-    3. 路径名；  
-       ls命令的简单实现
+4. 文件和目录  
+    4.1 文件系统：**“目录+文件”**组成的层次结构；目录是一个包含n个**“目录项”**，目录项包含文件名+文件属性信息（这是逻辑视图上，实际存储不是这样）；`stat`和`fstat`函数返回包含文件属性的一个信息结构  
+    4.2 文件名  
+    4.3 路径名；  
+       ls命令的简单实现  
 
        ```c
        struct dirent *dirp = opendir(argv[1]);  
        while((dirp = readdir(dp) != NULL)   
             printf("%s\n", dirp->d_name);   
-       ```
-    4. 工作目录（current）
-    5. 起始目录（登陆时的工作目录）
+       ```  
+    4.4 工作目录（current）  
+    4.5 起始目录（登陆时的工作目录）  
 5. 输入和输出
     1. 文件描述符（file descriptor）;非负整数，内核用它标识一个特定进程正在访问的文件
     2. 标准输入、输出、出错（这是运行任何程序时shell打开的三个**文件描述符**）
@@ -241,7 +241,50 @@ title: Notes of APUE
     ![img][3.10.2]  
     多个文件描述符可能指向同一个文件表项，e.g.: dup函数、fork的父子进程对于每一个打开的文件描述符共享一个文件表项  
 11. 原子操作  
+    一般而言，原子操作（atomic operation）指的是有多步组成的操作。如果该操作原子地执行，要么执行完所有步骤， 要么一步不执行，不可能值执行所有步骤的一个子集  
+    1. 添加至一个文件  
+    e.g., 使用lseek和write函数完成open的O_APPEND操作，进程A、B对同一个文件操作。然而，在两个函数调用之间，内核可能会临时挂起某一个进程。所以，任何一个需要多个函数调用的操作都不可能是原子操作  
+    2. pread和pwrite函数
+    Single UNIX Specification包括了XSI扩展，该扩展允许原子性地seek和执行I/O  
 
+    ```c
+    #include <unistd.h>
+    ssize_t pread(int fd, void *buf, size_t nubytes, off_t offset);
+    ssize_t pwrite(itn fd, const void *buf, size_t nbytes, off_t offset);
+    ```  
+    pread相当于顺序调用lseek和read（区别是定位和读操作不能中断，而且不更新文件指针），pwrite相当于顺序调用lseek和write  
+    3. 创建一个文件
+    “检查该文件是否存在“以及”创建该文件“这两个操作是作为一个原子操作执行的
+12. dup和dup2函数  
+
+    ```c
+    #include <unistd.h>
+    int dup(int fd);
+    int dup2(int fd, int fd2);
+    /* 两个函数返回值：成功返回新的fd，否则返回-1 */
+    ```
+    dup返回的新文件描述符一定是**当前可用文件描述符之中的最小数值**，dup2则可以返回fd2指定的新描述符，若fd2已经打开，则先将fd2关闭
+    函数返回的新fd与参数fd**共享同一个文件表项**，如下图  
+    ![img][3.12]  
+    由于两个fd共享同一个文件表项，所以共享同一文件状态标志（读、写、添加）以及同一当前文件偏移量  
+    复制fd的另一种方法：使用fcntl函数  
+    `dup(fd);`等效于`fcntl(fd, F_DUPFD, 0);`  
+    `dup2(fd, fd2);`等效于（不完全等同）`close(fd2);`、`fcntl(fd, F_DUPFD, fd2);`  
+13. sync、fsync和fdatasync函数  
+    延迟写：传统的UNIX系统在内核中设置缓冲区高速缓存，写文件时内核首先将数据复制到缓冲区，等待**缓冲区写满**或缓冲区需要重用时才将缓冲排队到输出队列，然后才实际I/O操作。  
+    延迟写优点：减少磁盘读写次数；缺点：文件内容更新速度降低，系统故障时可能丢失数据。  
+    UNIX提供sync、fsync和fdatasync函数来保证实际文件系统与缓冲区高速缓存的**内容一致性**  
+    
+    ```c
+    #include <unistd.h>
+    int fsync(int fd);      /* 单一文件fd，等待写磁盘结束 */
+    int fdatasync(int fd);  /* 类似fsync，但fsync还会同步更新文件属性 */
+    /* 返回值：成功0，否则-1 */
+
+    void sync(void);    /* 将修改过的块缓冲区排队到写队列，然后返回(不等待实际写磁盘结束) */
+    ```
+    update守护进程会周期性的调用sync函数，命令sync也调用sync函数  
+14. fcntl函数
 
 
 
@@ -266,3 +309,4 @@ title: Notes of APUE
 [3.9]: /images/apue/3.9.png "BUFFSIZE influence efficiency"
 [3.10.1]: /images/apue/3.10.1.png "file sharing"
 [3.10.2]: /images/apue/3.10.2.png "file sharing"
+[3.12]: /images/apue/3.12.png "dup"
