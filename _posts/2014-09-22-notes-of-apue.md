@@ -326,6 +326,7 @@ title: Notes of APUE
     * 原子操作：多进程apped/creat同一文件。  
     * 内核用来共享打开文件信息的数据结构。   
     * ioctl和fcntl函数
+<br>
 
 #chapter 4: 文件和目录
 1. 引言
