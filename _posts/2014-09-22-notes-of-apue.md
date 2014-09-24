@@ -217,7 +217,7 @@ title: Notes of APUE
     e.g.: 离文件末尾剩余30字节，要求读100字节，则read返回30，下一次调用read时返回0
 8. write函数  
     
-    ```
+    ```c
     #include <unistd.h>
     ssize_t write(int fd, const void *buf, size_t nbytes);
     /* 返回值：成功返回已写字节数，出错返回-1 */
