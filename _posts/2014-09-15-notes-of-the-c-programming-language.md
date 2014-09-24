@@ -103,7 +103,7 @@ title: Notes of the C Programming Language
     3. `int ungetc(int c, FILE *fp)`将c写回文件fp，成功返回c，否则EOF
     4. 命令执行函数;`system("ls")`执行命令ls输出，然后继续执行当前程序
     5. 存储管理函数;`void *malloc(size_t n)`,分配成功返回指针，指向n个**字节**长度的未初始化的存储空间，否则返回NULL；`void *calloc(size_t n, size_t size)`, 指针指向n个**指定长度size的对象**的空间；  
-    ``` 
+    ```c
     int *ip;  
     ip = (int *) calloc(n, sizeof(int));
     ```  

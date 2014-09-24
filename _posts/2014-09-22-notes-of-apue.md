@@ -51,7 +51,7 @@ title: Notes of APUE
     3. 路径名；  
        ls命令的简单实现
 
-       ```
+       ```c
        struct dirent *dirp = opendir(argv[1]);  
        while((dirp = readdir(dp) != NULL)   
             printf("%s\n", dirp->d_name);   
@@ -71,12 +71,12 @@ title: Notes of APUE
 7. 出错处理；errno整型变量；出错恢复（致命性：无法恢复，最多print出错信息；非致命性：例如资源紧缺，可延迟再试）
     打印出错信息的两个函数  
     
-    ```
+    ```c
     #include <string.h>  
     char *strerro(int errnum);  /* 返回值：指向消息字符串的指针 */  
     ```  
 
-    ```
+    ```c
     #include <stdio.h>  
     void perro(const char *msg);    /* 输出msg字符串： errno值对应的出错信息 */  
     ```
@@ -172,7 +172,7 @@ title: Notes of APUE
     0、1、2分别与stdin、stdout、stderr关联,头文件`<unistd.h>`分别定义为常量`STDIN_FILENO`, `STDOUT_FILENO`和`STDERR_FILENO`  
 3. open函数  
 
-    ```
+    ```c
     #include <fcntl.h>  
     int open(const char *pathname, int oflag, ...);  
     ```   
@@ -180,7 +180,7 @@ title: Notes of APUE
     返回最小的未用描述符数值  
 4. creat函数  
 
-    ```
+    ```c
     #include <fcntl.h>  
     int creat(const char *pathname, mode_t mode);  
     ```  
@@ -188,7 +188,7 @@ title: Notes of APUE
     creat缺点：只能以*只写方式*打开创建的文件，如果要先写后读，只能调用creat,再close,再调用open。现在可以这样`open(pathname, O_RDWR | O_CREAT |O_TRUNC, mode)`  
 5. close函数  
 
-    ```
+    ```c
     #include <unistd.h>  
     int close(int fd);  
     ```   
@@ -197,7 +197,7 @@ title: Notes of APUE
 6. lseek函数  
     **当前文件偏移量**  
 
-    ```
+    ```c
     #include <unistd.h>  
     off_t lseek(int fd, off_t offset, int whence);  
     /* 返回值： 成功则返回新的文件偏移量，否则返回-1 */  
@@ -209,7 +209,7 @@ title: Notes of APUE
     文件**空洞**：文件偏移量大于文件当前长度，导致下一次写文件将加长该文件，并在文件中构成一个空洞（**原文件末端与新开始写的部分**），（位于文件中但没写过的字节被读为0，用od -c 该文件显示为'\0'），空洞不分配磁盘块，但是空洞后新写入的数据需要分配磁盘块
 7. read函数  
 
-    ```
+    ```c
     #include <unistd.h>
     ssize_t read(int fd, void *buf, size_t nbytes);
     /* 返回值：成功返回读到的字节数,到达文件末尾返回0，出错返回-1 */
@@ -221,7 +221,8 @@ title: Notes of APUE
     #include <unistd.h>
     ssize_t write(int fd, const void *buf, size_t nbytes);
     /* 返回值：成功返回已写字节数，出错返回-1 */
-    ```  
+    ```
+
     返回值通常与nbytes相等，否则表示出错  
     write出错常见原因：磁盘已写满，或者超过一个给定进程的文件长度限制   
     read和write都是从**打开的文件**的**当前**偏移量开始read/write，结束后文件偏移量增加**实际**read/write的字节数  
@@ -240,6 +241,12 @@ title: Notes of APUE
     ![img][3.10.2]  
     多个文件描述符可能指向同一个文件表项，e.g.: dup函数、fork的父子进程对于每一个打开的文件描述符共享一个文件表项  
 11. 原子操作  
+
+
+
+
+
+
 
 
 
