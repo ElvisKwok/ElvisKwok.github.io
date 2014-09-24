@@ -256,3 +256,5 @@ title: Notes of APUE
 [2.2.2.4]: /images/apue/2.2.2.4.png
 [2.8]: /images/apue/2.8.png "primitive system data type"
 [3.9]: /images/apue/3.9.png "BUFFSIZE influence efficiency"
+[3.10.1]: /images/apue/3.10.1.png "file sharing"
+[3.10.2]: /images/apue/3.10.2.png "file sharing"
