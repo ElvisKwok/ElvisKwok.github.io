@@ -232,7 +232,7 @@ title: Notes of APUE
 10. 文件共享  
     内核使用三种**数据结构**表示打开的文件：  
     * 文件描述符表（进程表项）：每个fd关联fd标志和指向一个文件表项的指针
-    * 文件表(其中文件状态标志可为read，write，append，同步和非阻塞等)
+    * 文件表(其中文件状态标志可为read，write, rw等access mode，append，同步和非阻塞等)
     * v节点表  
 
     下图为一个进程打开两个**不同**的文件（fd分别为0、1），同一个进程表项的两个fd、两个文件表项、两个v节点表项  
@@ -284,13 +284,51 @@ title: Notes of APUE
     void sync(void);    /* 将修改过的块缓冲区排队到写队列，然后返回(不等待实际写磁盘结束) */
     ```
     update守护进程会周期性的调用sync函数，命令sync也调用sync函数  
-14. fcntl函数
+14. fcntl函数  
+    fcntl函数可以改变已打开的文件的性质  
+    
+    ```c
+    #include <fcntl.h>
+    int fcntl(int fd, int cmd, ...);
+    /* 返回值：成功则依赖于cmd，若出错则返回-1 */
+    ```
+    fcntl函数有5种功能：  
+    * 复制一个现有的fd（cmd=F_DUPFD）
+    * 获得/设置fd标记（cmd=F_GETFD或F_SETFD) 
+    * 获得/设置文件状态标志（cmd=F_GETFL或F_SETFL)
+    * 获得/设置异步I/O所有权（cmd=F_GETOWN或F_SETOWN)
+    * 获得/设置记录锁（cmd=F_GETKL、F_SETLK或F_SETLKW)  
+    编写程序：对于指定的描述符打印文件标志  
+    编写程序：对一个fd设置一个或多个文件状态标志
+15. ioctl函数  
+    ioctl函数是I/O操作的杂物箱。不能用本章中其他函数表示的I/O操作通常都能用ioctl表示。  
+    终端I/O是ioctl的最大使用方面  
 
+    ```c
+    #include <unistd.h>     /* System V */
+    #include <sys/ioctl.h>  /* BSD and Linux */
+    #include <stropts.h>    /* XSI STREAMS */
 
+    int ioctl(int fd, int request, ...);
 
+    /*返回值：出错返回-1，成功返回其他值 */
+    ```
+    通常ioctl函数还要求另外的设备专用头文件，如终端I/O的ioctl命令要求头文件`<termios.h>`  
+    每个设备驱动程序都可以定义自己专用的一组ioctl命令  
+16. /dev/fd  
+    /dev/fd目录的目录项是名为0、1、2等文件。打开文件/dev/fd/n等效于复制描述符n.  
+    `fd = open("/dev/fd/0", mode);` 等效于 `fd = dup(0);`  
+    `ls | cat file1 - file3`等效于`ls | cat file1 /dev/fd/0 file3`, cat 将`-`解释为标准输入（这里是ls命令），但看起来像是一个选项，使用/dev/fd/0则更加清晰  
+17. 小结  
+    * 本章说明了UNIX系统提供的基本I/O函数。因为read和write都在内核执行，所以称这些函数为**不带缓冲的I/O函数**。  
+    * 只使用read和write的情况下，观察不同I/O长度读文件的所需时间的影响。  
+    * 将写入的数据冲洗到磁盘的方法，对性能的影响。  
+    * 原子操作：多进程apped/creat同一文件。  
+    * 内核用来共享打开文件信息的数据结构。   
+    * ioctl和fcntl函数
 
-
-
+#chapter 4: 文件和目录
+1. 引言
 
 
 
