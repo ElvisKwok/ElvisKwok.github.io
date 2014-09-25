@@ -336,10 +336,14 @@ title: Notes of APUE
     
     ```c
     #include <sys/stat.h>
-    int stat(const char *restrict pathname, struct stat *restrict buf);  /* according filename */
-    int fstat(int fd, struct stat *buf);  /* according to fd */
-    int lstat(const char *restrict pathname, struct stat *restrict buf);  /* like stat(), available for symbol link file */
-    /* 保存到buf结构， 函数返回值：成功返回0，出错返回-1 */
+    int stat(const char *restrict pathname, struct stat *restrict buf); 
+    /* according filename */
+    int fstat(int fd, struct stat *buf); 
+    /* according to fd */
+    int lstat(const char *restrict pathname, struct stat *restrict buf); 
+    /* like stat(), available for symbol link file */
+
+    /* 三个函数保存到buf结构， 函数返回值：成功返回0，出错返回-1 */
     ```  
     stat结构如下图所示：  
     ![img][4.2]  
@@ -368,6 +372,7 @@ title: Notes of APUE
     ```
 8. umask函数  
     umask函数为进程设置“文件模式创建屏蔽字”，并返回以前的值  
+
     ```c
     #include <sys/stat.h>
     mode_t umask(mode_t cmask);
