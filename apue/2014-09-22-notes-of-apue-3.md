@@ -7,7 +7,7 @@ title: Notes of APUE 3
 <p class="meta">22 Sep 2014 - Guangzhou</p>   
 +++++++++++++++++  
 
-##chapter 3: 文件I/O
+##Chapter 3: 文件I/O
 1. 引言  
     5个文件I/O函数：`open`，`read`，`write`，`lseek`，`close`，不同缓冲区长度对read和write的影响  
     本章所说明的函数被称为**不带缓冲的I/O**（unbuffered I/O），**不带缓冲**指的是每个read和write都调用内核的一个系统调用。不带缓冲的I/O函数不是ISO C的组成成分，是POSIX.1和Single UNIX Specification的组成部分  

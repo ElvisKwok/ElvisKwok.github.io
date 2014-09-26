@@ -7,7 +7,7 @@ title: Notes of APUE 0
 <p class="meta">22 Sep 2014 - Guangzhou</p>   
 +++++++++++++++++  
 
-##outline
+##Outline
 * UNIX基本概念(1)，各种UNIX标准化工作(2)
 * I/O
     * 不带缓冲的I/O(3)

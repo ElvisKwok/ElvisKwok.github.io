@@ -7,7 +7,7 @@ title: Notes of APUE 4
 <p class="meta">22 Sep 2014 - Guangzhou</p>   
 +++++++++++++++++  
 
-##chapter 4: 文件和目录
+##Chapter 4: 文件和目录
 1. 引言  
     本章将描述文件系统的其他特征和文件的性质。通过stat函数介绍stat结构的每一个成员（文件的所有属性）。修改这些属性的函数（更改所有者、权限）。查看UNIX文件系统的结构和符号链接。目录操作，编写一个降序遍历目录层次结构的函数  
 2. stat、fstat和lstat函数  

@@ -7,7 +7,7 @@ title: Notes of APUE 1
 <p class="meta">22 Sep 2014 - Guangzhou</p>   
 +++++++++++++++++  
 
-##chapter 1: UNIX基础知识
+##Chapter 1: UNIX基础知识
 1. 引言
 2. UNIX体系结构  
     ![img][1.2]

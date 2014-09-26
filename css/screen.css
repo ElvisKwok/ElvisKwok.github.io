@@ -18,6 +18,7 @@ html, body {
 body {
   background-color: #3A4148;
   font: 14.34px helvetica, arial, clean, sans-serif;
+  color: #282828;
   *font-size: small;
   text-align: center;
 }
@@ -91,7 +92,7 @@ ul.posts {
 .title {
   color: #ddd;
   font-weight: bold;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
 }
 
   .site .title a {
@@ -114,7 +115,7 @@ ul.posts {
   }
 
   .site .meta {
-    color: #ddd;
+    color: #555555;
 	font-size: 80%;
   }
 

@@ -7,7 +7,7 @@ title: Notes of APUE 2
 <p class="meta">22 Sep 2014 - Guangzhou</p>   
 +++++++++++++++++  
 
-##chapter 2: UNIX标准化及实现
+##Chapter 2: UNIX标准化及实现
 1. 引言
 2. UNIX标准化
     1. ISO C  
