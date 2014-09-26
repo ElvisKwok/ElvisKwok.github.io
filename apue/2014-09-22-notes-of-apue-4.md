@@ -6,8 +6,8 @@ title: Notes of APUE 4
 #{{ page.title }}  
 <p class="meta">22 Sep 2014 - Guangzhou</p>   
 +++++++++++++++++  
-<br>
-#chapter 4: 文件和目录
+
+##chapter 4: 文件和目录
 1. 引言  
     本章将描述文件系统的其他特征和文件的性质。通过stat函数介绍stat结构的每一个成员（文件的所有属性）。修改这些属性的函数（更改所有者、权限）。查看UNIX文件系统的结构和符号链接。目录操作，编写一个降序遍历目录层次结构的函数  
 2. stat、fstat和lstat函数  
@@ -57,19 +57,4 @@ title: Notes of APUE 4
     ```
 
 
-
-[apue官网]: http://www.apuebook.com
-
-[1.2]: /images/apue/1.2.png "unix architecture"
-[1.11]: /images/apue/1.11.png "diff between library function and system call"
-[2.2.1]: /images/apue/2.2.1.png "iso c"
-[2.2.2.1]: /images/apue/2.2.2.1.png
-[2.2.2.2]: /images/apue/2.2.2.2.png
-[2.2.2.3]: /images/apue/2.2.2.3.png
-[2.2.2.4]: /images/apue/2.2.2.4.png
-[2.8]: /images/apue/2.8.png "primitive system data type"
-[3.9]: /images/apue/3.9.png "BUFFSIZE influence efficiency"
-[3.10.1]: /images/apue/3.10.1.png "file sharing"
-[3.10.2]: /images/apue/3.10.2.png "file sharing"
-[3.12]: /images/apue/3.12.png "dup"
 [4.2]: /images/apue/4.2.png "struct stat"

@@ -6,8 +6,8 @@ title: Notes of APUE 3
 #{{ page.title }}  
 <p class="meta">22 Sep 2014 - Guangzhou</p>   
 +++++++++++++++++  
-<br>
-#chapter 3: 文件I/O
+
+##chapter 3: 文件I/O
 1. 引言  
     5个文件I/O函数：`open`，`read`，`write`，`lseek`，`close`，不同缓冲区长度对read和write的影响  
     本章所说明的函数被称为**不带缓冲的I/O**（unbuffered I/O），**不带缓冲**指的是每个read和write都调用内核的一个系统调用。不带缓冲的I/O函数不是ISO C的组成成分，是POSIX.1和Single UNIX Specification的组成部分  
@@ -175,18 +175,7 @@ title: Notes of APUE 3
 <br>
 
 
-[apue官网]: http://www.apuebook.com
-
-[1.2]: /images/apue/1.2.png "unix architecture"
-[1.11]: /images/apue/1.11.png "diff between library function and system call"
-[2.2.1]: /images/apue/2.2.1.png "iso c"
-[2.2.2.1]: /images/apue/2.2.2.1.png
-[2.2.2.2]: /images/apue/2.2.2.2.png
-[2.2.2.3]: /images/apue/2.2.2.3.png
-[2.2.2.4]: /images/apue/2.2.2.4.png
-[2.8]: /images/apue/2.8.png "primitive system data type"
 [3.9]: /images/apue/3.9.png "BUFFSIZE influence efficiency"
 [3.10.1]: /images/apue/3.10.1.png "file sharing"
 [3.10.2]: /images/apue/3.10.2.png "file sharing"
 [3.12]: /images/apue/3.12.png "dup"
-[4.2]: /images/apue/4.2.png "struct stat"

@@ -6,9 +6,8 @@ title: Notes of APUE 1
 #{{ page.title }}  
 <p class="meta">22 Sep 2014 - Guangzhou</p>   
 +++++++++++++++++  
-<br>
 
-#chapter 1: UNIX基础知识
+##chapter 1: UNIX基础知识
 1. 引言
 2. UNIX体系结构  
     ![img][1.2]
@@ -68,18 +67,5 @@ title: Notes of APUE 1
 
 
 
-[apue官网]: http://www.apuebook.com
-
 [1.2]: /images/apue/1.2.png "unix architecture"
 [1.11]: /images/apue/1.11.png "diff between library function and system call"
-[2.2.1]: /images/apue/2.2.1.png "iso c"
-[2.2.2.1]: /images/apue/2.2.2.1.png
-[2.2.2.2]: /images/apue/2.2.2.2.png
-[2.2.2.3]: /images/apue/2.2.2.3.png
-[2.2.2.4]: /images/apue/2.2.2.4.png
-[2.8]: /images/apue/2.8.png "primitive system data type"
-[3.9]: /images/apue/3.9.png "BUFFSIZE influence efficiency"
-[3.10.1]: /images/apue/3.10.1.png "file sharing"
-[3.10.2]: /images/apue/3.10.2.png "file sharing"
-[3.12]: /images/apue/3.12.png "dup"
-[4.2]: /images/apue/4.2.png "struct stat"
