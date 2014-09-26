@@ -101,9 +101,13 @@ title: Notes of APUE 4
     ```
 14. 文件系统  
     UNIX文件系统：本节讨论UFS文件系统（UNIX file system），UFS是以BSD快速文件系统为基础的  
+    磁盘=n个分区，每个分区可以包含一个文件系统，如下图  
+    ![img][4.14.1]  
     文件链接（硬链接（链接计数减为0才可删除，删除一个目录项的函数被称为unlink而不是delete），符号链接（实际内容为目标文件名字））  
     * i节点
     * 指向i节点的目录项  
+    两者关系如下图所示  
+    ![img][4.14.2]  
     i节点是固定长度的记录项，包含有关文件的大部分信息，stat结构大多数信息取自i节点（除了存放在目录项的文件名和i节点编号外）  
     执行`mv`命令改名，文件内容没有移动，新建一个指向i节点的目录项，然后解除旧目录项的链接  
     对目录文件的链接计数：`.`,`..`，每一个目录的链接计数至少为2（命名该目录的目录项，目录底下的 `.`）父目录的每个子目录都会使该父目录的链接计数加1（子目录含有`..`）  
@@ -112,3 +116,5 @@ title: Notes of APUE 4
 
 
 [4.2]: /images/apue/4.2.png "struct stat"
+[4.14.1]: /images/apue/4.14.1.png "disk, partition and file system"
+[4.14.2]: /images/apue/4.14.2.png "inode and directory item pointing to inode"
