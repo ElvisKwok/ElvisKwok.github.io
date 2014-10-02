@@ -7,6 +7,9 @@ title: Notes of APUE 2
 <p class="meta">22 Sep 2014 - Guangzhou</p>   
 +++++++++++++++++  
 
+##[返回主目录][]  
+<br>
+
 ##Chapter 2: UNIX标准化及实现
 1. 引言
 2. UNIX标准化
@@ -32,9 +35,9 @@ title: Notes of APUE 2
     FIPS的含义是联邦信息处理标准（Federal Information Processing Standard），它是由美国政府出版，用于计算机系统的采购
 3. UNIX系统实现  
    UNIX主要有三个分支：  
-   AT&T分支，导出了系统Ⅲ和系统Ⅴ（被称为UNIX的商用版本）  
-   加州大学伯克利分校分支，导出了4.xBSD实现。  
-   AT&T贝尔实验室的UNIX研究版  
+    @ AT&T分支，导出了系统Ⅲ和系统Ⅴ（被称为UNIX的商用版本）  
+    @ 加州大学伯克利分校分支，导出了4.xBSD实现。  
+    @ AT&T贝尔实验室的UNIX研究版  
     1. SVR4（UNIX System V Release 4）, AT&T的UNIX系统实验室产品
     2. 4.4BSD（Berkeley Software Distribution）加州大学伯克利分校的计算机系统研究组研究开发和分发
     3. FreeBSD  
@@ -51,12 +54,12 @@ title: Notes of APUE 2
 4. 标准和实现的关系
 5. 限制  
     UNIX使用以下两种类型的限制：  
-    编译时限制（例如：短整型最大值是多少？）  
-    运行时限制（例如：文件名可以有多少个字符？）  
+    @ 编译时限制（例如：短整型最大值是多少？）  
+    @ 运行时限制（例如：文件名可以有多少个字符？）  
     对于上面的2种限制具体是怎么实现的呢：  
-    编译时限制（使用头文件）  
-    不与文件或目录相关联的运行时限制（使用sysconf函数）  
-    与文件或目录相关联的运行时限制（使用pathconf函数和fpathconf函数）  
+    @ 编译时限制（使用头文件）  
+    @ 不与文件或目录相关联的运行时限制（使用sysconf函数）  
+    @ 与文件或目录相关联的运行时限制（使用pathconf函数和fpathconf函数）  
     1. ISO C限制
     2. POSIX限制
     3. XSI限制
@@ -69,9 +72,11 @@ title: Notes of APUE 2
 8. 基本系统数据类型，头文件`<sys/type.h>`定义，大多数以`_t`结尾，如`dev_t`,`pid_t`,`size_t`,`time_t`等等，具体含义如下表所示  
     ![img][2.8]
 9. 标准之间的冲突
-10. 小结；本章对ISO C, POSIX和Single UNIX Specification三个标准进行说明，以及这些标准对各种UNIX OS的印象。标准化工作的重要部分是说明“各种实现定义的各种**限制**”
+10. 小结；本章对ISO C, POSIX和Single UNIX Specification三个标准进行说明，以及这些标准对各种UNIX OS的影响。标准化工作的重要部分是说明“各种实现定义的各种**限制**”
 
 <br>
+
+[返回主目录]: /2014/09/22/notes-of-apue.html
 
 [2.2.1]: /images/apue/2.2.1.png "iso c"
 [2.2.2.1]: /images/apue/2.2.2.1.png

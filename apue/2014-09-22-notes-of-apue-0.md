@@ -7,6 +7,9 @@ title: Notes of APUE 0
 <p class="meta">22 Sep 2014 - Guangzhou</p>   
 +++++++++++++++++  
 
+##[返回主目录][]  
+<br>
+
 ##Outline
 * UNIX基本概念(1)，各种UNIX标准化工作(2)
 * I/O
@@ -40,3 +43,4 @@ title: Notes of APUE 0
 
 
 [apue官网]: http://www.apuebook.com
+[返回主目录]: /2014/09/22/notes-of-apue.html

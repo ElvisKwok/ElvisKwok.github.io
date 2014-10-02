@@ -7,13 +7,16 @@ title: Notes of APUE 3
 <p class="meta">22 Sep 2014 - Guangzhou</p>   
 +++++++++++++++++  
 
+##[返回主目录][]
+<br>
+
 ##Chapter 3: 文件I/O
 1. 引言  
     5个文件I/O函数：`open`，`read`，`write`，`lseek`，`close`，不同缓冲区长度对read和write的影响  
     本章所说明的函数被称为**不带缓冲的I/O**（unbuffered I/O），**不带缓冲**指的是每个read和write都调用内核的一个系统调用。不带缓冲的I/O函数不是ISO C的组成成分，是POSIX.1和Single UNIX Specification的组成部分  
     原子操作，通过文件I/O和open函数的参数来讨论；多进程共享文件，涉及的内核数据结构；`dup`，`fcntl`，`sync`，`fsync`和`ioctl`函数  
 2. 文件描述符  
-    使用open或creat时，内核向进程返回fd，作为参数传给read或write
+    使用open或creat时，内核向进程返回fd，作为参数传给read或write  
     0、1、2分别与stdin、stdout、stderr关联,头文件`<unistd.h>`分别定义为常量`STDIN_FILENO`, `STDOUT_FILENO`和`STDERR_FILENO`  
 3. open函数  
 
@@ -21,7 +24,7 @@ title: Notes of APUE 3
     #include <fcntl.h>  
     int open(const char *pathname, int oflag, ...);  
     ```   
-    oflag可为O_RDONLY,O_WRONLY,O_RDWR，还有其他可选参数，这些常量在`<fcntl.h>`定义  
+    “文件状态标志”oflag可为O\_RDONLY,O\_WRONLY,O_RDWR，还有其他可选参数，这些常量在`<fcntl.h>`定义  
     返回最小的未用描述符数值  
 4. creat函数  
 
@@ -76,8 +79,8 @@ title: Notes of APUE 3
     ![img][3.9]
 10. 文件共享  
     内核使用三种**数据结构**表示打开的文件：  
-    * 文件描述符表（进程表项）：每个fd关联fd标志和指向一个文件表项的指针
-    * 文件表(其中文件状态标志可为read，write, rw等access mode，append，同步和非阻塞等)
+    * 文件描述符表（进程表项）：每个fd关联***"文件描述符标志"(close_on_exec)***和指向一个文件表项的指针
+    * 文件表(其中***"文件状态标志"***可为read，write, rw等access mode，append，同步和非阻塞等)
     * v节点表  
 
     下图为一个进程打开两个**不同**的文件（fd分别为0、1），同一个进程表项的两个fd、两个文件表项、两个v节点表项  
@@ -88,8 +91,8 @@ title: Notes of APUE 3
 11. 原子操作  
     一般而言，原子操作（atomic operation）指的是有多步组成的操作。如果该操作原子地执行，要么执行完所有步骤， 要么一步不执行，不可能值执行所有步骤的一个子集  
     1. 添加至一个文件  
-    e.g., 使用lseek和write函数完成open的O_APPEND操作，进程A、B对同一个文件操作。然而，在两个函数调用之间，内核可能会临时挂起某一个进程。所以，任何一个需要多个函数调用的操作都不可能是原子操作  
-    2. pread和pwrite函数
+    e.g., 使用lseek和write函数完成open的O_APPEND操作，进程A、B对同一个文件操作。然而，在两个函数调用之间，内核可能会临时挂起某一个进程。所以，任何一个需要**多个函数调用**的操作都不可能是原子操作  
+    2. pread和pwrite函数  
     Single UNIX Specification包括了XSI扩展，该扩展允许原子性地seek和执行I/O  
 
     ```c
@@ -101,6 +104,7 @@ title: Notes of APUE 3
     3. 创建一个文件
     “检查该文件是否存在“以及”创建该文件“这两个操作是作为一个原子操作执行的
 12. dup和dup2函数  
+    两个函数都可以用来**复制**现有的文件描述符  
 
     ```c
     #include <unistd.h>
@@ -108,7 +112,7 @@ title: Notes of APUE 3
     int dup2(int fd, int fd2);
     /* 两个函数返回值：成功返回新的fd，否则返回-1 */
     ```
-    dup返回的新文件描述符一定是**当前可用文件描述符之中的最小数值**，dup2则可以返回fd2指定的新描述符，若fd2已经打开，则先将fd2关闭
+    dup返回的新文件描述符一定是**当前可用文件描述符之中的最小数值**，dup2则可以返回fd2指定的新描述符，若fd2已经打开，则先将fd2关闭  
     函数返回的新fd与参数fd**共享同一个文件表项**，如下图  
     ![img][3.12]  
     由于两个fd共享同一个文件表项，所以共享同一文件状态标志（读、写、添加）以及同一当前文件偏移量  
@@ -130,19 +134,21 @@ title: Notes of APUE 3
     ```
     update守护进程会周期性的调用sync函数，命令sync也调用sync函数  
 14. fcntl函数  
-    fcntl函数可以改变已打开的文件的性质  
+    fcntl函数可以**改变已打开的文件的性质**  
     
     ```c
     #include <fcntl.h>
     int fcntl(int fd, int cmd, ...);
     /* 返回值：成功则依赖于cmd，若出错则返回-1 */
     ```
-    fcntl函数有5种功能：  
-    * 复制一个现有的fd（cmd=F_DUPFD）
-    * 获得/设置fd标记（cmd=F_GETFD或F_SETFD) 
-    * 获得/设置文件状态标志（cmd=F_GETFL或F_SETFL)
-    * 获得/设置异步I/O所有权（cmd=F_GETOWN或F_SETOWN)
-    * 获得/设置记录锁（cmd=F_GETKL、F_SETLK或F_SETLKW)  
+    fcntl函数有**5种功能**：  
+    * 复制一个现有的fd（cmd=F\_DUPFD）
+    * 获得/设置fd标记（cmd=F\_GETFD或F\_SETFD) 
+    * 获得/设置文件状态标志（cmd=F\_GETFL或F\_SETFL)
+    * 获得/设置异步I/O所有权（cmd=F\_GETOWN或F\_SETOWN)
+    * 获得/设置记录锁（cmd=F\_GETKL、F\_SETLK或F\_SETLKW)  
+    `<fcntl.h>`定义的文件状态标志如下图所示：  
+    ![img][3.14]  
     编写程序：对于指定的描述符打印文件标志  
     编写程序：对一个fd设置一个或多个文件状态标志
 15. ioctl函数  
@@ -175,7 +181,10 @@ title: Notes of APUE 3
 <br>
 
 
+[返回主目录]: /2014/09/22/notes-of-apue.html
+
 [3.9]: /images/apue/3.9.png "BUFFSIZE influence efficiency"
 [3.10.1]: /images/apue/3.10.1.png "file sharing"
 [3.10.2]: /images/apue/3.10.2.png "file sharing"
 [3.12]: /images/apue/3.12.png "dup"
+[3.14]: /images/apue/3.14.png "file status flag of fcntl"
