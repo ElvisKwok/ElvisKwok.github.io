@@ -177,7 +177,19 @@ title: Notes of APUE 4
         time_t actime;
         time_t modtime;
     }
-    ```  
+    ``` 
+    示例程序：open截短文件长度为0，不更改atime和mtime。方法：先`stat()`保存之前时间，再截短，最后使用utime复位时间。  
+    ![img][4.19]  
+    程序结果：atime和mtime不变，而“更改状态时间”ctime改为程序运行的时间。  
+20. mkdir和rmdir函数  
+
+    ```c
+    #include <sys/stat.h>
+    int mkdir(const char *pathname, mode_t mode)
+    ```
+    mkdir函数创建一个空目录，其中目录项`.`,`..`是自动创建的。**常见错误**：目录忘了设置x权限，用来访问目录中的文件名。  
+
+    
 
 
 
@@ -190,3 +202,4 @@ title: Notes of APUE 4
 [4.14.2]: /images/apue/4.14.2.png "inode and directory item pointing to inode"
 [4.16]: /images/apue/4.16.png "symbol link"
 [4.18]: /images/apue/4.18.png "file time"
+[4.19]: /images/apue/4.19.png "4-19.c"
