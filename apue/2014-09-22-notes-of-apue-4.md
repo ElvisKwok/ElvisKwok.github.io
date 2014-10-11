@@ -188,9 +188,38 @@ title: Notes of APUE 4
     int mkdir(const char *pathname, mode_t mode)
     ```
     mkdir函数创建一个空目录，其中目录项`.`,`..`是自动创建的。**常见错误**：目录忘了设置x权限，用来访问目录中的文件名。  
+    rmdir函数删除一个**空**目录（只包含目录项`.`,`..`）
 
+    ```c
+    #include <unistd.h>
+    int rmdir(const char *pathname);
+    /* 返回值：成功0，出错-1 */
+    ```
+21. 读目录
     
-
+    ```c
+    #include <dirent.h>
+    DIR *opendir(const char *pathname); 
+    /* 返回值：成功返回指针DIR *dp，出错NULL */
+    
+    struct dirent *readdir(DIR *dp); 
+    /* 返回值：成功返回指针dirent struct *dirp ，出错或在目录结尾返回NULL */
+    
+    void rewinddir(DIR *dp);
+    int closedir(DIR *dp); /* 返回值：成功0，出错-1 */
+    long telldir(DIR *dp); /* 返回值：与dp关联的目录中的当前位置 */
+    void seekdir(DIR *dp, long loc);
+    ```
+    dirent结构至少包含的成员
+    
+    ```c
+    struct dirent {
+        ino_t d_ino;            /* i-node number */
+        char d_name[NAME_MAX+1];
+    }
+    ```
+    DIR是内部结构，上述6个函数用这个内部结构保存当前正被读的目录有关信息。  
+    编写程序遍历文件层次结构，并统计4.3节的文件类型  
 
 
 
