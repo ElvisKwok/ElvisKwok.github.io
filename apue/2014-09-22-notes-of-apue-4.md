@@ -32,8 +32,8 @@ title: Notes of APUE 4
     文件类型信息包含在stat结构的st_mode成员中
     + 普通文件（regular file）
     + 目录文件（directory file）
-    + 块特殊文件
-    + 字符特殊文件
+    + 块特殊文件(如/dev/hda)
+    + 字符特殊文件(如/dev/tty)
     + FIFO（命名管道named pipe，用于进程间通信）
     + 套接字
     + 符号链接
@@ -217,10 +217,40 @@ title: Notes of APUE 4
         ino_t d_ino;            /* i-node number */
         char d_name[NAME_MAX+1];
     }
-    ```
+    ```  
     DIR是内部结构，上述6个函数用这个内部结构保存当前正被读的目录有关信息。  
     编写程序遍历文件层次结构，并统计4.3节的文件类型  
-
+22. chdir、fchdir和getcwd函数  
+   当前目录是进程的一个属性，起始目录（home directory）是登录名的一个属性（/etc/passwd字段6）  
+   进程调用chdir或fchdir函数可以更改当前工作目录。  
+   
+    ```c
+    #include <unistd.h>
+    int chdir(const char *pathname);
+    int fchdir(int fd);
+    /* 返回值：成功0，出错-1 */
+    ```
+    因为当前工作目录是进程的一个属性，所以它只影响调用chdir的进程本身，不影响其他进程。所以在shell运行某一程序，由于shell是产生一个子进程运行`./a.out`，`a.out`调用chdir，不会对shell产生影响，从而也不会对最终目录产生影响，只是在程序运行中可以捕捉到该变化。所以UNIX命令`cd`是由shell直接调用的。  
+    chdir()跟随符号链接。  
+    内核只保存当前目录的inode节点信息，不保存目录的路径名，所以只能由`..目录项`读取`.目录项`的inode编号，若与当前工作目录的inode编号相等，则找到对应的文件名。按照这种方法逐层上移，则可以找到完整的绝对路径名。这就是getwd函数的功能。  
+    
+    ```c
+    #include <unistd.h>
+    char *getcwd(char *buf, size_t size);
+    /* 返回值：成功buf，出错NULL */
+    ```
+    常用场景：切换到某个目录处理某些事情，切换先getcwd()保存原目录名，然后切换，完成处理后，将原目录名传递给chdir。  
+    fchdir()提供一种快捷方法，无需调用getcwd()，使用open打开当前工作目录，保存fd。当需要回到原来目录时，简单地传递fd给fchdir()即可。  
+23. 设备特殊文件  
+    * 每个文件系统所在的存储设备都由主、次设备号表示。基本系统数据类型dev_t。主设备号标识设备驱动程序，次设备号标识特定的子设备。  
+    * 分别用major和minor两个**宏**来访问主、次设备号。  
+    * 每个文件名关联的st_dev值是文件系统的设备号。  
+    * 只有字符特殊文件和块特殊文件才有st_rdev值，包含实际设备的设备号。  
+    ***疑问***：编译程序出错，提示major和minor宏没有定义。  
+24. 文件访问权限位小结  
+    ![img][4.23]
+25. 小结  
+    围绕stat函数，介绍stat结构的每一成员，了解UNIX文件的每个属性。  
 
 
 [返回主目录]: /2014/09/22/notes-of-apue.html
@@ -232,3 +262,4 @@ title: Notes of APUE 4
 [4.16]: /images/apue/4.16.png "symbol link"
 [4.18]: /images/apue/4.18.png "file time"
 [4.19]: /images/apue/4.19.png "4-19.c"
+[4.23]: /images/apue/4.23.png "permission"
