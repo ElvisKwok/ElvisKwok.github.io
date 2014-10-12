@@ -14,6 +14,7 @@ title: Notes of APUE 3
 1. 引言  
     5个文件I/O函数：`open`，`read`，`write`，`lseek`，`close`，不同缓冲区长度对read和write的影响  
     本章所说明的函数被称为**不带缓冲的I/O**（unbuffered I/O），**不带缓冲**指的是每个read和write都调用内核的一个系统调用。不带缓冲的I/O函数不是ISO C的组成成分，是POSIX.1和Single UNIX Specification的组成部分  
+    “不带缓冲”==要从内核读写数据。  
     原子操作，通过文件I/O和open函数的参数来讨论；多进程共享文件，涉及的内核数据结构；`dup`，`fcntl`，`sync`，`fsync`和`ioctl`函数  
 2. 文件描述符  
     使用open或creat时，内核向进程返回fd，作为参数传给read或write  
