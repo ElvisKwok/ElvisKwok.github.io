@@ -103,6 +103,7 @@ title: Notes of APUE 5
    * (5.6节)每次一个字符的I/O。一次读或写一个字符。
    * (5.7节)每次一行的I/O。每次读或写一行，则使用fgets和fputs，每行都以一个换行符终止。调用fgets时应指定能处理的最大行长度。
    * (5.9节)直接I/O（二进制I/O、一次一个对象I/O）。fread和fwrite支持这种类型的I/O。每次I/O某种数量的对象，每个对象具有指定长度。常用于从二进制文件每次读写一个结构。  
+
     6.1 输入函数  
     一次读一个字符  
 
@@ -132,16 +133,90 @@ title: Notes of APUE 5
     ```
     应用场景：需要先查看一下下一个字符，再决定如何处理当前字符。
 
-   6.2 输出函数  
+    6.2 输出函数  
 
-   ```c
-   #include <stdio.h>
-   int putc(int c, FILE *fp);    /* 可实现宏 */
-   int fputc(int c, FILE *fp);  /* 不可实现宏 */
-   int putchar(int c);          /* 等效于putc(c, stdout) */
-   /* 返回值：成功c，出错EOF */
-   ```
+    ```c
+    #include <stdio.h>
+    int putc(int c, FILE *fp);    /* 可实现宏 */
+    int fputc(int c, FILE *fp);  /* 不可实现宏 */
+    int putchar(int c);          /* 等效于putc(c, stdout) */
+    /* 返回值：成功c，出错EOF */
+    ```
+
 7. 每次一行I/O  
+    每次一行I/O有可能出现不完整的行（缓冲区长度）。  
+    fgets和gets每次输入一行，输入到buf中 ：  
+
+    ```c
+    #include <stdio.h>
+    char *fgets(char *restrict buf, int n, FILE *restrict fp);  /* n为缓冲区buf的长度 */
+    char *gets(char *buf);
+    /* 返回值：成功buf，文件尾或出错NULL */
+    ```
+    不建议使用gets。（不安全，缓冲区溢出，写到缓冲区之后的存储空间）  
+    fputs和puts每次输出一行。  
+
+    ```c
+    #include <stdio.h>
+    int fputs(const char *restrict str, FILE *restrict fp);
+    int puts(const char *str);
+    /* 返回值：成功非负值，出错EOF */
+    ```
+    避免使用gets。  
+    fgets和fputs都需要我们自己处理换行符。  
+
+8. 标准I/O的效率  
+    使用标准I/O的一个而优点是无需考虑缓冲及最佳I/O长度的选择。虽然fgets需要考虑最大行长，但这比chapter 3选择最佳I/O长度相比方便得多。  
+    标准I/O库与直接调用read和write函数相比并不慢很多（比chapter 3的最佳I/O长度对应的最佳时间慢）。  
+9. 二进制I/O  
+    fread()和fwrite()用于二进制I/O操作。  
+
+    ```c
+    #include <stdio.h>
+    size_t fread(void *restrict ptr, size_t size, size_t nobj,
+                 FILE *restrict fp);
+    size_t fwrite(const void *restrict ptr, size_t size, size_t nobj,
+                  FILE *restrict fp);
+    /* nobj为对象数(n个obj) */
+    /* 返回值：读或写的"对象数" */
+    /* 即：正确则返回nobj， 出错或文件尾端则少于nobj */
+    ```
+    常见用法：
+    1 二进制数组I/O。例如，写data[2]~data[5]到文件fp中。  
+
+    ```c
+    float data[10];
+    if (fwrite(&data[2], sizeof(float), 4, fp) != 4)
+        err_sys("fwrite error");
+    ```
+    2 读或写一个结构struct。
+
+    ```c
+    struct{
+        short   count;
+        long    total;
+        char    name[NAMESIZE];
+    } item;
+
+    if (fwrite(&item, sizeof(item), 1, fp) != 1)
+        err_sys("fwrite error");
+    ```
+    使用二进制I/O的基本问题：它只能用于读“同一个系统上”已写过的数据。（结构成员的偏移量因编译器和系统而异，数值的二进制格式因机器体系结构而异）  
+10. 定位流  
+    三种方法定位标准I/O流。  
+    * ftell()和fseek()。将位置存放在一个long型数据
+    * ftello()和fseeko()。 存放在off_t数据类型
+    * fgetpos()和fsetpos()。抽象数据类型fpos_t
+
+
+
+
+
+
+
+
+
+
 
 <br>  
 
