@@ -208,7 +208,17 @@ title: Notes of APUE 5
     * ftello()和fseeko()。 存放在off_t数据类型
     * fgetpos()和fsetpos()。抽象数据类型fpos_t
 
+    ```c
+    #include <stdio.h>
+    long ftell(FILE *fp);
+    /* 返回值：成功“当前文件位置指示”，出错-1L */
 
+    int fseek(FILE *fp, long offset, int whence);
+    /*返回值：成功0，出错非0 */
+
+    void rewind(FILE *fp);
+    ```
+    
 
 
 
