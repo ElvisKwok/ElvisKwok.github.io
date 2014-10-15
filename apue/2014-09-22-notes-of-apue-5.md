@@ -48,16 +48,17 @@ title: Notes of APUE 5
 4. 缓冲  
     标准I/O库提供缓冲的目的：尽可能减少使用read和write调用的次数。      
     三种类型的缓冲（三种情况）：  
-    （1）全缓冲。在这种情况下，填满标准I/O缓冲区才进行实际I/O操作，通常用于磁盘文件。  
+    （1）全缓冲(fully buffered)。在这种情况下，填满标准I/O缓冲区才进行实际I/O操作，通常用于磁盘文件。  
         flush（冲洗）：在标准I/O库方面，flush是讲缓冲区中的内容写到磁盘。（该缓冲区不一定是满的）；而在chapter 18的终端程序驱动方面，flush（刷清）表示丢弃缓冲区的数据。  
-    （2）行缓冲。在这种情况下，输入输出遇到换行符时，标准I/O库执行I/O操作。通常是流涉及一个终端时（如stdin和stdout）。  
+    （2）行缓冲(line buffered)。在这种情况下，输入输出遇到换行符时，标准I/O库执行I/O操作。通常是流涉及一个终端时（如stdin和stdout）。  
     两个限制：①每一行缓冲区长度固定，可能出现还没换行符就填满缓冲区进行I/O操作。②当输入的数据是不带缓冲的流或者“要求从内核得到数据的”行缓冲的流，会造成flush所有行缓冲输出流。  
-    （3）不带缓冲。标准I/O库不对字符进行缓冲存储，stderr通常是不带缓冲的（出错信息尽快显示出来）。  
+    （3）不带缓冲(unbuffered)。标准I/O库不对字符进行缓冲存储，stderr通常是不带缓冲的（出错信息尽快显示出来）。  
     stdin和stdout不涉及交互式设备时，才是全缓冲；stderr绝对不是全缓冲。终端设备的流是行缓冲。  
     以下两个函数用于更改缓冲类型：  
 
     ```c
     #include <stdio.h>
+
     void setbuf(FILE *restrict fp, char *restrict buf);
     int setvbuf(FILE *restrict fp, char *restrict buf, int mode, size_t size);
     /* 返回值：成功0，出错非0 */
@@ -71,6 +72,7 @@ title: Notes of APUE 5
 
     ```c
     #include <stdio.h>
+
     int fflush(FILE *fp);
     /* 返回值：成功0，出错EOF */
     ```
@@ -95,6 +97,7 @@ title: Notes of APUE 5
 
     ```c
     #include <stdio.h>
+
     int fclose(FILE *fp);
     /* 成功0，出错EOF */
     ```
@@ -109,6 +112,7 @@ title: Notes of APUE 5
 
     ```c
     #include <stdio.h>
+
     int get(FILE *fp);
     int fgetc(FILE *fp);
     int getchar(void);
@@ -118,6 +122,7 @@ title: Notes of APUE 5
     
     ```c
     #include <stdio.h>
+
     int ferror(FILE *fp);
     int feof(FILE *fp);
     /* 返回值：条件真则返回真（非0值），否则返回0 */
@@ -128,6 +133,7 @@ title: Notes of APUE 5
 
     ```c
     #include <stdio.h>
+
     int ungetc(int c, FILE *fp);
     /* 返回值：成功c，出错EOF */
     ```
@@ -137,6 +143,7 @@ title: Notes of APUE 5
 
     ```c
     #include <stdio.h>
+
     int putc(int c, FILE *fp);    /* 可实现宏 */
     int fputc(int c, FILE *fp);  /* 不可实现宏 */
     int putchar(int c);          /* 等效于putc(c, stdout) */
@@ -149,7 +156,9 @@ title: Notes of APUE 5
 
     ```c
     #include <stdio.h>
-    char *fgets(char *restrict buf, int n, FILE *restrict fp);  /* n为缓冲区buf的长度 */
+
+    char *fgets(char *restrict buf, int n, FILE *restrict fp);  
+    /* n为缓冲区buf的长度 */
     char *gets(char *buf);
     /* 返回值：成功buf，文件尾或出错NULL */
     ```
@@ -158,6 +167,7 @@ title: Notes of APUE 5
 
     ```c
     #include <stdio.h>
+
     int fputs(const char *restrict str, FILE *restrict fp);
     int puts(const char *str);
     /* 返回值：成功非负值，出错EOF */
@@ -173,6 +183,7 @@ title: Notes of APUE 5
 
     ```c
     #include <stdio.h>
+
     size_t fread(void *restrict ptr, size_t size, size_t nobj,
                  FILE *restrict fp);
     size_t fwrite(const void *restrict ptr, size_t size, size_t nobj,
@@ -210,24 +221,141 @@ title: Notes of APUE 5
 
     ```c
     #include <stdio.h>
+
     long ftell(FILE *fp);
     /* 返回值：成功“当前文件位置指示”，出错-1L */
 
     int fseek(FILE *fp, long offset, int whence);
     /*返回值：成功0，出错非0 */
 
-    void rewind(FILE *fp);
+    void rewind(FILE *fp);  /* 将流设置到文件的起始位置 */
     ```
+    offset的类型是off_t的两个函数，其他的对应一样。  
+
+    ```c
+    #include <stdio.h>
+
+    off_t ftello(FILE *fp);
+
+    int fseek(FILE *fp, off_t offset, int whence);
+    ```
+    fgetpos()和fsetpos()是c标准引进的。  
     
+    ```c
+    #include <stdio.h>
 
+    int fgetpos(FILE *restrict fp, fpos_t *restrict pos);
+    /* 将文件位置指示器的当前值存入pos指向的对象中 */
 
+    int fsetpos(FILE *fp, const fpos_t *pos);
 
+    /* 返回值：成功0，出错非0 */
+    ```
+11. 格式化I/O  
+    1. 格式化输出  
+    以下4个printf函数  
 
+    ```c
+    #include <stdio.h>
 
+    int printf(const char *restrict format, ...);
+    int fprintf(FILE *restrict buf, cosnt char *restrict format, ...);
+    /* 两个函数的返回值：成功则返回输出的字符数，输出出错负值 */
 
+    int sprintf(char *restrict buf, const char *restrict format, ...);
+    int snprintf(char *restrict buf, size_t n, const char *restrict format, ...);
+    /* 两个函数的返回值：成功则返回存入数组buf的字符数，编码出错则返回负值 */
+    ```
+    printf将格式化数据写至stdout，fprintf写至指定的流，sprintf写至数组buf（尾端自动加一个null字节）（有可能使得buf指向的缓冲区溢出）  
+    转换说明：`%[flags][fldwidth][precision][lenmodifier]convtype`
+    flags（标志，如`-`左对齐），fldwidth（最小字段宽度），precision（最少输出数字位数），lenmodifier（参数长度，如`l`），convtype（转换类型，如`d`，`f`，`c`等等）；
 
+    printf族的变体，用arg代替了可变参数表`...`。  
+    
+    ```c
+    #include <stdarg.h>
+    #include <stdio.h>
 
+    int vprintf(const char *restrict format, va_list arg);
+    int vfprintf(FILE *restrict fp, const char *restrict format, va_list arg);
+    /* 返回值：成功返回输出字符数，输出出错返回负值 */
+    
+    int vsprintf(char *retstrict buf, cosnt char *restrict format, va_list arg);
+    int vsnprintf(char *restrict buf, size_t n, const char *restrict format, va_list arg);
+    /* 返回值：成功则返回存入数组buf的字符数，编码出错则返回负值 */
+    ```
+     
+     2. 格式化输入  
+     3个scanf函数，将输入字符串序列转换成指定类型的变量。  
+     
+     ```c
+     #include <stdio.h>
 
+     int scanf(const char *restrict format, ...);
+     int fscanf(FILE *restrict fp, const char *restrict format, ...);
+     int sscanf(const char *restrict buf, cosnt char *restrict format, ...);
+     ```
+     转换说明：`%[*][fldwidth][lenmodifier]convtype`
+ 
+    ```c
+    #include <stdarg.h>
+    #include <stdio.h>
+
+    int vscanf(const char *restrict format, va_list arg);
+    int vfscanf(FILE *restrict fp, const char *restrict format, va_list arg);
+    int vsscanf(char *retstrict buf, cosnt char *restrict format, va_list arg);
+    /* 返回值：指定的输入项数，输入出错
+    或在任以变换前已经到达文件结尾则返回EOF */
+    ```
+12. 实现细节  
+    在UNIX系统中，标准I/O库最终都要调用chapter 3的I/O例程。每个标准I/O流都有一个相关联的文件描述符，调用fileno可获得一个流的描述符。  
+
+    ```c
+    #include <stdio.h>
+
+    int fileno(FILE *fp);
+    /* 返回值：与流关联的文件描述符 */
+    ```
+13. 临时文件  
+    "ISO C"标准库提供两个函数用来创建临时文件。  
+
+    ```c
+    #include <stdio.h>
+
+    char *tmpnam(char *ptr);
+    /* 返回值：指向唯一路径名的指针 */
+
+    FILE *tmpfile(void);
+    /* 返回值：成功则返回文件指针fp，出错NULL */
+    ```
+    "Single UNIX Specification"定义了另外两个函数，第一个函数是tempnam()，它是tmpnam()的变体，允许路径名指定目录和前缀。  
+
+    ```c
+    #include <stdio.h>
+
+    char *tempnam(const char *directory, cosnt char *prefix);
+    /* 返回值：指向唯一路径名的指针 */
+    ```
+    第二个函数是mkstemp(), 类似于tmpfile()，但不返回文件指针fp，而是临时文件的打开文件描述符。另外，mkstemp创建的临时文件不会自动被删除。  
+
+    ```c
+    #include <stdio.h>
+
+    int mkstemp(char *template);
+    /* 返回值：成功返回文件描述符fd，出错-1 */
+    ```
+    tempnam()和mkstemp()缺点：“返回唯一路径名”和“应用程序用该路径名创建文件”之间存在时间延迟，可能在这期间有别的进程创建了一个同名文件。
+
+14. 标准I/O的替代软件  
+    标准I/O库的一个缺点是**效率不高**，例如每次一行的fgets()和fputs()，分别需要复制两次数据：①“内核”和“标准I/O缓冲”之间（调用read和write）。②“标准I/O缓冲区”和“用户程序中的行缓冲区”之间。
+    * 快速I/O库(fio)，使用“读一行的函数”返回指针，改进了，而不是将该行复制到另一个缓冲区。
+    * sfio
+    * ASI(Alloc Stream Interface)使用了映射文件——mmap函数
+
+15. 小结  
+    大多数UNIX应用程序都使用标准I/O库。     
+    本章说明了标准I/O提供的**所有**函数,以及实现细节和效率的考虑。  
+    标准I/O使用了**缓冲**技术。这是一个容易产生问题的区域。  
 <br>  
 
 [返回主目录]: /2014/09/22/notes-of-apue.html
