@@ -4,7 +4,7 @@ title: Notes of APUE 6
 ---
 
 #{{ page.title }}  
-<p class="meta">22 Sep 2014 - Guangzhou</p>   
+<p class="meta">16 Oct 2014 - Guangzhou</p>   
 +++++++++++++++++  
 
 ##[返回主目录][]  
