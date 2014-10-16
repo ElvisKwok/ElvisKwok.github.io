@@ -127,7 +127,7 @@ title: Notes of APUE 6
     /* 返回值：成功非负，出错-1 */
     ```
 
-    只返回主机名的函数。  
+    只返回主机名的函数。hostname(1)命令可获取和设置主机名  
     
     ```c
     #include <unistd.h>
@@ -137,7 +137,75 @@ title: Notes of APUE 6
     /* 返回值：成功0，出错-1 */
     ```
 
+10. 时间和日期例程  
+    日历时间包含时间和日期。内核提供的基本时间服务是从UTC 1970.1.1 00:00:00以来的秒数，用数据类型time_t表示。  
+    time()返回当前时间和日期。  
+
+    ```c
+    #include <time.h>
+
+    time_t time(time_t *calptr);
+    /* 返回值：成功返回时间值，出错-1 */
+    ```
+    gettimeofday()提供了微秒级的精确度。  
+
+    ```c
+    #include <sys/time.h>
+
+    int gettimeofday(struct timeval *restrict tp, void *restrict tzp);
+    /* 该函数将当前时间存放在tp指向的timeval结构中*/
+    /* tzp的唯一合法值是NULL */
+    /* 返回值：总是返回0 */
+    ```
+    timeval结构：
+
+    ```c
+    struct timeval {
+        time_t tv_sec;      /* seconds */
+        long tv_usec;       /* microseconds */
+    }
+    ```
+    获得秒数后，通常调用函数转换为可读的时间日期。各个时间函数的关系如下图所示：  
+    ![img][6.10.1]  
+    可读时间用一个tm结构存放：  
+    ![img][6.10.2]
+    接下来分别介绍gmtime(), localtime(), mktime(), asctime(), ctime(), strftime()  
+
+    ```c
+    #include <time.h>
+
+    struct tm *gmtime(const time_t *calptr);        /* utc时间 */
+    struct tm *localtime(const time_t *calptr);     /* 本地时间 */
+    /* 返回值：指向tm结构的指针 */
+    
+    time_t mktime(struct tm *tmptr);        /* 以本地时间的年月日为参数 */
+    /* 返回值：成功返回日历时间，出错-1 */
+
+    char *asctime(const struct tm *tmptr);  /* 指向年月日等字符串的指针 */
+    char *ctime(const time_t *calptr);      /* 参数：指向日历时间的指针calptr */
+    /* 两个函数产生类似与date(1)命令的输出 */
+    /* 返回值：指向null结尾的字符串指针 */
+
+    size_t strftime(char *restrict buf, size_t maxsize,
+                    const char *restrict format,
+                    const struct tm *restrict tmptr);
+    /* 格式化结果存放在大小为maxsize的buf数组 */
+    /* format控制时间值的格式，类似与printf的%后面 */
+    /* 参数tmptr是要格式化的时间值 */
+    /* 返回值：有空间? 存入数组的字符数: 0；*/
+    ```
+
+11. 小结  
+    * 本章说明了读“口令文件”和“组文件”的各种函数。
+    * 也介绍了阴影口令，增加系统安全性。
+    * 附加组ID使得用户可以同时参加多个组。
+    * 还介绍了存取其他系统数据文件的类似函数。
+    * 系统标识函数uname()，hostname()等等。
+    * 时间和日期的一些函数。
+
 <br>  
 
 [返回主目录]: /2014/09/22/notes-of-apue.html
 [6.7]: /images/apue/6.7.png "system data file"
+[6.10.1]: /images/apue/6.10.1.png "relation of each time function"
+[6.10.2]: /images/apue/6.10.2.png "struct tm"
