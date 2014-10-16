@@ -90,7 +90,8 @@ title: Notes of APUE 6
     #include <unistd.h>     /* on FreeBSD, Mac Os X, and Solaris */
     
     int setgroups(int ngroups, const gid_t grouplist[]);
-    int initgroups(const char *username, gid_t basegid);    /* not available on Solaris */
+    int initgroups(const char *username, gid_t basegid);   
+    /* initgroups() not available on Solaris */
     /* 返回值：成功0，出错-1 */
     ```
 
@@ -168,7 +169,7 @@ title: Notes of APUE 6
     获得秒数后，通常调用函数转换为可读的时间日期。各个时间函数的关系如下图所示：  
     ![img][6.10.1]  
     可读时间用一个tm结构存放：  
-    ![img][6.10.2]
+    ![img][6.10.2]  
     接下来分别介绍gmtime(), localtime(), mktime(), asctime(), ctime(), strftime()  
 
     ```c
