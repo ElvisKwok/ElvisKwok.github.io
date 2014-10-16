@@ -7,7 +7,7 @@ title: Notes of Ds and Alg in C
 <p class="meta">16 Oct 2014 - Guangzhou</p>   
 +++++++++++++++++  
 
-##[返回主目录][]  
+###[返回主目录][]  
 <br>
 
 ##Chapter :

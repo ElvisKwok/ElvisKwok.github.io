@@ -7,7 +7,7 @@ title: Notes of APUE 6
 <p class="meta">16 Oct 2014 - Guangzhou</p>   
 +++++++++++++++++  
 
-##[返回主目录][]  
+###[返回主目录][]  
 <br>
 
 ##Chapter 6: 系统数据文件和信息
@@ -39,6 +39,70 @@ title: Notes of APUE 6
     void setpwent(void);    /* 定位到文件开始处（反绕）*/
     void endpwent(void);    /* 关闭口令文件 */
     ```
+
+3. 阴影口令  
+    阴影口令文件`/etc/shadow`通常是有setID为root的程序才能存取，如login(1)和passwd(1)。有一组函数可用于访问阴影口令文件。  
+
+    ```c
+    #include <shadow.h>
+    
+    struct spwd *getspnam(const char *name);
+    struct spwd *getspent(void);
+    /* 返回值：成功返回指针，出错NULL */
+    
+    void setspent(void);
+    void endspent(void);
+    ```
+
+4. 组文件  
+    下列两个由POSIX.1定义的函数来查看组名或数值组ID。
+
+    ```c
+    #include <grp.h>
+
+    struct group *getgrgid(git_t gid);
+    struct group *getgrnam(const char *name);
+    /* 返回值：成功返回指向一个静态变量的指针，出错NULL */
+    ```
+    搜索整个组文件(Single UNIX Specification的XSI扩展)：  
+
+    ```c
+    #include <grp.h>
+
+    struct group *getgrent(void);
+    /* 返回值：成功指针，出错或文件结尾返回NULL */
+
+    void setgrent(void);    /* 打开组文件并“反绕” */
+    void endgrent(void);
+    ```
+
+5. 附加组ID  
+    使用附加组ID的优点是不必显式地经常更改组。获取和设置附加组ID的三个函数：  
+    
+    ```c
+    #include <unistd.h>
+    
+    int getgroups(int gidsetsize, gid_t grouplist[]);
+    /* 将各个附加组ID写入数组grouplist中，该数组存放元素个数最多为gidsetsize */
+    /* 返回值：成功返回实际填写的附加组ID数目，出错-1 */
+    
+    #include <grp.h>        /* on Linux */
+    #include <unistd.h>     /* on FreeBSD, Mac Os X, and Solaris */
+    
+    int setgroups(int ngroups, const gid_t grouplist[]);
+    int initgroups(const char *username, gid_t basegid);    /* not available on Solaris */
+    /* 返回值：成功0，出错-1 */
+    ```
+
+6. 实现的区别  
+7. 其他数据文件  
+    一般数据文件都有这3个函数变体：
+    * get，读下一个记录（可顺便打开文件），返回指向静态结构的指针（要保存其内容，需要复制它），文件结尾返回NULL。
+    * set，打开数据文件（若还没打开），然后“反绕”该文件。常用于希望在文件起始处开始处理的情况。
+    * end，关闭数据文件。
+　　另外， 有些“搜索指定关键字的记录”的例程。如getpwnam()寻找指定用户名的记录，getpwduid()寻找指定用户ID的记录。  
+
+
 
 <br>  
 
