@@ -17,7 +17,7 @@ title: Notes of APUE
 ###[Chapter 3][]: 文件I/O
 ###[Chapter 4][]: 文件和目录
 ###[Chapter 5][]: 标准I/O库
-
+###[Chapter 6][]: 系统数据文件和信息
 
 [Outline]: /apue/2014-09-22-notes-of-apue-0.html  
 [Chapter 1]: /apue/2014-09-22-notes-of-apue-1.html  
@@ -25,3 +25,4 @@ title: Notes of APUE
 [Chapter 3]: /apue/2014-09-22-notes-of-apue-3.html
 [Chapter 4]: /apue/2014-09-22-notes-of-apue-4.html
 [Chapter 5]: /apue/2014-09-22-notes-of-apue-5.html
+[Chapter 6]: /apue/2014-09-22-notes-of-apue-6.html
