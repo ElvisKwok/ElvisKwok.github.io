@@ -12,12 +12,12 @@ title: Notes of APUE 6
 
 ##Chapter 6: 系统数据文件和信息
 1. 引言  
-    例如，口令文件`/etc/passwd`和组文件`/etc/group`就是经常由多种程序使用的两个文件。  
-    我们需要能够以非ASCII文本格式存放这些文件，但仍向应用程序提供可以处理任何一种文件格式的接口。   
-    针对这些数据文件的可移植接口是本章的主题，本章还介绍系统标识函数、时间和日期函数。  
+　　例如，口令文件`/etc/passwd`和组文件`/etc/group`就是经常由多种程序使用的两个文件。  
+　　我们需要能够以非ASCII文本格式存放这些文件，但仍向应用程序提供可以处理任何一种文件格式的接口。   
+　　针对这些数据文件的可移植接口是本章的主题，本章还介绍系统标识函数、时间和日期函数。  
 
 2. 口令文件  
-    POSIX.1只定义了两个获取口令文件项的函数。给出用户登录名或数值用户ID，就能查询相关项。  
+　　POSIX.1只定义了两个获取口令文件项的函数。给出用户登录名或数值用户ID，就能查询相关项。  
 
     ```c
     #include <stdio.h>
@@ -28,7 +28,7 @@ title: Notes of APUE 6
     /* 处理登录名，它由login程序使用 */
     /* 返回值：成功则返回一个指向passwd结构的指针，出错NULL */
     ```
-    以下3个函数可用于查看整个口令文件(Single UNIX Specification的XSI扩展)。  
+　　以下3个函数可用于查看整个口令文件(Single UNIX Specification的XSI扩展)。  
 
     ```c
     #include <pwd.h>
@@ -41,7 +41,7 @@ title: Notes of APUE 6
     ```
 
 3. 阴影口令  
-    阴影口令文件`/etc/shadow`通常是有setID为root的程序才能存取，如login(1)和passwd(1)。有一组函数可用于访问阴影口令文件。  
+　　阴影口令文件`/etc/shadow`通常是有setID为root的程序才能存取，如login(1)和passwd(1)。有一组函数可用于访问阴影口令文件。  
 
     ```c
     #include <shadow.h>
@@ -77,7 +77,7 @@ title: Notes of APUE 6
     ```
 
 5. 附加组ID  
-    使用附加组ID的优点是不必显式地经常更改组。获取和设置附加组ID的三个函数：  
+　　使用附加组ID的优点是不必显式地经常更改组。获取和设置附加组ID的三个函数：  
     
     ```c
     #include <unistd.h>
@@ -106,7 +106,7 @@ title: Notes of APUE 6
     ![img][6.7]
 
 8. 登录账户记录  
-    utmp文件记录当前登录进系统的各个用户。wtmp文件跟踪各个登录和注销事件。这两个文件的结构记录为：  
+　　utmp文件记录当前登录进系统的各个用户。wtmp文件跟踪各个登录和注销事件。这两个文件的结构记录为：  
 
     ```c
     struct utmp {
@@ -115,8 +115,8 @@ title: Notes of APUE 6
         long ut_time;       /* seconds since Epoch */
     };
     ```
-    登录时，login程序填写此类型结构，然后写入utmp文件中，也append到wtmp文件中。注销时，init进程将utmp文件相应记录erase。append一个注销记录在wtmp文件中。  
-    who(1)程序读utmp文件，last(1)读wtmp文件。  
+　　登录时，login程序填写此类型结构，然后写入utmp文件中，也append到wtmp文件中。注销时，init进程将utmp文件相应记录erase。append一个注销记录在wtmp文件中。  
+　　who(1)程序读utmp文件，last(1)读wtmp文件。  
 
 9. 系统标识  
     POSIX.1定义的uname函数，返回与当前主机和os有关信息。  
@@ -139,8 +139,8 @@ title: Notes of APUE 6
     ```
 
 10. 时间和日期例程  
-    日历时间包含时间和日期。内核提供的基本时间服务是从UTC 1970.1.1 00:00:00以来的秒数，用数据类型time_t表示。  
-    time()返回当前时间和日期。  
+　　日历时间包含时间和日期。内核提供的基本时间服务是从UTC 1970.1.1 00:00:00以来的秒数，用数据类型time_t表示。  
+　　time()返回当前时间和日期。  
 
     ```c
     #include <time.h>
@@ -148,7 +148,7 @@ title: Notes of APUE 6
     time_t time(time_t *calptr);
     /* 返回值：成功返回时间值，出错-1 */
     ```
-    gettimeofday()提供了微秒级的精确度。  
+　　gettimeofday()提供了微秒级的精确度。  
 
     ```c
     #include <sys/time.h>
@@ -158,7 +158,7 @@ title: Notes of APUE 6
     /* tzp的唯一合法值是NULL */
     /* 返回值：总是返回0 */
     ```
-    timeval结构：
+　　timeval结构：
 
     ```c
     struct timeval {
@@ -166,11 +166,11 @@ title: Notes of APUE 6
         long tv_usec;       /* microseconds */
     }
     ```
-    获得秒数后，通常调用函数转换为可读的时间日期。各个时间函数的关系如下图所示：  
+　　获得秒数后，通常调用函数转换为可读的时间日期。各个时间函数的关系如下图所示：  
     ![img][6.10.1]  
-    可读时间用一个tm结构存放：  
+　　可读时间用一个tm结构存放：  
     ![img][6.10.2]  
-    接下来分别介绍gmtime(), localtime(), mktime(), asctime(), ctime(), strftime()  
+　　接下来分别介绍gmtime(), localtime(), mktime(), asctime(), ctime(), strftime()  
 
     ```c
     #include <time.h>

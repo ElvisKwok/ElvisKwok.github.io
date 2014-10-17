@@ -48,6 +48,8 @@ Markdown是一种标记语言（文本的格式化表示），之所以选择Mar
 	* 定义h2  
 	THIS IS H2  
 
+增加中文可读性，将缩进改为“全角”的两个空格，形成一个段落。  
+
 ***段落引用***：使用">"作为段落的前缀，标识该段落是引用部分，类似于Email标记的应用文字     
 
 ```
@@ -165,7 +167,8 @@ bdfdf
 csaf
 ```
 
-***代码高亮highlight***: 修改 _config.yml 为`markdown: redcarpet`
+***代码高亮highlight***: 修改 _config.yml 为`markdown: redcarpet`  
+其他语言的高亮可替换为php，**bash**等等  
 
 \`\`\`c  
 \#include <stdio.h>  
