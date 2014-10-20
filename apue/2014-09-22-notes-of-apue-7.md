@@ -14,11 +14,11 @@ title: Notes of APUE 7
 1. 引言  
     本章将学习：  
     * 执行程序时，main函数如何被调用
+    * 不同的进程终止方式
     * 命令行参数如何传给执行程序
     * 典型的存储器布局
     * 如何分配另外的存储空间
     * 进程如何使用环境变量
-    * 不同的进程终止方式
     * longjmp()和setjmp()，以及它们与栈的交互作用
     * 进程的资源限制
 
@@ -53,13 +53,13 @@ title: Notes of APUE 7
 
     void _exit(int status);
     ```
-　　status是终止状态。以下三种情况会导致终止状态未定义：  
+　　status是终止状态。以下三种情况会导致“终止状态未定义”：  
 　　(a) 调用这些函数不带参数。  
 　　(b) main执行了一个无返回值的return语句。  
 　　(c) main没有声明返回类型为整型。  
 　　`exit(0);`等价于`return(0);`  
     2. atexit函数  
-　　exit会自动调用一些函数——“终止处理程序”(exit handler)，并调用atexit函数来登记(register)这些函数。调用这些函数的顺序与登记它们的顺序相反（先atexit(f2)再atext(f1)，结果是f1先调用）同一函数登记多次，也会调用多次。  
+　　exit会自动调用一些函数——“终止处理程序”(exit handler)，并调用atexit函数来登记(register)这些函数。调用这些函数的顺序与登记它们的顺序相反（先登记atexit(f2)再登记atext(f1)，结果是f1先调用）同一函数登记多次，也会调用多次。  
 
     ```c
     #include <stdlib.h>
@@ -142,7 +142,7 @@ title: Notes of APUE 7
     #include <stdlib.h>
 
     int putenv(char *str);
-    /* str字符串为“name=value”
+    /* str字符串为“name=value” */
     /* return: 成功0，出错非0 */
 
     int setenv(const char *name, const char *value, int rewrite);
@@ -151,7 +151,54 @@ title: Notes of APUE 7
     ```
     
 10. setjmp和longjmp函数  
+　　这两个函数是“非局部的goto”，可以跨越函数跳转。常用于：处理发生在深层嵌套函数调用中的出错情况。 
+    
+    ```c
+    #include <setjmp.h>
 
+    int setjmp(jmp_buf env);
+    /* 返回值：直接调用则返回0，从longjmp调用(出错情况)返回非0值 */
+
+    void longjmp(jmp_buf env, int val);
+    ```
+　　在希望返回的位置调用setjmp，在用户函数的出错情况调用longjmp。longjmp的非0值val参数标识哪一个用户函数。比如在f1()中调用longjmp(jmpbuffer, 1)，在f2()中调用longjmp(jmpbuffer, 2)。  
+　　每个函数都有一个栈帧(main函数栈帧位于全局栈的底部)，函数自己的***自动变量***存放在自己的栈帧中。  
+　　但是longjmp()会使得栈“反绕”到main函数中（例如在f2调用longjmp，则f1和f2的栈帧会被删掉，剩下main栈帧）。  
+    问题来了：自动autoval、寄存器变量regival的值：
+    * 可能会回滚到原先值（gcc -O编译优化的情况，autoval和regival存放在寄存器）
+    * 可能保持为调用用户函数时的值（不进行任何优化的情况，autoval和regival存放在存储器中）  
+    其他类型的变量如全局变量globval、静态变量statval和易失变量volaval不受影响。  
+    将变量定义为易失变量（volatile属性），如`volatile int volaval`，可以使得执行longjmp时变量volaval不回滚。  
+
+11. getrlimit和setrlimit函数  
+　　getrlimit()和setrlimit()可以查询和更改进程的资源限制(resource limit)。  
+
+    ```c
+    #include <sys/resources.h>
+
+    int getrlimit(int resource, struct rlimit *rlptr);
+    int setrlimit(int resource, const struct rlimit *lrptr);
+    /* 返回值：成功0，出错非0 */
+    
+    /* rlimit结构成员如下： */
+    struct rlimit {
+        rlim_t rlim_cur;    /* soft limit: current limit */
+        rlim_t rlim_max;    /* hard limit: max value for rlim_cur */
+    };
+    /* 
+     * ① soft_limit < hard_limit
+     * ② 只有超级用户才可改变hard_limit
+     */
+    ```
+12. 小结    
+    理解“UNIX下C程序的环境”是理解“UNIX进程控制特征”的先决条件。  
+    本章说明了：  
+    * 程序是如何启动和终止
+    * 如何向程序传递参数表和环境
+    * C程序的典型存储空间布局
+    * 进程如何动态地分配和释放存储器
+    * setjmp()和longjmp()提供的进程内非局部跳转的方法
+    * 各种实现提供的资源限制功能
 
 
 
