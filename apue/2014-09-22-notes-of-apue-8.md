@@ -74,7 +74,7 @@ title: Notes of APUE 8
 　　**父、子进程的区别有：**  
 　　①fork的返回值  
 　　②进程ID不同，父进程ID也不同  
-　　③子进程tms_utime,tms_stime,tms_cutime,tms_ustime被设为0  
+　　③子进程tms\_utime,tms\_stime,tms\_cutime,tms\_ustime被设为0  
 　　④父进程设置的文件锁不会被子进程继承  
 　　⑤子进程未处理的闹钟(alarm)会被清除  
 　　⑥子进程未处理的信号集设置为空集  
@@ -88,24 +88,88 @@ title: Notes of APUE 8
 4. vfork函数  
 　　与fork()不同:  
 　　①vfork()创建新进程的目的是exec一个新程序。  
-　　②vfork()出来的子进程不会完全复制父进程的地址空间，因为子进程会立即调用exec或exit，不会访问到该地址空间。  
+　　②vfork()出来的子进程**不会完全复制**父进程的地址空间，因为子进程会立即调用exec或exit，不会访问到该地址空间。  
 　　③子进程在调用exec或exit之前，还在父进程的空间中运行（所以子进程可能改变父进程的变量值）。  
 　　④vfork()保证子进程先运行。因此不需要父进程调用sleep等待。内核会保证子进程调用exec时，父进程处于休眠状态。  
-　　notice：实例程序在子进程中使用_exit而不是exit，因为_exit不会flush标准I/O的缓冲，exit会，若使用exit，由于子进程借用了父进程的地址空间，当父进程恢复运行时，printf可能不会产生任何输出（如果该实现也关闭标准I/O流）  
+　　notice：实例程序在子进程中使用\_exit而不是exit，因为\_exit不会flush标准I/O的缓冲，exit会，若使用exit，由于子进程借用了父进程的地址空间，当父进程恢复运行时，printf可能不会产生任何输出（如果该实现也关闭标准I/O流）  
 
 5. exit函数  
 　　7.3节提到5+3种进程终止方式，但是无论哪一种方式，都会执行内核中的同一段代码，其功能是为相应进程关闭所有打开的fd，释放它使用的存储器等。  
-　　“退出状态”是exit()或_exit()的参数，内核调用_exit()时，会把“退出状态”转换成“终止状态”。  
+　　“退出状态”是exit()或\_exit()的参数，内核调用\_exit()时，会把“退出状态”转换成“终止状态”。  
 　　①如果父进程在子进程之前终止：子进程的父进程改变为init进程，这种现象称为“子进程被init进程领养”。所以“一个init的子进程”有两种可能（init直接产生、领养）  
 　　②如果子进程在父进程之前终止：父进程可以调用wait()或waitpid()捕捉子进程的终止状态，内核可以释放“终止进程”所使用的的存储区（“善后”处理）。如果子进程已经终止，父进程还没将它“善后”，这种进程称为僵死进程(zombie)。ps(1)命令输出的状态为Z。（ps: init进程领养的进程不会变成zombie，init会调用wait()获取领养进程的终止状态）  
 
 6. wait和waitpid函数  
+　　进程终止（正常或异常）时，内核会向它的父进程发送异步信号SIGHLD（因为子进程可在父进程运行的任何时候终止）  
+　　调用wait或waitpid的三种结果：  
+　　①阻塞：所有子进程仍在运行。  
+　　②返回某一子进程的终止状态：该子进程已终止。  
+　　③返回出错。不存在子进程。  
 
+    ```c
+    #include <sys/wait.h>
+    
+    pid_t wait(int *statloc);                               
+    /* 子进程终止前，调用者（父进程）会阻塞 */
+    
+    pid_t waitpid(pid_t pid, int *staloc, int options);     
+    /* 调用者可以不阻塞（根据options） */
+    /* 参数pid指定等待的进程: 
+     * pid == -1表示等待任一子进程
+     * pid > 0  表示等待进程pid
+     * pid == 0 表示等待与父进程同一组ID的任一子进程
+     * pid < -1 表示等待组ID==|pid|的任一子进程
+     */
 
+    /* statloc指针指向的单元保存子进程的终止状态 */
+    /* 两个函数返回值：成功返回进程ID，0，出错返回-1 */
+    ```
+　　以下四个宏可用来检查wait()和waitpid()返回的终止状态statloc（或称status）：  
+　　WIFEXITED(status)为真则表示子进程正常终结，WIFSIGNALED(status)为真则表示异常终结；WIFSTOPPED(status)为真则表示子进程当前暂停，WIFCONTINUED(status)为真则表示暂停的子进程已经继续。  
+　　waitpid()有，wait()没有的三个功能：  
+　　①waitpid()可等待指定进程；   
+　　②非阻塞；  
+　　③waitpid()支持作业控制；  
+　　现在有这样的需求：fork子进程之后：①不等待子进程终止；②不希望父进程终止后，子进程处于僵死状态。  
+　　Solution：调用两次fork  
 
-<br>  
+7. waitid函数  
+　　Single UNIX Specification的XSI扩展，类似于waitpid()，也是取进程终止状态的函数，灵活性增加。但是只有Solaris支持waitid()  
+
+    ```c
+    #include <sys/wait.h>
+
+    int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
+    /* 返回值：成功0，出错-1 */
+    ```
+
+8. wait3和wait4函数  
+　　这两个函数提供一个参数rusage指针，要求内核返回终止进程和所有子进程使用的资源汇总（用户、系统cpu时间，页面出错次数、接收到的信号次数等）。
+
+    ```c
+    #include <sys/types.h>
+    #include <sys/wait.h>
+    #include <sys/time.h>
+    #include <sys/resource.h>
+
+    pid_t wait3(int *statloc, int options, struct rusage *rusage);
+    pid_t wait4(pid_t int *statloc, int options, struct rusage *rusage);
+    /* 返回值：成功：进程ID，出错：-1 */
+    ```
+
+9. 竞争条件  
+　　发生竞争条件(race condition)：多进程处理共享数据，最后结果取决于进程的运行顺序。  
+　　fork之后无法预料父、子谁先运行，即使sleep也无法保证。（系统负载很重时），而轮询（polling）又浪费cpu时间。  
+　　实例程序（具有竞争条件）会产生错误输出:  
+　　![img][8.9]  
+　　以下五个例程：`TELL_WAIT, TELL_PARENT, TELL_CHILD, WAIT_PARENT, WAIT_CHILD`可用于避免竞争条件，两种实现方法：信号（10.16节），管道（15.2节）  
+
+10. exec函数  
+
+<br>
 
 [返回主目录]: /2014/09/22/notes-of-apue.html
 
 [8.3.1]: /images/apue/8.3.1.png "file sharing of fork()"
 [8.3.2]: /images/apue/8.3.2.png "property inheritance"
+[8.9]: /images/apue/8.9.png "race condition"
