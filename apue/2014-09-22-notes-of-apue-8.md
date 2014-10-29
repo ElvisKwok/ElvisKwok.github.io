@@ -166,11 +166,64 @@ title: Notes of APUE 8
 
 10. exec函数  
 　　fork函数创建的子进程通常要调用exec函数，exec函数不创建新进程，执行exec前后，进程ID不变。exec函数用新的程序替换进程的“正文、数据、堆和栈段”。  
+　　exec函数有以下6种：  
     
     ```c
     #inlcude <unistd.h>
     
-    int execl(const char *pathname, const char *arg0,　　
+    int execl(const char *pathname, const char *arg0, ... /* (char *)0 */ );
+    int execv(cosnt char *pathname, char *const argv[]);
+    int execle(cosnt char *pathname, const char *arg0, ...
+                /* (char *)0, char *constt envp[] */ );
+    int execve(cosnt char *pathname, char *cosnte argv[], char *cosnt envp[]);
+    int execlp(const char *filenaem, const char *arg0, ... /* (char *)0 */ );
+    int execvp(const char *filename, char *const argv[]);
+    /* 6个函数返回值：出错-1，成功不返回值 */
+    ```
+　　区别：  
+　　①第一个参数为路径名vs文件名。若为文件名，文件名包含`/`，则视为路径名，否则按照PATH变量(这就是最后两个函数的名字含有ｐ的原因)。  
+　　②参数表的传递（l表示lish，v表示矢量vector）。execl、execlp和execle要求新程序的每个命令行参数都说明为对应的一个“单独”的参数const char \*argi等等，这种参数表以空指针（`(char *)0`）结尾；execv、execve和execvp要求先构造一个指针数组`const char *argv[]`，保存各个命令行参数，然后用这个数组的地址作为3个函数的参数。  
+　　③向新程序传递环境表。e结尾的两个函数，可以传递一个指向环境字符串指针数组的指针(`char *const envp[]`)。  
+　　系统的实现对参数表的长度有限制，可以使用xargs(1)命令，将参数表分解成几个部分。e.g.:  
+    
+    ```bash
+    $ rm `find / -type -f`
+    # 会报错为：传输给rm程序的参数列表太长
+    
+    # 解决方法：
+    $ find / -type -f | xargs rm
+    # xargs将find产生的长串文件列表拆散成多个子串，然后对每个子串调用rm。
+    ```
+
+11. 更改用户ID和组ID  
+　　setuid函数设置实际用户ID和有效用户ID，setgid设置...组..  
+
+    ```c
+    #include <unistd.h>
+
+    int setuid(uid_t uid);
+    int setgid(gid_t gid);
+    /* 返回值：成功0，出错-1 */
+    ```
+　　能否实际更改用户ID的三个规则：  
+　　①进程具有超级用户特权：实际用户ID、有效用户ID、保存的设置用户ID改为参数uid；   
+　　②没有....特权，但是uid等于实际用户ID或保存的设置用户ID，则只是将有效用户ID设置为uid，其它两个用户ID不变；   
+　　③上面两个条件都不成立：errno设置为EPERM，返回-1。  
+　　书中还介绍了setreuid()和seteuid()  
+
+12. 解释器文件  
+　　解释器文件（interpreter file）是一种文本文件，第一行为`#! pathname [optioal-argument]`，例如`#! /bin/sh`。  
+　　解释器文件（文本文件，以`#!`开头）、解释器（由解释器文件的第一行中的pathname指定）  
+　　调用exec执行一个解释器文件时，argv[0]是该解释器的pathname，argv[1]是解释器的可选参数其与参数是pathname，以及execl的参数往后移。  
+　　如下图，已知解释器文件的第一行为`#! /root/code_and_book_notes/code/my_apue/testinterp foo`, 执行解释器文件的程序运行结果为：  
+　　![img][8.12]  
+　　解释器文件缺点：内核额外开销（内核要识别解释器文件）；优点：
+　　①表面上隐藏某种语言编写的脚本。只需`awkexample optional-arguments`，而不是`awk -f awkexample optional-arguments`(-f表示将要执行的awk程序是-f后的文件)。
+　　②效率（如果用一个shell脚本代替解释器脚本需要更多的开销：例如为了运行上例中的awk程序，shell脚本还需要调用fork、exec和wait）
+　　③使得我们可选其他shell（例如csh）来编写shell脚本  
+
+13. system函数  
+
 
 <br>
 
@@ -179,3 +232,4 @@ title: Notes of APUE 8
 [8.3.1]: /images/apue/8.3.1.png "file sharing of fork()"
 [8.3.2]: /images/apue/8.3.2.png "property inheritance"
 [8.9]: /images/apue/8.9.png "race condition"
+[8.12]: /images/apue/8.12.png "interpreter file"
