@@ -12,7 +12,7 @@ title: Notes of APUE 8
 
 ##Chapter 8: 进程控制
 1. 引言  
-    本章介绍的UNIX进程控制，包括：
+    本章介绍的UNIX进程控制，包括：（基本的进程控制原语: fork创建新进程，exec执行新程序，exit函数和两个wait函数处理终止和等待终止）   
     * 创建新进程
     * 执行程序
     * 进程终止
@@ -165,6 +165,12 @@ title: Notes of APUE 8
 　　以下五个例程：`TELL_WAIT, TELL_PARENT, TELL_CHILD, WAIT_PARENT, WAIT_CHILD`可用于避免竞争条件，两种实现方法：信号（10.16节），管道（15.2节）  
 
 10. exec函数  
+　　fork函数创建的子进程通常要调用exec函数，exec函数不创建新进程，执行exec前后，进程ID不变。exec函数用新的程序替换进程的“正文、数据、堆和栈段”。  
+    
+    ```c
+    #inlcude <unistd.h>
+    
+    int execl(const char *pathname, const char *arg0,　　
 
 <br>
 
