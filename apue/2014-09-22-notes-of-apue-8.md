@@ -224,6 +224,14 @@ title: Notes of APUE 8
 
 13. system函数  
 
+    ```
+    macbook部分
+    ENTER修改为EINTR
+    ```
+　　若cmdstring是一个空指针，则“命令处理程序”可用时，system返回非0值。在UNIX中，system总是可用的。  
+　　下图第3、4行展示了shell不能执行的情况：  
+　　![img][8.13]
+
 
 <br>
 
@@ -233,3 +241,4 @@ title: Notes of APUE 8
 [8.3.2]: /images/apue/8.3.2.png "property inheritance"
 [8.9]: /images/apue/8.9.png "race condition"
 [8.12]: /images/apue/8.12.png "interpreter file"
+[8.13]: /images/apue/8.13.png "system() status"
