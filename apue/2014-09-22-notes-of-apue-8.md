@@ -231,6 +231,10 @@ title: Notes of APUE 8
 　　若cmdstring是一个空指针，则“命令处理程序”可用时，system返回非0值。在UNIX中，system总是可用的。  
 　　下图第3、4行展示了shell不能执行的情况：  
 　　![img][8.13]
+　　notice：设置用户ID或设置组ID程序决不应该调用system函数，system在执行了fork和exec后会把权限保持下来，造成安全性漏洞。  
+
+14. 进程会计  
+　　process accounting的会计记录结构定义在头文件`<sys/acct.h>`，会计记录所需的各种数据都由内核保存在进程表中，进程结束时才编写一条会计记录（因此记录顺序对应于进程结束的顺序）。
 
 
 <br>
