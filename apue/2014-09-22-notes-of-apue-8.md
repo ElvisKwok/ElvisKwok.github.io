@@ -224,10 +224,15 @@ title: Notes of APUE 8
 
 13. system函数  
 
+    ```c
+    #include <stdlib.h>
+    
+    int system(const char *cmdstring);
     ```
-    macbook部分
-    ENTER修改为EINTR
-    ```
+　　system在实现中调用了fork、exec和waitpid，因此有3种返回值：  
+　　①fork失败或waitpid“返回除EINTR之外的出错”，system返回-1，并设置错误类型值errno；  
+　　②exec失败（表示不能执行shell），返回值==shell执行exit(127)的返回值；  
+　　③三个函数都成功执行，system的返回值是shell的终止状态。  
 　　若cmdstring是一个空指针，则“命令处理程序”可用时，system返回非0值。在UNIX中，system总是可用的。  
 　　下图第3、4行展示了shell不能执行的情况：  
 　　![img][8.13]
