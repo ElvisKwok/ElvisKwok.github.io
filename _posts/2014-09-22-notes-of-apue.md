@@ -20,6 +20,7 @@ title: Notes of APUE
 ###[Chapter 6][]: 系统数据文件和信息
 ###[Chapter 7][]: 进程环境 
 ###[Chapter 8][]: 进程控制
+###[Chapter 9][]: 进程关系
 
 [Outline]: /apue/2014-09-22-notes-of-apue-0.html  
 [Chapter 1]: /apue/2014-09-22-notes-of-apue-1.html  
@@ -30,3 +31,4 @@ title: Notes of APUE
 [Chapter 6]: /apue/2014-09-22-notes-of-apue-6.html
 [Chapter 7]: /apue/2014-09-22-notes-of-apue-7.html
 [Chapter 8]: /apue/2014-09-22-notes-of-apue-8.html
+[Chapter 9]: /apue/2014-09-22-notes-of-apue-9.html

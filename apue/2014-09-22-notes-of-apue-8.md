@@ -243,6 +243,48 @@ title: Notes of APUE 8
 　　以下是会计记录的结构成员：  
     ![img][8.14]  
 
+15. 用户标识  
+　　任一进程都能得到其实际和有效用户ID及组ID(如`getuid()`)。但是要找到运行这个程序的用户登录名，可以用`getpwuid(getuid())`。如果一个用户（同一个用户ID）有多个登录名，可以用getlogin()。  
+    
+    ```c
+    #include <unistd.h>
+    
+    char *getlogin(void);
+    /* 返回值：成功：指向登录名字符串的指针。出错：NULL */
+    ```
+　　getlongin()对daemon守护进程失效（daemon进程没有连接到用户登录时的终端）。  
+　　根据登录名，可用getpwnam在口令文件passwd查找用户记录，从而确定其登录shell。  
+
+16. 进程时间  
+　　1.10节提及到三种时间：墙上时钟时间(进程时间总量)(real)、用户CPU时间(user)、系统CPU时间(sys)。进程可以调用times函数获得。   
+
+    ```c
+    #include <sys/times.h>
+
+    clock_t times(struct tms *buf);
+    /* times函数填写buf指向的tms结构 */
+    /* 返回值：成功则返回流逝的墙上时钟时间总数（单位：时钟滴答数），出错-1 */
+    /* 计算墙上时钟时间 ：start=times(&tmsstart)，end=times(&tmsend)，然后end-start */
+    /* 计算用户CPU时间  ：tmsend->tms_utime - tmsstart->tms_utime */
+    /* 计算系统CPU时间  ：tmsend->tms_stime - tmsstart->tms_stime */
+    ```
+　　tms结构的定义如下：
+
+    ```c
+    struct tms {
+        clock_t tms_utime;  /* user CPU time */
+        clock_t tms_stime;  /* system CPU time */
+        clock_t tms_cutime; /* user CPU time, terminated children */
+        clock_t tms_cstime; /* system CPU time, terminated children */
+    }
+    ```
+
+17. 小结  
+　　在进程控制中，必须熟练掌握几个函数——fork、exec族、\_exit、wait和waitpid。很多应用程序都会使用这些原语。  
+　　system函数、进程会计；  
+　　exec函数的另一种变体：解释器文件；  
+　　不同的用户ID和组ID（实际、有效和保存的），对编写安全的设置用户ID程序的重要性。  
+
 <br>
 
 [返回主目录]: /2014/09/22/notes-of-apue.html
