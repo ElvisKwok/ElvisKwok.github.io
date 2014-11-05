@@ -84,15 +84,63 @@ title: Notes of APUE 9
     pid_t setsid(void);
     /* 返回值：成功返回进程组pgid，出错-1 */
     ```
+　　若调用setsid()的进程pi不是一个进程组的组长，则setsid()之后：  
+　　①该进程pi成为session leader（会话首进程，创建session的进程），且进程pi是新会话的only进程；  
+　　②进程pi成为一个新的进程组的组长，且进程组pgid==进程pi的进程id；  
+　　③进程pi没有控制终端，若调用setsid()之前已有，则也会被中断。
+　
+    ```c
+    #include <unistd.h>
 
+    pid_t getsid(pid_t pid);
+    /* 
+     * 返回值：
+     * 成功：session leader的进程组pgid
+     * 出错：-1
+     */
+     ```
+ 
+6. 控制终端  
+　　①一个session可以有一个controlling terminal（终端设备（终端登录）或伪设备（网络登录））  
+　　②建立“与controlling terminal连接”的session leader被称为controlling process  
+　　③一个session的可以有前台进程组（foreground process group）和后台进程组（background）  
+　　④无论何时，若raise一个中断信号（终端中断键），该信号会发送给前台进程组的所有进程。  
+　　⑤无论何时，若raise一个退出信号（终端退出键），该信号会发送给前台进程组的所有进程。  
+　　⑥modem（或网络）断开连接，raise一个挂断信号，该信号会发送个控制进程（session leader）  
+　　在内核中，/dev/tty是控制终端的同义语。  
+　　下图显示控制终端的进程组和会话：  
+　　![img][9.6]  
 
+7. tcgetpgrp、tcsetpgrp和tcgetsid函数  
+    
+    ```c
+    #include <unistd.h>
 
+    pid_t tcgetpgrp(int fd);
+    /* 返回值：
+     * 成功：与文件描述符fd关联的控制终端的前台进程组的进程组pgid
+     * 出错：-1
+     */
+    
+    int tcsetpgrp(int fd, pid_t pgrpid)
+    /* 返回值：
+     * 成功：0
+     * 出错：-1
+     */
 
+    #inlcude <termios.h>
+    pid_t tcgetsid(int fd);
+    /* 返回值：
+     * 成功：session leader的进程组pgid
+     * 出错：-1
+     */
+    ```
 
-
+8. 作业控制  
 
 <br>  
 
 [返回主目录]: /2014/09/22/notes-of-apue.html
 [9.2]: /images/apue/9.2.png "init for terminal login"
 [9.3]: /images/apue/9.3.png "telnetd"
+[9.6]: /images/apue/9.6.png "controlling terminal"
