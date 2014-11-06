@@ -137,6 +137,20 @@ title: Notes of APUE 9
     ```
 
 8. 作业控制  
+　　三个特殊字符可使“终端驱动程序”产生信号，送至“前台进程组”的所有进程，后台进程组不受影响。这三个字符分别是：
+　　①中断字符（Ctrl+C）产生SIGINT  
+　　②退出字符（Ctrl+\）产生SIGQUIT  
+　　③挂起字符（Ctrl+z）SIGTSTP  
+　　若后台作业试图读取终端，则终端驱动程序发现后会向后台作业发送SIGITIN信号，暂停后台作业。  
+　　`fg %作业号[i]`使作业i置入前台进程组（tcsetpgrp()），同时，将SIGCONT（继续信号）送给进程组。
+　　若后台作业试图写终端（默认可以），用户可用stty(1)命令禁止，直至fg(1)命令调入前台进程组，向作业发送SIGTTOU信号。  
+　　下图总结了前后台进程组与终端驱动程序的作业控制：  
+　　![img][9.8]  
+
+9. shell执行程序  
+
+
+
 
 <br>  
 
@@ -144,3 +158,4 @@ title: Notes of APUE 9
 [9.2]: /images/apue/9.2.png "init for terminal login"
 [9.3]: /images/apue/9.3.png "telnetd"
 [9.6]: /images/apue/9.6.png "controlling terminal"
+[9.8]: /images/apue/9.8.png "job control"
