@@ -148,7 +148,10 @@ title: Notes of APUE 9
 　　![img][9.8]  
 
 9. shell执行程序  
-
+　　本节主要使用类似`ps -o pid,ppid,pgid,sid,comm | cat1 | cat2`的命令介绍shell如何执行程序，以及这与进程组、控制终端和会话等概念的关系。  
+　　管道线中最后一个进程是shell的子进程，管道线其他命令的进程是最后一个进程的子进程。  
+　　Bourne shell调用管道线`ps|cat1|cat2`时的进程如图所示：  
+　　![img][9.9]  
 
 
 
@@ -159,3 +162,4 @@ title: Notes of APUE 9
 [9.3]: /images/apue/9.3.png "telnetd"
 [9.6]: /images/apue/9.6.png "controlling terminal"
 [9.8]: /images/apue/9.8.png "job control"
+[9.9]: /images/apue/9.9.png "shell pipe"
