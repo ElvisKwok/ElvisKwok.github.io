@@ -71,6 +71,9 @@ title: Notes of the C Programming Language
 10. 命令行参数；`int argc` 参数个数（包括执行的程序）. `char *argv[]`；printf的参数可以是表达式，如`printf((argc > 1) ? “%s “ : “%s”, *++argv)`;
 11. 指向函数的指针`int (*pf)()；`qsort 命令行模式，`int (*comp)(void *, void *);` 返回指针的函数 `int *comp(void *, void *)；`
 12. 复杂声明;编写程序输出字符串解释函数的声明  
+
+notice:
+const修饰的***“只读变量”***，表明该变量的值不能被修改（由编译器限定），ANSI C规定数组定义时长度必须为***“常量”***，不能为只读变量。  
 <br>
 
 ##chapter 6: 结构
