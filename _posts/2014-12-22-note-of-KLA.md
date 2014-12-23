@@ -7,8 +7,8 @@ title: Note of KLA
 <p class="meta">22 Dec 2014 - Guangzhou</p> 
 +++++++++++++++++
 <br>
-# KLA: A New Algorithmic Paradigm for Parallel Graph Computation
-best paper of PACT 2014
+### KLA: A New Algorithmic Paradigm for Parallel Graph Computation
+*best paper of PACT 2014*
 
 ## Abstract:
 * KLA(K-Level Asychronous) is a new algorithmic paradigm that bridges level-synchronous and asynchronous paradigms for processing graphs.
