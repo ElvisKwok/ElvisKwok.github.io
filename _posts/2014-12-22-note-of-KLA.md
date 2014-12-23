@@ -11,16 +11,16 @@ title: Note of KLA
 *best paper of PACT 2014*
 
 ## Abstract:
-* KLA(K-Level Asychronous) is a new algorithmic paradigm that bridges level-synchronous and asynchronous paradigms for processing graphs.
+* KLA(K-Level Asychronous): an algorithmic paradigm that bridges level-synchronous and asynchronous paradigms for processing graphs.
 * Parametrically control the level of asynchrony in parallel graph algorithms(level-synchronous -> partially asynchronous -> completely asynchronous).
 * Motivation: improve exection times.
     + level-synchronous: few, but expensive **global** synchronizations.
     + asychronous: more, but not so expensive **local** synchronizations(perhaps with redundant work).
     + trade-off.
 * KLA paradigm is available for graph algorithm commonly.
-* K is the number of asynchronous steps allowed **between** global synchronizations.
+* K: the number of asynchronous steps allowed **between** global synchronizations.
 * Techniques for determining k.
-* Implementation of KLA in the [SGL][](STAPL Graph Library). STAPL(the Standard Template Adaptive Parallel Library) is a framework for developing parallel programs in C++. It is designed to work on both shared and distributed memory parallel computers.
+* Implementation of KLA in the [SGL][](STAPL Graph Library). 
 * Scalability: 96K cores.
 * Performance improvement: 10x over trad-alg(level-synchronous and asychronous versions).
 <br>
@@ -180,7 +180,8 @@ Describe a model to obtain a good approximation of the value Kopt for k(lowest e
 ![img][input_graphs]  
 
 ### 5.2 SGL Overview
-A library of components implementing parallel algorithms(pAlgorithms) and distributed data structures(pContainers).
+　　STAPL(the Standard Template Adaptive Parallel Library) is a framework for developing parallel programs in C++. It is designed to work on both shared and distributed memory parallel computers.
+　　A library of components implementing parallel algorithms(pAlgorithms) and distributed data structures(pContainers).
 
 ### 5.3 Level-Synchronous vs. Asynchronous BFS
 Graph 500: short diameter  
