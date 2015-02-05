@@ -1,0 +1,395 @@
+<h1 id="note-of-kla">Note of KLA</h1>
+<p class="meta">22 Dec 2014 - Guangzhou</p>
+<p>+++++++++++++++++
+<br />
+### KLA: A New Algorithmic Paradigm for Parallel Graph Computation
+<em>best paper of PACT 2014</em></p>
+
+<h2 id="abstract">Abstract:</h2>
+<ul>
+  <li>KLA(K-Level Asychronous): an algorithmic paradigm that bridges level-synchronous and asynchronous paradigms for processing graphs.</li>
+  <li>Parametrically control the level of asynchrony in parallel graph algorithms(level-synchronous -&gt; partially asynchronous -&gt; completely asynchronous).</li>
+  <li>Motivation: improve exection times.
+    <ul>
+      <li>level-synchronous: few, but expensive <strong>global</strong> synchronizations.</li>
+      <li>asychronous: more, but not so expensive <strong>local</strong> synchronizations(perhaps with redundant work).</li>
+      <li>trade-off.</li>
+    </ul>
+  </li>
+  <li>KLA paradigm is available for graph algorithm commonly.</li>
+  <li>K: the number of asynchronous steps allowed <strong>between</strong> global synchronizations.</li>
+  <li>Techniques for determining k.</li>
+  <li>Implementation of KLA in the <a href="https://parasol.tamu.edu/groups/rwergergroup/research/stapl">SGL</a>(STAPL Graph Library). </li>
+  <li>Scalability: 96K cores.</li>
+  <li>Performance improvement: 10x over trad-alg(level-synchronous and asychronous versions).
+<br /></li>
+</ul>
+
+<h2 id="introduction">1. Introduction</h2>
+<ul>
+  <li>Parallelization need.
+    <ul>
+      <li>Traversals, a important type and backbone of other graph algorithms(shortest path, centrality metrics, connected components). Traversal-based computations remain difficult to paralleize effectively.</li>
+      <li>Random walks(e.g., PageRank) for web link-analysis, k-core decomposition for social networks study, need effective parallelization.</li>
+    </ul>
+  </li>
+  <li>Level-synchronous paradigm.
+    <ul>
+      <li>Iteratively process vertices level by level(current level’s computation has to completed <strong>before</strong> next level) through global synchronizations at the end of each level.</li>
+      <li>Performance depend on the number of levels(small -&gt; well, large -&gt; poor scalability)</li>
+      <li>E.g., BSP(Bulk Synchronous Parallel).</li>
+    </ul>
+  </li>
+  <li>Asychronous paradigm.
+    <ul>
+      <li>Point-to-point synchronization(which can increase the degree of parallelism).</li>
+      <li>Drawback: may require redundant work(e.g., asynchronous BFS re-visit vertices when shorter paths are discovered).</li>
+    </ul>
+  </li>
+  <li>Right paradigm? depends on systems, input graphs and algorithms.</li>
+  <li>A new paradigm: KLA, common interface, easy to switch.</li>
+  <li>3 contribution of this paper.
+    <ul>
+      <li>KLA. Level of aynchrony: estimate a proper level, and adaptive stategy.  </li>
+      <li>Application of KLA to standard graph computation.</li>
+      <li>Scalable performance.
+<br /></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="the-kla-paradigm">2. The KLA Paradigm</h2>
+<ul>
+  <li>This paradigm works in phases(like BSP model). Each phase allow k synchronous step by creating asynchronous tasks on active vertices.
+    <ul>
+      <li>K = 1, level-synchronous;</li>
+      <li>K &gt; d, asynchronous; </li>
+      <li>1 &lt; k &lt; d, <img src="/images/KLA/d_k.png" alt="img" /> phases, called KLA supersteps(KLA-SS).</li>
+    </ul>
+  </li>
+  <li>Pseudocode, 2 functions: vertex-operator, neighbor-opeartor.
+    <ul>
+      <li>vertex-operator: be performed on each vertices, return true when the vertex is active(vertex’s value is updated by vertex-operator, or the vertex visits neighbor vertices).</li>
+      <li>neighbor-operator: visit neighbor vertices.</li>
+      <li>map, reduce -&gt; active?</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="kla-breath-first-search">2.1 KLA Breath-First Search</h3>
+<ul>
+  <li>Perform BFS in parallel previously: level-synchronous, asynchronous</li>
+  <li>Comparison: level-synchronous, asynchronous and KLA versions of BFS.
+    <ul>
+      <li>Stay the same: driver of BFS, BFS vertex and neighbor operators. </li>
+      <li>Changed: the Visit logic.(allow the computation to proceed on the neighbor vertex being visited?)</li>
+    </ul>
+  </li>
+  <li>To complete the KLA BFS, we need to provide generic BFS vertex and neighbor operators.
+    <ul>
+      <li>Vertex-operator: 3 functions provided by KLA paradim(Visit, VisitALLNeighbors, VisitNeighborIf), or other user-defined function.</li>
+      <li>neighbor-operator: requirements: like asynchronous BFS, it cannot rely on the order in which the vertex is visited, and must be resilient to multiple visits.</li>
+    </ul>
+  </li>
+  <li>Algorithm terminates when all vertices are inactive. </li>
+  <li>Prove the correctness of the KLA BFS.</li>
+</ul>
+
+<h3 id="kla-and-the--stepping-sssp-algorithm">2.2 KLA and the △-Stepping SSSP Algorithm</h3>
+<ul>
+  <li>△-Stepping SSSP Algorithm
+    <ul>
+      <li>Multiple <strong>light</strong> egdes are processed simultaneously in a single superstep.</li>
+      <li><strong>light</strong> means in superstep i, the tentative distance of an egde’s source fall between i△ and (i+1)△.</li>
+      <li><strong>heavy</strong> edges are ignored in current superstep.</li>
+    </ul>
+  </li>
+  <li>What KLA is better than △-stepping SSSP algorithm: generality.
+    <ul>
+      <li>△-stepping SSSP is not applicable to non-SSSP based algorithm    </li>
+      <li>KLA works on the structure of the graph, and not algorithm specifics.</li>
+      <li>KLA is a generalization and extension of the △-stepping algorithm(more experimental comparison in section 5.6)
+<br /></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="applying-kla-to-algorithms">3. Applying KLA To Algorithms</h2>
+<p>### 3.1 Analysis of Example Algorithms in KLA
+　　BFS, k-core and PageRank that display different asynchronous characteriscs. If we increase the asynchrony in a algorithm, it may cost either no penalty paid(k-core decomposition, topological sort) or redundant work(BFS)(to correct previous value due to the out-of-order arrival of messages).<br />
+　　Best performance os obtained by balancing the penalty, which is done by limiting the size of asynchronous sections(depth k) in KLA.</p>
+
+<ul>
+  <li>Breadth-First Search and Graph Traversal<br />
+    <ul>
+      <li>In a complete asynchronous version of BFS, the number of incoming messages(new distance) is unknown a priori, so the BFS computation must propagate every message it receives, leading to redundant work.</li>
+    </ul>
+  </li>
+  <li>k-core Decomposition.
+    <ul>
+      <li>A k-core of a graph G is a maximal connected sub-graph of G in which all vertices have degree at least k.</li>
+      <li>Initialize counters of each vertex’s degree, if a vertex is deleted(degree &lt; k), then propagate the message, then the neighbor’s counter decrease by 1.</li>
+      <li>No penalty for increasing asynchrony: the number of messages required for a propagation is known(the degree of the vertex).</li>
+      <li>Unaffected by the order in which the messages are received.</li>
+      <li>The parallel topological sort algorithm is similar.(propagate when in-degree becomes 0)</li>
+    </ul>
+  </li>
+  <li>PageRank：PageRank is a graph algorithm that used to rank web-pages in order of relative importance.</li>
+  <li>A kind of random walk algorithm, each vertex calculate its rank in iteration <em>i</em> base on the ranks of its neighbors in iteration <em>i</em>-1, then send new ranks to its neighbor for next iteration.</li>
+  <li>Level-synchronous, but it can be converted to KLA.
+    <ul>
+      <li>A vertex receive ranks of all its neighbors from iteration <em>i</em>-1, so must count how many ranks received from previous iteration</li>
+      <li>In an asynchronous excution, the vertex may receive ranks for a future iteration <strong>before</strong> all ranks from iteration <em>i</em>-1 have been received.</li>
+      <li>sollution: buffer the early rank in a two-dimesional table, indexed by iteration <em>i</em>, for future use.</li>
+    </ul>
+  </li>
+  <li>Summary: PageRank knows the number of messages to receive before propagate, but require the order of messages.</li>
+  <li>Increasing asychrony may increase the amount of message buffered, other random walk algorithm as well.(pointer jumping and graph coloring)</li>
+</ul>
+
+<h3 id="kla-algorithmic-categories">3.2 KLA Algorithmic Categories</h3>
+<p>The penalty paid for increasing asynchrony depends on 2 properties(of message receiving from neighbor):</p>
+
+<ul>
+  <li>Ordering: is it resilient that message arrive in advance?</li>
+  <li>Message Count: the number of messages to activate each vertex is known or unknown?
+Characteristics of the three categories of KLA algorithms are as follows:<br />
+<img src="/images/KLA/KLA_category.png" alt="img" /><br />
+<br /></li>
+</ul>
+
+<h2 id="determining-k">4. Determining k</h2>
+<p>Two techniques to determine k:</p>
+
+<ul>
+  <li>An adaptive strategy(based on current local topology of the graph), applicable in the general case.</li>
+  <li>Approximate value for the optimal value of k(Kopt).</li>
+</ul>
+
+<h3 id="adaptive-determination-of-k">4.1 Adaptive Determination of k</h3>
+<p>Choose the best value for the next iteration based on information from current and previous iterations.</p>
+
+<ul>
+  <li>Initialize k = 1</li>
+  <li>At the end of each KLA superstep(KLA-SS), k = k * 2 if:
+    <ul>
+      <li>high out-degree vertices have not been discovered.</li>
+      <li>the penalty for asynchrony has not exceed a threshold.</li>
+      <li>the cost of processing each vertex in the current KLA-SS is ≤ the cost of processing each vertex for the previous KLS-SSs.</li>
+    </ul>
+  </li>
+  <li>k = k / 2 if:
+    <ul>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>out-degree</td>
+              <td> </td>
+              <td>asynchrony penalty</td>
+              <td> </td>
+              <td>per-vertex processing cost exceed the thresholds.</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+  </li>
+  <li>Mark the high out-degree vertices, process it in the next KLA-SS, so as to reduce the penalty of prematurely processing.</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>To control aynchrony penalty, k is capped when the asynchrony penalty</td>
+          <td> </td>
+          <td>processing cost exceed a maximum threshold(20%).</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>Thresholds are depend on the machine(if cost of communication &gt; computation, increase the threshold, vice versa)</li>
+  <li>Summary: performance: not as good as knowing a Kopt, but this technique is inexpensive, and better than level-syn/asyn paradigm because of the converging improved k value.</li>
+</ul>
+
+<h3 id="a-model-for-approximating-kopt">4.2 A Model for Approximating Kopt</h3>
+<p>Describe a model to obtain a good approximation of the value Kopt for k(lowest execution time), start with <strong>Type-I</strong>.</p>
+
+<ul>
+  <li>Theoretical Model:
+    <ul>
+      <li>Level-synchronous BFS
+        <ul>
+          <li>Parameters: d iteration, n vertices, p processors, Vmax(ideally, n/p) is the max number of vertices processed by a processor, α average time to excute each vertex, Tsync is the time for global-synchronization of p processors in each iteration. </li>
+          <li>Total time:<br />
+  <img src="/images/KLA/level-syn_BFS.png" alt="img" />  </li>
+        </ul>
+      </li>
+      <li>Asynchronous BFS
+        <ul>
+          <li>Parameters: ψ(G) is the amount of redundant work, <img src="/images/KLA/symbol_1.png" alt="img" /> is the amount of redundant work per processor.</li>
+          <li>Total time:<br />
+  <img src="/images/KLA/asyn_BFS.png" alt="img" />  </li>
+        </ul>
+      </li>
+      <li>KLA BFS
+        <ul>
+          <li>Parameters: <img src="/images/KLA/d_k.png" alt="img" /> KLA-SS, ψ(G, k) is the amount of redundant work for a given k, ψ(G, 1) = 0 adn ψ(G, d) = ψ(G)</li>
+          <li>Total time:<br />
+  <img src="/images/KLA/KLA_BFS_1.png" alt="img" /><br />
+  <img src="/images/KLA/KLA_BFS_2.png" alt="img" />  </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Modeling the Wasted Work, ψ(G, k)
+    <ul>
+      <li>Edge sets: Et(BFS tree), Ent = E-Et, Ent_c(Ent edges that cross a KLA-SS), Ent_i(inside a KLA-SS).</li>
+      <li>
+        <p>Estimate the wasted work as the cardinality of the set Ent_i.<br />
+  <img src="/images/KLA/wasted_work_1.png" alt="img" /><br />
+  <img src="/images/KLA/wasted_work_2.png" alt="img" />  </p>
+      </li>
+      <li>Conclution: 
+        <ul>
+          <li>As to small-diameter graphs with large out-degree(E » V) and d = O(1), a slight increase of k lead to large amounts of wasted work. So a smaller k value would be better(like k = 1).</li>
+          <li>As to long-diameter graphs with low out-degree(E ≈ V) and d = O(V), wasted work is negligible so best with k = d.</li>
+          <li>Others fall in-between, 1 &lt; k &lt; d.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Ordered Type-II Algorithms</strong>
+    <ul>
+      <li>Parameters: β is buffering cost, penalty-function ψest(G, k) = m x k + b, m and b is the constants depending on input-graph and machine.</li>
+      <li>Total time:<br />
+  <img src="/images/KLA/ordered_type-II.png" alt="img" />  </li>
+      <li>m and b can be computed by runnning the algorithm twice with 2 different k values.</li>
+    </ul>
+  </li>
+  <li><strong>Unordered Type-II Algorithms</strong><br />
+　　As to this type, there is no penalty for increasing asynchrony. But for certain graphs with large out-degrees, massive messages cause network congestion, so level-synchronous may be better.<br />
+　　To find the equation of ψest(G, k) = m x k + b
+    <ul>
+      <li>run the algorithm with k = 1, to obtain d and α</li>
+      <li>run the algorithm with k = d</li>
+    </ul>
+  </li>
+  <li>predicted excution time of the model compare to actual excution time.<br />
+<img src="/images/KLA/predicted_excution_time.png" alt="img" /><br />
+<br /></li>
+</ul>
+
+<h2 id="experiments">5. Experiments</h2>
+<p>### 5.1 Experimental Setup and Input Graphs
+* Setup: Hopper - a Cray XE6 machine at the National Energy Research Scientific Computing Center (NERSC), use 98,304 cores of it.
+* Input graphs:<br />
+<img src="/images/KLA/input_graphs.png" alt="img" />  </p>
+
+<h3 id="sgl-overview">5.2 SGL Overview</h3>
+<p>　　STAPL(the Standard Template Adaptive Parallel Library) is a framework for developing parallel programs in C++. It is designed to work on both shared and distributed memory parallel computers.
+　　A library of components implementing parallel algorithms(pAlgorithms) and distributed data structures(pContainers).</p>
+
+<h3 id="level-synchronous-vs-asynchronous-bfs">5.3 Level-Synchronous vs. Asynchronous BFS</h3>
+<p>Graph 500: short diameter<br />
+3D Toroid Graph: serialized<br />
+<img src="/images/KLA/syn_vs_asyn.png" alt="img" />  </p>
+
+<ul>
+  <li>Conclusion: performance benefit of correct paradigm to the graph topology</li>
+</ul>
+
+<h3 id="evalutaion-of-kla-bfs">5.4 Evalutaion of KLA BFS</h3>
+<p>Evaluate the performance benefit and scalability of KLA BFS, k &gt; 1 provides the best performance from the observation.</p>
+
+<ul>
+  <li>Graph Structure and Kopt
+    <ul>
+      <li>deforming shape to vary the diameter form 128k to 8.</li>
+      <li>ran KLA BFS on each deformation fro varying values of k.</li>
+      <li>best k according to the graph diameter is as follow:<br />
+  <img src="/images/KLA/best_k.png" alt="img" />  </li>
+    </ul>
+  </li>
+  <li>Road Network Graphs <br />
+<img src="/images/KLA/road_network.png" alt="img" /><br />
+    <ul>
+      <li>Best performance is obtained with 1 &lt; k &lt; d</li>
+      <li>27-33% faster than the fastest traditional paradigm<br />
+<img src="/images/KLA/synthetic_road_network.png" alt="img" />  </li>
+      <li>scalability: 98,304 cores(KLA) vs. 32,768 cores(level-syn)</li>
+      <li>faster: better balancing synchronization costs.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="evalutaion-of-adaptive-kla-bfs">5.5 Evalutaion of Adaptive KLA BFS</h3>
+<ul>
+  <li>
+    <p>Choose the better one of level-sync and async paradigm as a baseline,speedups are as follows:<br />
+<img src="/images/KLA/speed_up.png" alt="img" />  </p>
+  </li>
+  <li>
+    <p>Compare to KLA with Kopt, Adaptive KLA BFS required:</p>
+    <ul>
+      <li>overhead of adaptivity(a few iteration to converge)</li>
+      <li>monitoring the iterations(for wasted work)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="evalutaion-of-other-types-of-algorithms">5.6 Evalutaion of Other Types of Algorithms</h3>
+<p>The figure below shows the speedup(k-core and PageRank of KLA vs. level-sync, Δ-stepping of KLA vs. non-KLA). <br />
+<img src="/images/KLA/other_alg.png" alt="img" />  </p>
+
+<ul>
+  <li>k-core(note: fully asynchronous is suit for most graph, but for Google web-graph that with high out-degree, level-sync is set due to network congestion caused by messages)</li>
+  <li>PageRank</li>
+  <li>Δ-stepping for SSSP</li>
+</ul>
+
+<h3 id="kla-with-other-graph-frameworks">5.7 KLA with Other Graph Frameworks</h3>
+<ul>
+  <li>KLA with Green-Marl
+    <ul>
+      <li>KLA could be called recursively in nested sections using a tuple of k values, each k is for each level of nesting.</li>
+      <li>Hybrid KLA: combination of Green-Marl and KLA 
+        <ul>
+          <li>an optimized shared-memory library(Green-Marl) for processing graph partitions on a shared-memory node.</li>
+          <li>KLA on the upper-level to extend it across distributed nodes.</li>
+        </ul>
+      </li>
+      <li>experiments: PageRank and cut-conductance. <br />
+  <img src="/images/KLA/green-marl.png" alt="img" />  </li>
+    </ul>
+  </li>
+  <li>KLA in Galois<br />
+Rely on shared-memory worklists(task scheduling).
+    <ul>
+      <li>bulk-synchronous worklist: two queues one after one.</li>
+      <li>asynchronous worklist: serveral queues processed in any order.</li>
+      <li>KLA worklist for Galois.<br />
+<img src="/images/KLA/galois.png" alt="img" /><br />
+<br /></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="related-work">6. Related Work</h2>
+<ul>
+  <li>Level-sync: Google’s Pregel, Parallel Boost Graph Library(PBGL), Multi-Threaded Graph Library(MTGL); GRACE and Galois.</li>
+  <li>Asyn: GraphLab/PowerGraph, Δ-stepping for SSSP.</li>
+  <li>domain-specific languages(DSLs) for graph processing</li>
+  <li>KLA: although exist two way of expressing parallel graph algorithms, parametrically controlling has not been studied.
+<br /></li>
+</ul>
+
+<h2 id="conclusion">7. Conclusion</h2>
+
+<ul>
+  <li>Parametrically control the level of asynchrony</li>
+  <li>How to express graph algorithms in KLA paradigm</li>
+  <li>Determining k</li>
+  <li>scalability and performance
+<br /></li>
+</ul>
+
