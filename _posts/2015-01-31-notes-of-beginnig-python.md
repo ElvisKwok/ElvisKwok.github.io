@@ -7,7 +7,8 @@ title: Notes of Beginning Python
 <p class="meta">31 Jan 2015 - Shanwei</p> 
 +++++++++++++++++
 <br>
-REPL: Read-Eval-Print Loop, an interactive toplevel or language shell
+REPL: Read-Eval-Print Loop, an interactive toplevel or language shell  
+中文：`# coding: utf-8`可加入修饰字符。  
 # chapter 1
 ### 1. 数字与表达式  
 `1/2 = 0`, `1.0/2.0或1/2.0或1/2. = 0.5`  
@@ -698,6 +699,9 @@ None
 
 # setdefault
 # d.setdefault(key, value)，若key已存在，则不修改；若key不存在，则值改为value
+# 主要用途：(假设value是列表)
+>>> d.setdefault(key, []).append(new_list_item)
+
 
 # update
 # d1.update(d2)，将字典d2的所有item添加到d1，若key冲突，则覆盖更新
@@ -862,7 +866,7 @@ AssertionError: The age must be realistic
 
 
 ### 5. 循环
-while, for
+while, for  
 
 ```python
 # while
@@ -871,14 +875,526 @@ while x <= 100:
     print x
     x += 1
     
+
 # for
 numbers = [1, 2, 3]
 for num in numbers:
     print num
-# range(start, end+1)，若start==0，则
+
+# range(start, end+1, step)，start不提供则表示从0开始, step步长默认为1
+>>> range(6)
+[0, 1, 2, 3, 4, 5]
+>>> range(5, 0, -1)
+[4, 3, 2, 1, 0]
+>>> xrange(6)
+xrange(6)
+# xrange一次只创建一个数，大序列更高效，range一次创建整个序列
+
+# 遍历字典
+d = {'a': 1, 'b': 2}
+for key in d:
+    print key, '--', d[key]
+# 或者
+for key.value in d.items():    # 在循环中序列解包
+    print key, '--', value
+# notice：字典元素无序，若要求顺序，可以将key另存在list中，在迭代之前排序
+
+# 迭代工具
+# 1. 并行迭代：zip压缩两个list，返回元组的list。可处理不等长list, 短停止。
+>>> keys = ['a', 'b']
+>>> values = [1, 2]
+>>> zip(keys, values)
+[('a’, 1), ('b', 2)]
+for key, value in zip(keys, values):
+    print key, '--', value
+>>> zip(range(2), xrange(1000))
+[(0, 0), (1, 1)]
+# 2. 编号迭代
+for index, string in enumerate(strings):    # 屏蔽含有敏感词汇的整个句子
+    if 'xxx' in string:
+        strings[index] = '[censored]'
+# 3. 翻转和排序迭代
+reversed返回可迭代对象，sorted返回列表
+>>> list(reversed('abc!'))
+['!', 'c', 'b', 'a']
+>>> sorted([2, 1, 1])
+[1, 1, 2]
+
+# 跳出循环
+# 1. break
+# 2. continue
+# 3. while True: ... break
+
+# 循环的else子句
+for i in range(100):
+    if i == 100:
+        break
+else:
+    print "I didn't break out!"
+```
+
+
 
 ### 6. 列表推导式————轻量级循环
+list comprehension是利用其它list创建新list
+
+```python
+>>> [x*x for x in range(5) if x % 2 == 0]
+[0, 4, 16]
+>>> [(x, y) for x in range(2) for y in range(1)]
+[(0, 0), (1, 0)]
+# 等价于
+result = []
+for x in range(2):
+    for y in range(1):
+        result.append((x, y))        
+
+# 应用：查找首字母相同的男和女
+girls = ['alice', 'betty', 'cat']
+boys = ['chris', 'arnold', 'bob']
+# 低效version
+print [b+'+'g for b in boys for g in girls if b[0] == g[0])
+# 高效version
+letterGirls = {}
+for girl in girls:
+    letterGirls.setdefault(girl[0], []).append(girl)
+    # setdefault检查是否有girl[0]的key，若无则新建列表
+    # 整个循环将首字母相同的女孩归为同一key的列表项
+print [b+'+'g for b in boys for g in letterGirls(b[0]))
+```
 
 
 
 ### 7. pass、del和exec
+pass什么没发生，if语句空代码块是非法的，可以用pass代替。  
+del删除
+
+```python
+>>> lst1  = [1, 2]
+>>> lst1 = None
+# 垃圾收集：列表没有任何名字绑定到它，Python解释器就直接删除了内存中的该列表
+
+# del
+>>> x = ["Hello", "world"]
+>>> y = x
+>>> del x
+>>> y
+['Hello', 'world']
+# 原因：del只是删除名称，不是删除列表本身（值）。
+# Python无法删除值（某个值不再使用时，Python解释器会负责内存回收）
+```
+
+* exec（执行）字符串（Python语句）
+* eval（求值）字符串（Python表达式），并返回结果
+
+exec执行一个储存在字符串的Python语句：  
+`exec "print 'hello world'"`  
+给exec提供命名空间/作用域(scope)  
+
+```python
+# exec
+>>> from math import sqrt
+>>> exec "sqrt = 'new_name'"
+>>> sqrt(4)
+Traceback ...
+...
+TypeError: 'str' object is not callable
+>>> from math import sqrt
+>>> scope = {}
+>>> exec "sqrt = 'new_name'" in scope
+>>> sqrt(4)
+2.0
+>>> scope['sqrt']
+'new_name'
+>>> scope.keys()
+['__builtins__', 'sqrt']
+
+# eval
+>>> eval(raw_input("Enter an arithmetic expression: ")
+Enter an arithmetic expression: 1 + 2 * 3
+7
+# 放置值到作用域(exec和eval可共享一个指定的作用域字典)
+>>> scope = {}
+>>> scope['x'] = 2
+>>> scope['y'] = 3
+>>> eval('x * y', scope)
+6
+```
+
+
+
+
+
+# Chapter 6 抽象：函数
+函数，参数parameter、作用域scope、递归。  
+
+```python
+# 内建callable函数判断函数是否可以调用
+>>> callable(math.sqrt)
+True
+```
+
+
+
+### 1. 函数定义def。  
+文档字符串：应用于函数、类、模块的开头。在函数中紧接def语句，作为函数一部分存储。  
+使用`函数名.__doc__`可访问文档字符串，也可通过help(函数名)获取更多信息。  
+返回值：return。跳出函数。return也可不写或者return后面留空。
+
+```python
+def fibs(num):
+    "Doc string: Generate a fibs sequence consist of 'num' number"
+    result = [0, 1]
+    for i in range(num-2)
+        result.append(result[-2] + result[-1])
+    return result
+```
+
+
+
+### 2. 参数
+参数存储在局部作用域。  
+
+```python
+num = 0
+def change(n):
+    n = 1
+change(num)
+# num还是0
+
+lst = [0, 2]
+def change_list(lst_ref)
+    lst_ref[0] = 1
+change_list(lst)
+# lst变为[1, 2], 形参实参引用同一列表
+# 副本作为参数：change_list(lst[:])，则不改变原来变量
+
+# 参数不可变的情况下，想改变参数
+# 1. 通过返回值，多返回值可用元组
+>>> def inc(x): return x+1
+>>> foo = 10
+>>> foo = inc(foo)
+>>> foo
+11
+# 2. 将值放在list
+>>> def inc(x): x[0] += 1
+>>> foo = [10]
+>>> inc(foo)
+>>> foo
+[11]
+```
+
+关键字参数和默认值  
+
+```python
+# 关键字参数，指定参数名，参数顺序可无序（不用关键字参数的话(“位置参数”)必须有序）
+def hello(greeting, name)
+    print '%s, %s' % (greeting, name)
+hello(name = 'Elvis', greeting = 'Hello')
+# 默认值(定义函数时提供), 调用时可覆盖（顺序覆盖, 或指定参数名覆盖）
+def hello(greeting='Hello', name='World')
+    print '%s, %s' % (greeting, name)
+>>> hello('Hi')
+Hi, World
+>>> hello(name = 'Elvis')
+Hello Elvis
+```
+
+收集参数
+
+* `*变量名`收集其余的**位置参数**: 返回元组
+* `**变量名`收集**关键字参数**：返回字典
+
+```python
+def print_params(title, *pos_par, **key_par):
+    print title
+    print pos_par
+    print key_par
+>>> print_params("ok", 1, 2, foo=1, bar=2)
+ok
+(1, 2)
+{'foo': 1, 'bar': 2}
+```
+
+
+反转过程（收集函数的逆过程）  
+
+```python
+def add(x, y): return x+y
+pos_par = (1,2)
+>>> add(*pos_par)
+3
+
+def hello(greeting="hello", name="World"): print greeting, name
+key_par = {'name': 'Elvis', 'greeting': 'Hello'}
+>>> hello(**key_par)
+Hello, Elvis
+
+```
+
+
+
+### 3. 作用域
+内建的vars()返回变量的字典(“不可见”), 叫做**“命名空间”**或**“作用域”**  
+
+```python
+a = 1
+print vars()
+# 输出结果如下（略去一部分）：
+# {'a': 1, '__file__': './6.py', '__package__': None, \
+#  '__name__': '__main__', '__doc__': None}
+
+>>> def foo(): x = 42
+>>> x = 1
+>>> foo()    # 新的作用域，局部变量
+>>> x
+1
+# notice: 若要在函数访问全局变量，而局部变量与全局变量同名，则会屏蔽全局变量
+# 解决方法：使用globals函数返回全局变量的字典
+def combine(param):
+    print param + globals()['param']
+>>> param = 'berry'
+>>> combine('Shrub')
+Shrubberry
+# 在函数内部告诉变量x是一个全局变量
+# “重绑定”全局变量，使得函数内部也可以像全局作用域那样使用
+x = 1
+def change_global():
+    global x
+    x = x + 1
+>>> change_global()
+>>> x
+2
+
+# 函数嵌套
+def outside(factor):
+    def inside(num):
+        return num * factor
+    return inside
+>>> outside(2)(3)
+6
+# inside函数存储“子封闭作用域”的行为叫做closure闭包
+```
+
+
+
+### 4. 递归
+
+
+
+### 5. 函数式编程：map、filter、reduce、lambda表达式
+
+```python
+# map函数将“序列”中的元素全部传给一个“函数”
+# map(函数，序列)
+>>> map(str, range(5))  # 等价于[str(i) for i in range(5)]
+['0', '1', '2', '3', '4']
+
+# filter函数：基于一个“返回布尔值的”函数，对元素进行过滤
+def f(x):
+    return x.isalnum()    # 字母或数字则返回True
+seq = ["foo", "x41", "$#%^", "***"]
+>>> filter(f, seq)
+['foo', 'x41']
+# 列表推导式解决方案:
+>>> [x for x in seq if x.isalnum()]
+['foo', 'x41']
+# lambda表达式解决方案：
+>>> filter(lambda x: x.isalnum(), seq)
+['foo', 'x41']
+# lambda函数也叫匿名函数（函数没有具体名称）
+# 用法 lambda parameters: expression
+# 可接受多个参数，并返回单个表达式的值(lambda返回值是函数的地址)
+>>> g = lambda x: x**2
+>>> print g(4)
+16
+
+# reduce函数
+# 将函数f作用于序列前两个元素，返回值和第3个元素继续给f使用，直到整个序列处理完毕。
+>>> num = [1, 2, 3, 4]
+>>> reduce(lambda x, y: x+y, num)   # 等效于sum(num)
+10
+# (((1+2)+3)+4)
+```
+
+
+
+
+
+# Chapter 7 更加抽象：类和对象
+### 1. 对象
+对象；数据（“特性”）以及一系列可以操作数据的函数（“方法”）组成的集合。  
+
+* 多态(Polymorphism)：对不同类对象使用同样操作，根据对象类型的不同表现出不同行为。
+* 封装(Inheritance)：对外部隐藏对象的工作细节
+* 继承(Encapsulation)：以“普通类”为基础建立专门的类对象
+
+任何不知道对象是什么类型，但要对对象“做点什么”事，都会使用多态。唯一能毁掉多态的就是使用函数显示检查类型，如type、isinstance以及insubclass等（尽量避免）。  
+
+
+
+### 2. 类和类型
+所有属于某一个类的对象，称为该类的实例(instance).  
+习惯用首字母大写的单数名词表示类，如Bird.  
+子类(subclass)、超类(superclass).  
+
+```python
+__metaclass__ = type    # 确定使用新式类
+class Person:
+    def setName(self, name):
+        self.name = name
+
+    def getName(self):
+        return self.name
+
+    def greet(self):
+        print "Hello, world! I'm %s." % self.name
+
+>>> foo = Person()
+>>> bar = Person()
+>>> foo.setName('Elvis')
+>>> bar.setName('OK')
+>>> foo.greet()
+print "Hello, world! I'm Elvis."
+>>> bar.greet()
+print "Hello, world! I'm OK."
+
+# 访问对象的特性
+>>> print foo.name
+Elvis
+
+# self是对于对象自身的引用, 调用对象foo时，foo将自己作为第一参数传入函数
+# self参数是方法(绑定方法)和函数的区别
+
+class Bird:
+    song = 'aaa'
+    def sing(self):
+        print self.song
+>>> bird = Bird()
+>>> bird.sing()
+aaa
+>>> bound = bird.sing
+>>> bound()   # 这里不是函数调用，还是对self参数的访问（变量bound绑定到类的相同实例）
+aaa
+```
+
+```python
+# 方法或特性“私有化”：名字前加上双下划线"__"
+class Secretive:
+    def __inaccessible(self):
+        print "this message is designed as inaccessible"
+    def accessible(self):
+        print "The secret message is: "
+        self.__inaccessible()
+# 上述__inaccessible外界无法访问，只能在类内部使用（比如从accessible）
+# 类的内部定义中，所有以双下划线开始的名字都被“翻译”成前面加“单下划线”和类名的形式。
+# 实际上还是能在类外访问这些私有方法：
+>>> s = Secretive()
+>>> s.__inaccessible()
+Traceback .... # 出错
+>>> s._Secretive__inaccessible()
+this message is designed as inaccessible
+```
+
+```python
+# 类的命名空间(class namespace), 可有类内所有成员访问
+class MemberCounter:
+    members = 0
+    def init(self):
+        MemberCounter.members += 1
+
+m1 = MemberCounter()
+m1.init()
+print MemberCounter.members
+
+m2 = MemberCounter()
+m2.init()
+print MemberCounter.members
+
+print m1.members, m2.members
+
+m1.members = 'Two'      # 重绑定members特性，屏蔽
+print m1.members, m2.members
+```
+
+```python
+# 指定超类，示例定义SPAMFilter的两个要点：
+# 1. 重写Filter的init定义
+# 2. 直接继承Filter类的filter方法
+class Filter:
+    def init(self):
+        self.blocked = []
+    def filter(self, sequence):
+        return [x for x in sequence if x not in self.blocked]
+
+class SPAMFilter(Filter):       # SPAMFilter是Filter的子类
+    def init(self):             # 重写Filter超类的init方法
+        self.blocked = ['SPAM']
+
+s = SPAMFilter()
+s.init()
+print s.filter(['SPAM', 'SPAM', 'SPAM', 'SPAM', 'egg', 'bacon', 'SPAM'])
+```
+
+```python
+# issubclass(subclass, superclass)，判断子类关系
+>>> issubclass(SPAMFilter, Filter)
+True
+>>> SPAMFilter.__bases__    # __bases__特性查看：类的基(超)类(们)
+(<class '__main__.Filter'>,)
+
+# isinstance(instance, class)判断某对象是否是一个类的实例
+# 子类的实例，在超类的isinstance函数也返回True(间接成员)
+>>> s = SPAMFilter()
+>>> print isinstance(s, SPAMFilter), isinstance(s, Filter)
+True, True
+# 通过对象的__class__特性，查看属于哪个类
+>>> s.__class__
+<class '__main__.SPAMFilter'>
+```
+
+```python
+# 多重继承(multiple inheritance)：超类可能多于一个
+# 超类之间同名方法的冲突：先继承的超类中的方法会覆盖后继承的
+class Calculator:
+    def calculate(self, expression):
+        self.value = eval(expression)
+
+class Talker:
+    def talk(self):
+        print 'Hi, my value is', self.value
+
+class TalkingCalculator(Calculator, Talker):
+    pass
+
+tc = TalkingCalculator()
+tc.calculate('1+2*3')       # 调用calculate方法后，对象tc有了value特性
+tc.talk()
+```
+
+```python
+# 接口：与“多态”有关，或称为“协议”：公开的方法和特性
+>>> hasattr(tc, 'talk')
+True
+>>> setattr(tc, 'name', 'Elvis')
+>>> print tc.name
+Elvis
+# dict特性：查看对象内所有存储的值，对象.__dict__
+>>> tc.__dict__
+{'name': 'Elvis', 'value': 7}
+```
+
+面向对象模型：  
+
+1. 问题描述，并找出名词、动词、形容词。
+    * 名词   --   类
+    * 动词   --   方法
+    * 形容词 --   特性
+2. 把方法和特性分配到类
+
+
+
+
+
+# Chapter 8 异常
+
