@@ -52,6 +52,11 @@ print x * y
 >>> from math import sqrt
 >>> sqrt(9)
 3.0
+
+# 查看一个模块的内容
+>>> import math
+>>> dir(math)
+['...', '...', ...]
 ```
 
 复数
@@ -477,8 +482,6 @@ A man must eat
 >>> '%.*s' % (5, 'Guido van Rossum')
 'Guido'
 ```
-
-[3.1]: /images/beginning_python/3.1.png "format type"
 
 
 
@@ -926,6 +929,7 @@ reversed返回可迭代对象，sorted返回列表
 # 3. while True: ... break
 
 # 循环的else子句
+# 如果for里面没有执行break，则else子句会被执行
 for i in range(100):
     if i == 100:
         break
@@ -1397,4 +1401,149 @@ Elvis
 
 
 # Chapter 8 异常
+每个异常是都是一些类的实例，这些异常可以被raise，并捕捉(若不捕捉，会导致回溯Traceback的错误信息)，然后对其处理，而不是让整个程序崩溃。  
+raise语句:  
+`>>> raise Exception`  
+![img][8.1]  
 
+自定义异常类(需确保从Exception类继承):  
+`class Custom_Exception(Exception): pass`  
+
+捕捉异常try/expcept:
+
+```python
+# 也可使用if语句检查y值，但是若程序有多个除法，就必须给每个除法加if
+# 而try/except只需一个错误处理器
+# except子句可多个
+# 若except子句中不指定异常类，则所有异常都会被捕捉
+# 捕捉所有异常很危险，因为会捕捉用户Ctrl+C和sys.exit。用except Exception, e更好
+try:
+    x = input('Enter the first number: ')
+    y = input('Enter the second number: ')
+    print x/y
+except ZeroDivisionError:
+    print "The second number can't be zero!"
+except TypeError:
+    print "You must input a number type"
+
+# 多个异常也可以在except子句中用“元组”一并列出
+# except (ZeroDivisionError, TypeError, NameError):
+#    print '...'
+```
+
+```python
+# 不带参数的raise语句，在except子句重新引发该子句捕捉到的异常。
+# 打开/关闭 屏蔽机制
+class MuffledCalculator:
+    muffled = False
+    def calc(self, expr):
+        try:
+            return eval(expr)
+        except ZeroDivisionError:
+            if self.muffled:
+                print "Division by zero is illegal"
+            else:
+                raise
+
+>>> calculator = MuffledCalculator()
+>>> print calculator.calc('10/2')
+5
+>>> print calculator.calc('10/0')   # No muffling
+Traceback ...
+...
+>>> calculator.muffled = True
+>>> calculator.calc('10/0')         # 这里calc方法会返回None 
+Division by zero is illegal
+```
+
+```python
+# 捕捉“对象”
+# 在except子句使用第二个参数，访问异常对象本身
+try:
+    x = input('Enter the first number: ')
+    y = input('Enter the second number: ')
+    print x/y
+except (ZeroDivisionError, TypeError), e:
+    print e
+```
+
+```python
+# try/except加上else
+# 若无异常，则else语句才会执行
+try:
+    print 'success'
+except:
+    print 'wrong'
+else:
+    print 'no except'
+```
+
+```python
+# finally子句
+# 不管try子句中是否异常，finally子句肯定被执行
+try:
+    1/0
+except ZeroDivisionError:
+    print "Error: division of zero"
+else:
+    print "went well"
+finally:
+    print "cleaning up"
+```
+
+异常传播：如果函数内的异常**引发而不处理**，则传播至函数调用的地方。若继续没处理，则继续传播，直至主程序（global scope）  
+若全都不处理，则最终导致traceback堆栈跟踪。  
+
+```python
+# zen of exception
+# 下例若使用if语句检查'occupation'这个key是否在dict，然后再查询dict获得value
+# 则导致两次查找：（1）if语句中key是否存在；（2）获得value
+# 此时使用异常更高效
+def describePerson(person):
+    print 'Name: ', person['name']
+    print 'Age: ', person['age']
+    try:
+        print 'Occupation: ' + person['occupation'] 
+        # 注意，这里若使用逗号，则字符串'Occupation: '会在异常引发前输出
+    except KeyError: pass
+
+# 查看一个obj是否有某个attribute
+# 这是内部实现getattr的方法
+try:
+    obj.write   # 仅访问attribute，不做任何事
+except AttributeError:
+    print 'the obj is not writeable'
+else:
+    print 'writeable obj'
+```
+
+
+
+
+
+# Chapter 9 魔法方法、属性和迭代器
+
+* 魔法方法（特殊方法）：前后加上两个下划线，如`__init__`, `__future__`
+* 属性：旧版本的Python使用魔法方法处理，现在通过property函数
+* 迭代器：使用魔法方法`__iter__`来允许迭代器在for循环使用
+
+
+
+### 1. 构造方法
+对象被生成以后，立即调用构造方法init()。  
+使用魔法方法`__init__`定义构造方法:  
+
+```python
+# 构造方法的定义
+class FooBar:
+    def __init__(self):
+        self.somevar = 42
+>>> f = FooBar()
+>>> f.somevar
+42
+```
+
+
+
+[3.1]: /images/beginning_python/3.1.png "format type"
+[8.1]: /images/beginning_python/8.1.png "Built-in Exceptions"
