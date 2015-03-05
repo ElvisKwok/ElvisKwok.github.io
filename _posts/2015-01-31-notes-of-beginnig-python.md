@@ -444,7 +444,8 @@ None
 # Chapter 3 字符串
 字符串不可变。  
 ### 1. 字符串格式化%
-%{空白}±“宽度”.“精度”"类型"，空白用于对齐正负数，在正数前面加空格
+形式：`字符串str` % `匹配格式`   
+%{空白}±“宽度”.“精度”"类型"，空白用于对齐正负数，在正数前面加空格  
 
 ```python
 >>> s = "%d + %d = 5"
@@ -476,7 +477,7 @@ A man must eat
 ```python
 >>> 'using str: %s' % 42L
 'using str: 42'
->>> 'using repr: %s' % 42L
+>>> 'using repr: %r' % 42L
 'using repr: 42L'
 # *使用元组第一个元素提供的字段宽度
 >>> '%.*s' % (5, 'Guido van Rossum')
@@ -898,7 +899,7 @@ d = {'a': 1, 'b': 2}
 for key in d:
     print key, '--', d[key]
 # 或者
-for key.value in d.items():    # 在循环中序列解包
+for key, value in d.items():    # 在循环中序列解包
     print key, '--', value
 # notice：字典元素无序，若要求顺序，可以将key另存在list中，在迭代之前排序
 
@@ -1195,6 +1196,7 @@ def outside(factor):
 ['0', '1', '2', '3', '4']
 
 # filter函数：基于一个“返回布尔值的”函数，对元素进行过滤
+# filter(函数，序列)
 def f(x):
     return x.isalnum()    # 字母或数字则返回True
 seq = ["foo", "x41", "$#%^", "***"]
@@ -1214,6 +1216,7 @@ seq = ["foo", "x41", "$#%^", "***"]
 16
 
 # reduce函数
+# reduce(函数，序列)
 # 将函数f作用于序列前两个元素，返回值和第3个元素继续给f使用，直到整个序列处理完毕。
 >>> num = [1, 2, 3, 4]
 >>> reduce(lambda x, y: x+y, num)   # 等效于sum(num)
@@ -1309,16 +1312,16 @@ class MemberCounter:
 
 m1 = MemberCounter()
 m1.init()
-print MemberCounter.members
+print MemberCounter.members     # 1 
 
 m2 = MemberCounter()
 m2.init()
-print MemberCounter.members
+print MemberCounter.members     # 2
 
-print m1.members, m2.members
+print m1.members, m2.members    # 2 2
 
 m1.members = 'Two'      # 重绑定members特性，屏蔽
-print m1.members, m2.members
+print m1.members, m2.members    # Two 2
 ```
 
 ```python
@@ -1541,9 +1544,164 @@ class FooBar:
 >>> f = FooBar()
 >>> f.somevar
 42
+>>> b = FooBar("hello")
+>>> b.somevar
+'hello'
+```
+重写超类的构造方法，导致超类特性缺失而影响继承而来的超类方法。  
+解决方案：  
+
+* 调用未绑定的超类构造方法（旧方案）
+* 使用super函数
+
+```python
+# 法1
+# 在子类的构造方法中添加一行：超类name.__init__(self)
+# 直接调用”类的方法“，则没有instance会被绑定到self参数，从而可以自由提供需要的self参数
+# 将当前instance作为self参数提供给未绑定方法, 子类就可以使用超类构造方法的所有实现
+class Bird:
+    def __init__(self):
+        self.hungry = True
+    def eat(self):
+        if self.hungry:
+            print 'hungry -> eat'
+            self.hungry = False
+        else:
+            print 'No, thanks'
+
+class SongBird(Bird):
+    def __init__(self):
+        Bird.__init__(self)
+        self.sound = 'Squawk!'
+    def sing(self):
+        print self.sound
+```
+
+```python
+# 法2
+# 类或对象为参数，返回的对象的任何方法都是调用超类的方法
+class SongBird(Bird):
+    def __init__(self):
+        super(SongBird, self).__init__()
+        self.sound = 'Squawk!'
+    def sing(self):
+        print self.sound
 ```
 
 
+
+### 2. 属性
+属性：通过访问器定义的特性。  
+
+```python
+# property函数，property函数4个参数分别叫做：fget、fset、fdel和doc
+# 下例size本是假想特性，property将其变成真正特性，
+__metaclass__ = type
+class Rectangle:
+    def __init__(self_:
+        self.width = 0
+        self.height = 0
+    def setSize(self, size):
+        self.width, self.height = size
+    def getSize(self):
+        return self.width, self.height
+    size = property(getSize, setSize)
+
+>>> r = Rectangle()
+>>> r.width = 10
+>>> r.height = 5
+>>> r.size
+(10, 5)
+>>> r.size = 150, 100
+>>> r.width
+150
+```
+
+```python
+# 静态方法：无self参数，能被类本身直接调用
+# 类成员方法：需有名为cls的参数，类似于self，能被类的具体对象调用
+# 使用方式：@操作符，在方法上方列出装饰器decorator（对可调用的对象进行包装）
+__metaclass__ = type
+class MyClass:
+    @staticmethod
+    def smeth():
+        print "this is a static method"
+    
+    @classmethod
+    def cmeth(cls):
+        print "This is a class method of", cls
+
+>>> MyClass.smeth()
+This is a static method
+>>> MyClass.cmeth()
+This is a class method of <class '__main__.MyClass'>
+```
+
+
+
+### 3. 迭代器(iterator）
+`__iter__`方法返回一个迭代器(具有next方法的对象)。调用next方法时迭代器返回下一个值。   
+compare to 列表：列表一次性获取，占内存。iterator逐个。
+
+```python
+class Fibs:
+    def __init__(self):
+        self.a = 0
+        self.b = 1
+    def next(self):
+        self.a, self.b = self.b, self.a + self.b
+        return self.a
+    def __iter__(self):
+        return self
+
+fibs = Fibs()
+for f in fibs:
+    if f>1000:
+        print f
+        break
+```
+
+
+
+### 4. 生成器(generator)
+任何包含`yield`关键字的函数称为generator，返回一个迭代器iterator。  
+generator由两部分组成：  
+
+* 生成器的函数: def语句定义，包含yield的部分，yield表达式每次产生一个值
+* 生成器的迭代器：返回值
+
+```python
+# 创建generator
+nested_lst = [[1, 2], [3, 4], 5]
+def flatten(nested_lst):
+    for sub_lst in nested_lst:
+        for element in sub_lst:
+            yield element
+
+# 接下来可以在generator上迭代
+>>> for num in flatten(nested_lst):
+        print num
+1
+2
+3
+4
+5
+```
+
+```python 
+# 生成器推导式
+>>> g = (i**2 for i in range(2,10))
+>>> g.next()
+4
+# 也可在函数调用的括号内使用
+>>> sum(i**2 for i in range(3))
+5
+```
+生成器方法，“外部作用域”访问生成器：send、throw和close方法。  
+
+
+
+### 5. 八皇后问题
 
 [3.1]: /images/beginning_python/3.1.png "format type"
 [8.1]: /images/beginning_python/8.1.png "Built-in Exceptions"
