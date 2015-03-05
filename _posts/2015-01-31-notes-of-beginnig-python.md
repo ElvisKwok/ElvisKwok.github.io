@@ -1701,7 +1701,12 @@ def flatten(nested_lst):
 
 
 
-### 5. 八皇后问题
+
+
+# chapter 10 模块&标准库
+
+
+
 
 [3.1]: /images/beginning_python/3.1.png "format type"
 [8.1]: /images/beginning_python/8.1.png "Built-in Exceptions"
