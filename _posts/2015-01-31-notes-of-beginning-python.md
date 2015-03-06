@@ -1704,9 +1704,119 @@ def flatten(nested_lst):
 
 
 # chapter 10 模块&标准库
+import模块时，产生pyc扩展名文件（平台无关的编译过），更有效地处理文件。  
+为了让代码可重用（code reuse），请将它模块化！  
+使用`__name__`变量，在模块中增加测试代码。在主程序中，`__name___`的值是`__main__`；在导入的模块中，`__name___`的值是模块名。 
+使你的模块可用：  
+法1：将模块放在正确位置（python解释器查找模块的路径）  
+
+```python
+>>> import sys, pprint
+>>> pprint.pprint(sys.path)     # pprint是智能print，用于大数据结构
+```
+
+法2：告诉解释器去哪里找模块(自定义的路径)  
+编辑sys.path， `sys.path.append("/your/absolute/path")`  
+标准方法：将路径包含在PYTHONPATH环境变量。  
+
+包package:  
+如下图的目录结构，其中必须包含`__init__.py`文件，该文件的内容是单纯把drawing包作为（一级）模块的内容：  
+![img][10.1]  
+这样使用：  
+
+```python
+import drawing
+import drawing.colors
+from drawing import shapes
+```
+
+探究模块：  
+使用dir(模块名）列出内容；  
+其中`__all__`变量列出部分主要内容（`from 模块名 import *`的内容）；  
+help(copy.copy)可获取copy模块的copy函数的帮助内容（提取于`__doc__`），help函数可作用于模块或模块的内容（class，function）  
+
+
+查阅文档（python解释器）：  
+运行`print copy.__doc__  # copy是模块`输出shallow copy和deep copy的区别：  
+
+```
+The difference between shallow and deep copying is only relevant for
+compound objects (objects that contain other objects, like lists or
+class instances).
+
+- A shallow copy constructs a new compound object and then (to the
+  extent possible) inserts *the same objects* into it that the
+  original contains.
+
+- A deep copy constructs a new compound object and then, recursively,
+  inserts *copies* into it of the objects found in the original.
+
+Two problems often exist with deep copy operations that don't exist
+with shallow copy operations:
+
+ a) recursive objects (compound objects that, directly or indirectly,
+    contain a reference to themselves) may cause a recursive loop
+
+ b) because deep copy copies *everything* it may copy too much, e.g.
+    administrative data structures that should be shared even between
+    copies
+
+Python's deep copy operation avoids these problems by:
+
+ a) keeping a table of objects already copied during the current
+    copying pass
+
+ b) letting user-defined classes override the copying operation or the
+    set of components copied
+```
+
+阅读源代码：  
+通过检查模块的`__file__`属性得到源码路径。  
+
+
+
+### 标准库选集
+#### 1. sys模块：与python解释器交互
+
+```python
+# reverse_args.py: 反序打印命令行参数
+import sys
+args = sys.argv[1:]
+args.reverse()
+print ' '.join(args)
+```
+
+
+
+
+#### 2. os模块：访问os service
+
+
+
+
+#### 3. fileinput模块
+
+
+
+
+#### 4. time模块
+
+
+
+
+#### 5. shelve模块
+
+
+
+
+#### 6. re模块
+
+
+
 
 
 
 
 [3.1]: /images/beginning_python/3.1.png "format type"
 [8.1]: /images/beginning_python/8.1.png "Built-in Exceptions"
+[10.1]: /images/beginning_python/10.1.png "package of module"
