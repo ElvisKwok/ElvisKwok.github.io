@@ -1777,6 +1777,7 @@ Python's deep copy operation avoids these problems by:
 
 ### 标准库选集
 #### 1. sys模块：与python解释器交互
+![img][10.2]  
 
 ```python
 # reverse_args.py: 反序打印命令行参数
@@ -1787,29 +1788,135 @@ print ' '.join(args)
 ```
 
 
-
-
 #### 2. os模块：访问os service
-
-
+![img][10.3]  
 
 
 #### 3. fileinput模块
-
-
+![img][10.4]  
 
 
 #### 4. time模块
+实现功能：获得当前时间、格式化时间为字符串，字符串格式化为时间。  
+日期可以用实数（时间戳，1970年至今秒数）或是包含9个整数的元组`（y, m, d, h, m, s, week(周一是0, 0~6), 累计日(1~366), 夏令时(无0、-1、1)）`  
+![img][10.5]  
+
+
+#### 5. random模块
+![img][10.6]  
+examples:  
+
+```python
+# 随机选词 lucky_word.py
+import fileinput, random
+word_list = list(fileinput.input())
+print random.choice(word_list)
+```
+
+```bash
+$ ./luck_word.py /usr/share/dict/words
+magnolia
+```
+
+
+#### 6. shelve模块
+shelve包含函数open，以文件名为参数，返回一个Shelf对象（可看做key为字符串的字典），可用来存储内容，调用close方法以关闭之。  
+
+
+#### 7. re模块
+
+
+#### 8. 数据结构补充（与module相关）
+一些数据结构：集合set、堆heap、双端队列(deque, Double-ended queue)  
+##### 1. 集合
+集合是由可迭代的对象（如序列）构建的，主要用于检查成员资格，元素不重复。  
+集合是可变的（`frozenset(变量)`可产生不可变的集合），但是集合里面的元素是不可变的。  
+Set类在python2.3以前是位于sets模块。  
+
+```python
+>>> set([0, 1, 2, 0, 1, 2])
+set([0, 1, 2])
+# 可用set进行集合操作（如并、交、差）
+>>> a = set([1, 2, 3])
+>>> b = set([2, 3, 4])
+>>> a.union(b)
+set([1, 2, 3, 4])
+>>> a | b
+set([1, 2, 3, 4])
+>>> a&b
+set([2, 3])
+>>> c = a.intersection(b)
+>>> c
+set([2, 3])
+>>> c.issubset(a)
+True
+>>> a.issuperset(b)
+False
+>>> a.issuperset(c)
+True
+>>> a.difference(b)
+set([1])
+>>> a-b
+set([1])
+```
+
+##### 2. 堆
+堆是优先队列的一种，Python没有堆类型，只有一个包含堆操作函数的模块heapq。q是queue的缩写。  
+***小顶堆***(元素[i]小于元素[2i]和元素[2i+1])，可以快速找到min  
+下面是heapq模块中重要的函数：  
+![img][10.7]  
+
+```python
+>>> from heapq import *
+>>> from random import shuffle
+>>> data = range(10)
+>>> shuffle(data)
+>>> heap = []
+>>> for n in data:
+...     heappush(heap, n)
+... 
+>>> heap
+[0, 1, 4, 2, 6, 9, 7, 5, 3, 8]
+>>> heappush(heap, 0.001)
+>>> heap
+[0, 0.001, 4, 2, 1, 9, 7, 5, 3, 8, 6]
+>>> heappop(heap)   # 弹出最小元素
+0
+>>> heappop(heap)
+0.001
+>>> heappop(heap)
+1
+>>> heappop(heap)
+2
+```
+
+###### 3. 双端队列
+collections模块包含双端队列deque类型。  
+使用双端队列能有效在队列头部增加和弹出元素（appendleft, popleft），还能旋转队列。  
+
+```python
+>>> from collections import deque
+>>> q = deque(range(5))
+>>> q
+deque([0, 1, 2, 3, 4])
+>>> q.append(5)
+>>> q
+deque([0, 1, 2, 3, 4, 5])
+>>> q.appendleft(6)
+>>> q
+deque([6, 0, 1, 2, 3, 4, 5])
+>>> q.pop()
+5
+>>> q.popleft()
+6
+>>> q.rotate(3)
+>>> q
+deque([2, 3, 4, 0, 1])
+```
 
 
 
 
-#### 5. shelve模块
-
-
-
-
-#### 6. re模块
 
 
 
@@ -1820,3 +1927,9 @@ print ' '.join(args)
 [3.1]: /images/beginning_python/3.1.png "format type"
 [8.1]: /images/beginning_python/8.1.png "Built-in Exceptions"
 [10.1]: /images/beginning_python/10.1.png "package of module"
+[10.2]: /images/beginning_python/10.1.png "module of sys"
+[10.3]: /images/beginning_python/10.1.png "module of os"
+[10.4]: /images/beginning_python/10.1.png "module of fileinput"
+[10.5]: /images/beginning_python/10.1.png "module of time" 
+[10.6]: /images/beginning_python/10.1.png "module of random" 
+[10.7]: /images/beginning_python/10.1.png "module of heapq"
