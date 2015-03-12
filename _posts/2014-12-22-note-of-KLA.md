@@ -27,7 +27,7 @@ title: Note of KLA
 
 ## 1. Introduction
 * Parallelization need.
-    + Traversals, a important type and backbone of other graph algorithms(shortest path, centrality metrics, connected components). Traversal-based computations remain difficult to paralleize effectively.
+    + Traversals, a important type and backbone of other graph algorithms(shortest path, centrality metrics, connected components). Traversal-based computations remain difficult to parallelize effectively.
     + Random walks(e.g., PageRank) for web link-analysis, k-core decomposition for social networks study, need effective parallelization.
 * Level-synchronous paradigm.
     + Iteratively process vertices level by level(current level's computation has to completed **before** next level) through global synchronizations at the end of each level.
@@ -45,7 +45,7 @@ title: Note of KLA
 <br>
 
 ## 2. The KLA Paradigm
-* This paradigm works in phases(like BSP model). Each phase allow k synchronous step by creating asynchronous tasks on active vertices.
+* This paradigm works in phases(like BSP model). Each phase allow (up to)k asynchronous steps by creating asynchronous tasks on active vertices.
     + K = 1, level-synchronous;
     + K > d, asynchronous; 
     + 1 < k < d, ![img][d_k] phases, called KLA supersteps(KLA-SS).
@@ -79,7 +79,7 @@ title: Note of KLA
 ## 3. Applying KLA To Algorithms 
 ### 3.1 Analysis of Example Algorithms in KLA
 　　BFS, k-core and PageRank that display different asynchronous characteriscs. If we increase the asynchrony in a algorithm, it may cost either no penalty paid(k-core decomposition, topological sort) or redundant work(BFS)(to correct previous value due to the out-of-order arrival of messages).  
-　　Best performance os obtained by balancing the penalty, which is done by limiting the size of asynchronous sections(depth k) in KLA.
+　　Best performance is obtained by balancing the penalty, which is done by limiting the size of asynchronous sections(depth k) in KLA.
 
 * Breadth-First Search and Graph Traversal  
     + In a complete asynchronous version of BFS, the number of incoming messages(new distance) is unknown a priori, so the BFS computation must propagate every message it receives, leading to redundant work.
@@ -194,7 +194,7 @@ Graph 500: short diameter
 Evaluate the performance benefit and scalability of KLA BFS, k > 1 provides the best performance from the observation.
 
 * Graph Structure and Kopt
-    + deforming shape to vary the diameter form 128k to 8.
+    + deforming shape to vary the diameter from 128k to 8.
     + ran KLA BFS on each deformation fro varying values of k.
     + best k according to the graph diameter is as follow:  
     ![img][best_k]  
