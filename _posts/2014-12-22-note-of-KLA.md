@@ -12,13 +12,13 @@ title: Note of KLA
 
 ## Abstract:
 * KLA(K-Level Asychronous): an algorithmic paradigm that bridges level-synchronous and asynchronous paradigms for processing graphs.
+* K: the number of asynchronous steps allowed **between** global synchronizations.
 * Parametrically control the level of asynchrony in parallel graph algorithms(level-synchronous -> partially asynchronous -> completely asynchronous).
 * Motivation: improve exection times.
     + level-synchronous: few, but expensive **global** synchronizations.
     + asychronous: more, but not so expensive **local** synchronizations(perhaps with redundant work).
     + trade-off.
 * KLA paradigm is available for graph algorithm commonly.
-* K: the number of asynchronous steps allowed **between** global synchronizations.
 * Techniques for determining k.
 * Implementation of KLA in the [SGL][](STAPL Graph Library). 
 * Scalability: 96K cores.
@@ -39,20 +39,22 @@ title: Note of KLA
 * Right paradigm? depends on systems, input graphs and algorithms.
 * A new paradigm: KLA, common interface, easy to switch.
 * 3 contribution of this paper.
-    + KLA. Level of aynchrony: estimate a proper level, and adaptive stategy.  
+    + KLA. Level of aynchrony: estimate a proper level k, and a adaptive stategy.  
     + Application of KLA to standard graph computation.
     + Scalable performance.
 <br>
 
 ## 2. The KLA Paradigm
-* This paradigm works in phases(like BSP model). Each phase allow (up to)k asynchronous steps by creating asynchronous tasks on active vertices.
+* This paradigm works in phases(like BSP model). Each phase(BSP's Superstep) allow (up to)k asynchronous steps by creating asynchronous tasks on active vertices.
     + K = 1, level-synchronous;
-    + K > d, asynchronous; 
+    + K >= d, asynchronous(d: number of iteration need for level-sync); 
     + 1 < k < d, ![img][d_k] phases, called KLA supersteps(KLA-SS).
-* Pseudocode, 2 functions: vertex-operator, neighbor-opeartor.
+* Pseudocode, 2 functions(user provide): vertex-operator, neighbor-opeartor.
     + vertex-operator: be performed on each vertices, return true when the vertex is active(vertex's value is updated by vertex-operator, or the vertex visits neighbor vertices).
     + neighbor-operator: visit neighbor vertices.
-    + map, reduce -> active?
+    + map, reduce -> active?  
+ 
+![img][pseudocode]  
 
 ### 2.1 KLA Breath-First Search
 * Perform BFS in parallel previously: level-synchronous, asynchronous
@@ -260,6 +262,7 @@ Rely on shared-memory worklists(task scheduling).
 [SGL]: https://parasol.tamu.edu/groups/rwergergroup/research/stapl
 
 [d_k]: /images/KLA/d_k.png
+[pseudocode]: /images/KLA/pseudocode.png
 [KLA_category]: /images/KLA/KLA_category.png
 [level-syn_BFS]: /images/KLA/level-syn_BFS.png
 [symbol_1]: /images/KLA/symbol_1.png
