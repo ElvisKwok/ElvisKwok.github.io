@@ -69,9 +69,9 @@ title: Note of KLA
 
 ### 2.2 KLA and the △-Stepping SSSP Algorithm
 * △-Stepping SSSP Algorithm
-    + Multiple **light** egdes are processed simultaneously in a single superstep.
+    + *Multiple* **light** egdes are processed *simultaneously* in a single superstep.
     + **light** means in superstep i, the tentative distance of an egde's source fall between i△ and (i+1)△.
-    + **heavy** edges are ignored in current superstep.
+    + Then, **heavy** edges are processed at the end of superstep.
 * What KLA is better than △-stepping SSSP algorithm: generality.
     + △-stepping SSSP is not applicable to non-SSSP based algorithm    
     + KLA works on the structure of the graph, and not algorithm specifics.
@@ -92,14 +92,15 @@ title: Note of KLA
     + No penalty for increasing asynchrony: the number of messages required for a propagation is known(the degree of the vertex).
     + Unaffected by the order in which the messages are received.
     + The parallel topological sort algorithm is similar.(propagate when in-degree becomes 0)
+
 * PageRank：PageRank is a graph algorithm that used to rank web-pages in order of relative importance.
-* A kind of random walk algorithm, each vertex calculate its rank in iteration *i* base on the ranks of its neighbors in iteration *i*-1, then send new ranks to its neighbor for next iteration.
-* Level-synchronous, but it can be converted to KLA.
-    + A vertex receive ranks of all its neighbors from iteration *i*-1, so must count how many ranks received from previous iteration
-    + In an asynchronous excution, the vertex may receive ranks for a future iteration **before** all ranks from iteration *i*-1 have been received.
-    + sollution: buffer the early rank in a two-dimesional table, indexed by iteration *i*, for future use.
-* Summary: PageRank knows the number of messages to receive before propagate, but require the order of messages.
-* Increasing asychrony may increase the amount of message buffered, other random walk algorithm as well.(pointer jumping and graph coloring)
+    + A kind of random walk algorithm, each vertex calculate its rank in iteration *i* base on the ranks of its neighbors in iteration *i*-1, then send new ranks to its neighbor for next iteration.
+    + Level-synchronous, but it can be converted to KLA.
+        - A vertex receive ranks of all its neighbors from iteration *i*-1, so must count how many ranks received from previous iteration
+        - In an asynchronous excution, the vertex may receive ranks for a future iteration **before** all ranks from iteration *i*-1 have been received.
+        - sollution: buffer the early rank in a two-dimesional table, indexed by iteration *i*, for future use.
+    + Summary: PageRank knows the number of messages to receive before propagate, but require the order of messages.
+    + Increasing asychrony may increase the amount of message buffered, other random walk algorithm as well.(pointer jumping and graph coloring)
 
 ### 3.2 KLA Algorithmic Categories
 The penalty paid for increasing asynchrony depends on 2 properties(of message receiving from neighbor):
@@ -160,7 +161,7 @@ Describe a model to obtain a good approximation of the value Kopt for k(lowest e
         + Others fall in-between, 1 < k < d.
 
 * **Ordered Type-II Algorithms**
-    + Parameters: β is buffering cost, penalty-function ψest(G, k) = m x k + b, m and b is the constants depending on input-graph and machine.
+    + Parameters: β is buffering cost(constant for a given system), penalty-function ψest(G, k) = m x k + b, m and b is the constants depending on input-graph and machine.
     + Total time:  
     ![img][ordered_type-II]  
     + m and b can be computed by runnning the algorithm twice with 2 different k values.
@@ -168,8 +169,8 @@ Describe a model to obtain a good approximation of the value Kopt for k(lowest e
 * **Unordered Type-II Algorithms**  
 　　As to this type, there is no penalty for increasing asynchrony. But for certain graphs with large out-degrees, massive messages cause network congestion, so level-synchronous may be better.  
 　　To find the equation of ψest(G, k) = m x k + b
-    + run the algorithm with k = 1, to obtain d and α
-    + run the algorithm with k = d
+    + run the algorithm with k = 1(level-sync), to obtain d and α
+    + run the algorithm with k = d(Async), to get ψest
  
 * predicted excution time of the model compare to actual excution time.  
 ![img][predicted_excution_time]  
