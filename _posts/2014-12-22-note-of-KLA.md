@@ -194,7 +194,7 @@ Graph 500: short diameter
 * Conclusion: performance benefit of correct paradigm to the graph topology
 
 ### 5.4 Evalutaion of KLA BFS
-Evaluate the performance benefit and scalability of KLA BFS, k > 1 provides the best performance from the observation.
+Evaluate the **performance** benefit and **scalability** of KLA BFS, k > 1 provides the best performance from the observation.
 
 * Graph Structure and Kopt
     + deforming shape to vary the diameter from 128k to 8.
@@ -234,10 +234,12 @@ The figure below shows the speedup(k-core and PageRank of KLA vs. level-sync, Δ
     + experiments: PageRank and cut-conductance.   
     ![img][green-marl]  
 * KLA in Galois  
-Rely on shared-memory worklists(task scheduling).
-    + bulk-synchronous worklist: two queues one after one.
-    + asynchronous worklist: serveral queues processed in any order.
-    + KLA worklist for Galois.  
+    + Galois rely on shared-memory worklists(task scheduling).
+        - bulk-synchronous worklist: two queues one after one.
+        - asynchronous worklist: serveral queues processed in any order.
+    + KLA worklist for Galois: modify bulk-sync worklist, async-executing in KLA-SS, sync after K levels of async.  
+    + improvements in long diameter graphs.  
+    
 ![img][galois]  
 <br>
 
@@ -245,7 +247,7 @@ Rely on shared-memory worklists(task scheduling).
 ## 6. Related Work
 * Level-sync: Google's Pregel, Parallel Boost Graph Library(PBGL), Multi-Threaded Graph Library(MTGL); GRACE and Galois.
 * Asyn: GraphLab/PowerGraph, Δ-stepping for SSSP.
-* domain-specific languages(DSLs) for graph processing
+* domain-specific languages(DSLs) for graph processing, like Green-Marl.
 * KLA: although exist two way of expressing parallel graph algorithms, parametrically controlling has not been studied.
 <br>
 
@@ -257,7 +259,6 @@ Rely on shared-memory worklists(task scheduling).
 * Determining k
 * scalability and performance
 <br>
-
 
 
 [SGL]: https://parasol.tamu.edu/groups/rwergergroup/research/stapl
