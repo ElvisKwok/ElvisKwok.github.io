@@ -124,7 +124,7 @@ Choose the best value for the next iteration based on information from current a
 * At the end of each KLA superstep(KLA-SS), k = k * 2 if:
     + high out-degree vertices have not been discovered.
     + the penalty for asynchrony has not exceed a threshold.
-    + the cost of processing each vertex in the current KLA-SS is ≤ the cost of processing each vertex for the previous KLS-SSs.
+    + the cost of processing each vertex in the current KLA-SS is ≤ the cost of processing each vertex for the previous KLA-SSs.
 * k = k / 2 if:
     + out-degree || asynchrony penalty || per-vertex processing cost exceed the thresholds.
 * Mark the high out-degree vertices, process it in the next KLA-SS, so as to reduce the penalty of prematurely processing.
