@@ -1803,6 +1803,17 @@ print ' '.join(args)
 日期可以用实数（时间戳，1970年至今秒数）或是包含9个整数的元组`（y, m, d, h, m, s, week(周一是0, 0~6), 累计日(1~366), 夏令时(无0、-1、1)）`  
 ![img][10.5]  
 
+```python
+import time
+timeStr = "2014-06-15T14:20:12"
+timeArray = time.strptime(timeStr, "%Y-%m-%dT%H:%M:%S")
+timeStamp = time.mktime(timeArray)
+>>> print timeArray
+time.struct_time(tm_year=2014, tm_mon=6, tm_mday=15, tm_hour=14, tm_min=20, tm_sec=12, tm_wday=6, tm_yday=166, tm_isdst=-1)
+>>> print timeStamp
+1402813212
+```
+
 
 #### 5. random模块
 ![img][10.6]  
@@ -1979,10 +1990,10 @@ deque([2, 3, 4, 0, 1])
 [3.1]: /images/beginning_python/3.1.png "format type"
 [8.1]: /images/beginning_python/8.1.png "Built-in Exceptions"
 [10.1]: /images/beginning_python/10.1.png "package of module"
-[10.2]: /images/beginning_python/10.1.png "module of sys"
-[10.3]: /images/beginning_python/10.1.png "module of os"
-[10.4]: /images/beginning_python/10.1.png "module of fileinput"
-[10.5]: /images/beginning_python/10.1.png "module of time" 
-[10.6]: /images/beginning_python/10.1.png "module of random" 
-[10.7]: /images/beginning_python/10.1.png "module of re" 
-[10.8]: /images/beginning_python/10.1.png "module of heapq"
+[10.2]: /images/beginning_python/10.2.png "module of sys"
+[10.3]: /images/beginning_python/10.3.png "module of os"
+[10.4]: /images/beginning_python/10.4.png "module of fileinput"
+[10.5]: /images/beginning_python/10.5.png "module of time" 
+[10.6]: /images/beginning_python/10.6.png "module of random" 
+[10.7]: /images/beginning_python/10.7.png "module of re" 
+[10.8]: /images/beginning_python/10.8.png "module of heapq"
