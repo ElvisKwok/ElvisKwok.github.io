@@ -1794,7 +1794,7 @@ print ' '.join(args)
 ![img][10.3]  
 
 
-#### 3. fileinput模块
+#### 3. fileinput模块：可轻松遍历多个文件 和 流中的所有行
 ![img][10.4]  
 
 
@@ -1815,7 +1815,7 @@ time.struct_time(tm_year=2014, tm_mon=6, tm_mday=15, tm_hour=14, tm_min=20, tm_s
 ```
 
 
-#### 5. random模块
+#### 5. random模块：产生随机数、从序列选取随机元素choice、打乱列表元素shuffle
 ![img][10.6]  
 examples:  
 
@@ -1833,6 +1833,7 @@ magnolia
 
 
 #### 6. shelve模块
+通过该模块可以创建持续性映射，同时将映射的内容保存在给定文件名的数据库中。  
 shelve包含函数open，以文件名为参数，返回一个Shelf对象（可看做key为字符串的字典），可用来存储内容，调用close方法以关闭之。  
 
 
@@ -1886,6 +1887,18 @@ group有序号，用group左边的左括号数目计算。
 (4, 10)
 ```
 
+```python
+import fileinput, re
+pat = re.compile('From: (.*) <.*?>$')
+for line in fileinput.input():
+    m = pat.match(line)
+    if m: print m.group(1)
+```
+
+```bash
+$ python find_sender.py message.eml
+Foo Bar
+```
 
 
 
@@ -1972,7 +1985,7 @@ deque([6, 0, 1, 2, 3, 4, 5])
 5
 >>> q.popleft()
 6
->>> q.rotate(3)
+>>> q.rotate(3) # deque对象.rotate(n): 将队尾n个元素转移到队头(保持原顺序)
 >>> q
 deque([2, 3, 4, 0, 1])
 ```
