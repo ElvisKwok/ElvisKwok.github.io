@@ -314,7 +314,7 @@ False
 1
 
 # extend
-# lst1.extend(lst2), 末尾append一个序列
+# lst1.extend(lst2), 末尾append一个序列(的元素)
 # 区别于'+'连接：extend原地修改被扩展的序列，'+'返回全新序列
 # a.extend(b) 效率高于 a = a + b和a[len(a):] = b
 >>> a = [1, 2]
@@ -368,6 +368,7 @@ False
 >>> x.reverse()
 >>> x
 [3, 2, 1]
+# 相当于 x = x[::-1]
 
 # sort
 # lst.sort(), 原地排序,不返回值
@@ -516,7 +517,7 @@ C:\usr\bin\env
 'test *  test'
 
 # replace
-# str.replcase('from', 'to')
+# str.replace('from', 'to')
 
 # tranlate
 # 与replace不同，translate可以替换多个匹配的“独立单字符”
@@ -547,7 +548,7 @@ C:\usr\bin\env
 
 # Chapter 4 字典
 
-* 字典是Python中唯一内建的映射类型。key可以是数字、**字符串**甚至是**元组**。  
+* 字典是Python中唯一内建的映射类型。key(不可变)可以是数字、**字符串**甚至是**元组**。  
 * 无序
 * key唯一，值不唯一。  
 
@@ -642,7 +643,7 @@ IndexError: list assignment index out of range
 # 浅复制(shallow copy)，值本身相同，不是副本。
 # 若在副本替换值（下例把值‘foo’整个换成‘bar’），原始字典不受影响；
 # 若修改值，原始字典也跟着修改。（下例把‘obj’其中一个项remove）
->>> d1 = {'name': 'foo’, 'obj':['a', 'b']}
+>>> d1 = {'name': 'foo', 'obj':['a', 'b']}
 >>> d2 = d1.copy()
 >>> d2['name'] = 'bar'
 >>> d2['obj'].remove('a')
@@ -862,7 +863,7 @@ name = raw_input("Please enter your name: ") or "<unknown>"
 >>> assert 0 < age < 100
 >>> age = -1
 >>> assert 0 < age < 100, "The age must be realistic"
-Tracebace ...
+Traceback ...
 ...
 AssertionError: The age must be realistic
 ```
@@ -958,14 +959,14 @@ for x in range(2):
 girls = ['alice', 'betty', 'cat']
 boys = ['chris', 'arnold', 'bob']
 # 低效version
-print [b+'+'g for b in boys for g in girls if b[0] == g[0])
+print [b+'+'+g for b in boys for g in girls if b[0] == g[0])
 # 高效version
 letterGirls = {}
 for girl in girls:
     letterGirls.setdefault(girl[0], []).append(girl)
     # setdefault检查是否有girl[0]的key，若无则新建列表
     # 整个循环将首字母相同的女孩归为同一key的列表项
-print [b+'+'g for b in boys for g in letterGirls(b[0]))
+print [b+'+'+g for b in boys for g in letterGirls(b[0]))
 ```
 
 
@@ -1122,7 +1123,7 @@ ok
 ```
 
 
-反转过程（收集函数的逆过程）  
+反转过程（收集参数的逆过程）  
 
 ```python
 def add(x, y): return x+y
@@ -1230,13 +1231,13 @@ seq = ["foo", "x41", "$#%^", "***"]
 
 # Chapter 7 更加抽象：类和对象
 ### 1. 对象
-对象；数据（“特性”）以及一系列可以操作数据的函数（“方法”）组成的集合。  
+对象：数据（“特性”）以及一系列可以操作数据的函数（“方法”）组成的集合。  
 
 * 多态(Polymorphism)：对不同类对象使用同样操作，根据对象类型的不同表现出不同行为。
 * 封装(Inheritance)：对外部隐藏对象的工作细节
 * 继承(Encapsulation)：以“普通类”为基础建立专门的类对象
 
-任何不知道对象是什么类型，但要对对象“做点什么”事，都会使用多态。唯一能毁掉多态的就是使用函数显示检查类型，如type、isinstance以及insubclass等（尽量避免）。  
+任何不知道对象是什么类型，但要对对象“做点什么”事，都会使用多态。唯一能毁掉多态的就是使用函数显示地检查类型，如type、isinstance以及insubclass等（尽量避免）。  
 
 
 
@@ -1304,7 +1305,7 @@ this message is designed as inaccessible
 ```
 
 ```python
-# 类的命名空间(class namespace), 可有类内所有成员访问
+# 类的命名空间(class namespace), 可由类内所有成员访问
 class MemberCounter:
     members = 0
     def init(self):
