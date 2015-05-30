@@ -1540,8 +1540,8 @@ else:
 ```python
 # 构造方法的定义
 class FooBar:
-    def __init__(self):
-        self.somevar = 42
+    def __init__(self, value=42):
+        self.somevar = value
 >>> f = FooBar()
 >>> f.somevar
 42
@@ -1599,7 +1599,7 @@ class SongBird(Bird):
 # 下例size本是假想特性，property将其变成真正特性，
 __metaclass__ = type
 class Rectangle:
-    def __init__(self_:
+    def __init__(self):
         self.width = 0
         self.height = 0
     def setSize(self, size):
