@@ -1529,7 +1529,7 @@ else:
 
 * 魔法方法（特殊方法）：前后加上两个下划线，如`__init__`, `__future__`
 * 属性：旧版本的Python使用魔法方法处理，现在通过property函数
-* 迭代器：使用魔法方法`__iter__`来允许迭代器在for循环使用
+* 迭代器：使用魔法方法`__iter__`来允许迭代器在for循环使用(迭代器需实现next方法)
 
 
 
@@ -1640,7 +1640,7 @@ This is a class method of <class '__main__.MyClass'>
 
 
 
-### 3. 迭代器(iterator）
+### 3. 迭代器(iterator)
 `__iter__`方法返回一个迭代器(具有next方法的对象)。调用next方法时迭代器返回下一个值。   
 compare to 列表：列表一次性获取，占内存。iterator逐个。
 
@@ -1697,6 +1697,7 @@ def flatten(nested_lst):
 # 也可在函数调用的括号内使用
 >>> sum(i**2 for i in range(3))
 5
+# 0+1+4
 ```
 生成器方法，“外部作用域”访问生成器：send、throw和close方法。  
 
@@ -1707,7 +1708,7 @@ def flatten(nested_lst):
 # chapter 10 模块&标准库
 import模块时，产生pyc扩展名文件（平台无关的编译过），更有效地处理文件。  
 为了让代码可重用（code reuse），请将它模块化！  
-使用`__name__`变量，在模块中增加测试代码。在主程序中，`__name___`的值是`__main__`；在导入的模块中，`__name___`的值是模块名。 
+使用`__name__`变量，在模块中增加测试代码。在主程序中，`__name___`的值是`__main__`；在导入的模块中，`__name___`的值是模块名。   
 使你的模块可用：  
 法1：将模块放在正确位置（python解释器查找模块的路径）  
 
