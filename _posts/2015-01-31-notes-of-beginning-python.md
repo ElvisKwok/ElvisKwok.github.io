@@ -9,6 +9,7 @@ title: Notes of Beginning Python
 <br>
 REPL: Read-Eval-Print Loop, an interactive toplevel or language shell  
 中文：`# coding: utf-8`可加入修饰字符。  
+id(变量名)查看变量的id，可用于判别"引用`a is b`"还是"副本"
 # chapter 1
 ### 1. 数字与表达式  
 `1/2 = 0`, `1.0/2.0或1/2.0或1/2. = 0.5`  
