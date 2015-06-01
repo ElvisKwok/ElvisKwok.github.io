@@ -5,8 +5,9 @@ title: Notes of Ds and Alg Analysis in C
 
 #{{ page.title }}  
 <p class="meta">16 Oct 2014 - Guangzhou</p>   
-+++++++++++++++++  
-<br>
+
+---
+
 * Title:  *Data Structures and Algorithm Analysis in C(2nd Edition)*  
 * Author: Mark Allen Weiss
 <br>

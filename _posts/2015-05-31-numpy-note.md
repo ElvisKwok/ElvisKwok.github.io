@@ -5,8 +5,6 @@ title: NumPy Note
 
 #{{ page.title }}  
 <p class="meta">31 May 2015 - Guangzhou</p> 
-+++++++++++++++++
-<br>
 
 ---
 

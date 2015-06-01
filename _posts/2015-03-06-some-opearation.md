@@ -5,8 +5,8 @@ title: Some Operation
 
 #{{ page.title }}  
 <p class="meta">06 Mar 2015 - Guangzhou</p> 
-+++++++++++++++++
-<br>
+
+---
 
 pygments代码高亮使用：  
 \`\`\`bash(python, c等等)  

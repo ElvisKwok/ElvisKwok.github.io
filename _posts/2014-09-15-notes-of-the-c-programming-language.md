@@ -5,8 +5,9 @@ title: Notes of the C Programming Language
 
 #{{ page.title }}  
 <p class="meta">14 Sep 2014 - Guangzhou</p> 
-+++++++++++++++++  
-<br>
+
+---
+
 ##chapter 1: 导言
 1. 变量、算术表达式;基本数据类型
 2. `for`语句;

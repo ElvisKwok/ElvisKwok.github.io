@@ -5,8 +5,8 @@ title:  bookmarks of data mining
 
 #{{ page.title }}  
 <p class="meta">24 May 2015 - Guangzhou</p> 
-+++++++++++++++++
-<br>
+
+---
 
 * LSI
     + [Latent Semantic Analysis(LSA/ LSI)算法简介](http://www.cnblogs.com/kemaswill/archive/2013/04/17/3022100.html "LSI")

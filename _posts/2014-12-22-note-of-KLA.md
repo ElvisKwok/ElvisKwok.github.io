@@ -5,8 +5,9 @@ title: Note of KLA
 
 #{{ page.title }}  
 <p class="meta">22 Dec 2014 - Guangzhou</p> 
-+++++++++++++++++
-<br>
+
+---
+
 ### KLA: A New Algorithmic Paradigm for Parallel Graph Computation
 *best paper awarded of PACT 2014*
 

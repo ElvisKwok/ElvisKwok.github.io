@@ -5,8 +5,9 @@ title: Notes of APUE
 
 #{{ page.title }}  
 <p class="meta">22 Sep 2014 - Guangzhou</p>   
-+++++++++++++++++  
-<br>
+
+---
+
 * Title:  *Advanced Programming in the Unix® Environment*  
 * Author: W.Richard Stevens
 <br>

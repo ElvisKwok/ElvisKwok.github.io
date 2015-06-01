@@ -5,12 +5,14 @@ title: Notes of Beginning Python
 
 #{{ page.title }}  
 <p class="meta">31 Jan 2015 - Shanwei</p> 
-+++++++++++++++++
-<br>
+
+---
 REPL: Read-Eval-Print Loop, an interactive toplevel or language shell  
 中文：`# coding: utf-8`可加入修饰字符。  
 id(变量名)查看变量的id，可用于判别"引用`a is b`"还是"副本"
-# chapter 1
+
+---
+# Chapter 1
 ### 1. 数字与表达式  
 `1/2 = 0`, `1.0/2.0或1/2.0或1/2. = 0.5`  
 `from __future__ import division` 实现`/`现实算术除, `//`编程除  
@@ -171,6 +173,7 @@ Let\'s go
 
 
 
+---
 # Chapter 2 列表、元组
 ### 1. 序列
 * 容器container：包含其他对象的任意对象。序列、映射(如字典, key-value)、集合都是容器。  
@@ -443,6 +446,7 @@ None
 
 
 
+---
 # Chapter 3 字符串
 字符串不可变。  
 ### 1. 字符串格式化%
@@ -547,6 +551,7 @@ C:\usr\bin\env
 
 
 
+---
 # Chapter 4 字典
 
 * 字典是Python中唯一内建的映射类型。key(不可变)可以是数字、**字符串**甚至是**元组**。  
@@ -726,6 +731,7 @@ None
 
 
 
+---
 # Chapter 5 条件、循环和其他语句
 ### 1. print和import补充
 逗号隔开多个表达式print，输出时显示空格隔开。  
@@ -1032,6 +1038,7 @@ Enter an arithmetic expression: 1 + 2 * 3
 
 
 
+---
 # Chapter 6 抽象：函数
 函数，参数parameter、作用域scope、递归。  
 
@@ -1230,6 +1237,7 @@ seq = ["foo", "x41", "$#%^", "***"]
 
 
 
+---
 # Chapter 7 更加抽象：类和对象
 ### 1. 对象
 对象：数据（“特性”）以及一系列可以操作数据的函数（“方法”）组成的集合。  
@@ -1405,6 +1413,7 @@ Elvis
 
 
 
+---
 # Chapter 8 异常
 每个异常是都是一些类的实例，这些异常可以被raise，并捕捉(若不捕捉，会导致回溯Traceback的错误信息)，然后对其处理，而不是让整个程序崩溃。  
 raise语句:  
@@ -1526,6 +1535,7 @@ else:
 
 
 
+---
 # Chapter 9 魔法方法、属性和迭代器
 
 * 魔法方法（特殊方法）：前后加上两个下划线，如`__init__`, `__future__`
@@ -1706,7 +1716,8 @@ def flatten(nested_lst):
 
 
 
-# chapter 10 模块&标准库
+---
+# Chapter 10 模块&标准库
 import模块时，产生pyc扩展名文件（平台无关的编译过），更有效地处理文件。  
 为了让代码可重用（code reuse），请将它模块化！  
 使用`__name__`变量，在模块中增加测试代码。在主程序中，`__name___`的值是`__main__`；在导入的模块中，`__name___`的值是模块名。   
@@ -1810,7 +1821,9 @@ timeStr = "2014-06-15T14:20:12"
 timeArray = time.strptime(timeStr, "%Y-%m-%dT%H:%M:%S")
 timeStamp = time.mktime(timeArray)
 >>> print timeArray
-time.struct_time(tm_year=2014, tm_mon=6, tm_mday=15, tm_hour=14, tm_min=20, tm_sec=12, tm_wday=6, tm_yday=166, tm_isdst=-1)
+time.struct_time(tm_year=2014, tm_mon=6,\
+        tm_mday=15, tm_hour=14, tm_min=20, \
+        tm_sec=12, tm_wday=6, tm_yday=166, tm_isdst=-1)
 >>> print timeStamp
 1402813212
 ```
@@ -1995,9 +2008,242 @@ deque([2, 3, 4, 0, 1])
 
 
 
+---
+# Chapter 11 文件和素材
+
+#### 1. 打开文件
+`open(name[,mode[,buffering]])`，返回一个文件对象。  
+
+* 可选参数mode：'r'(default), 'w', 'a'(append), 'b'(binary,可做为第2个mode), '+'(r&w，可作为第2个mode)  
+* buffering：
+    - 0(False)，无缓冲I/O（读写直接针对硬盘）； 
+    - 1(True)，有缓冲I/O（使用内存来代替硬盘，快，调用flush或close时才更新硬盘文件）；
+    - 大于1的数值--缓冲区字节数，负数--默认缓冲区大小
 
 
 
+#### 2. 基本文件方法
+类文件对象：支持read和write方法 的对象。  
+标准流stdin,stdout,stderr这3个标准文件对象是1个类文件对象。
+
+```python
+>>> f = open('somefile.txt', 'w')
+>>> f.write('hello')
+>>> f.close()
+
+>>> f = open('somefile.txt', 'r')
+>>> f.read(2)
+'he'
+>>> f.read()
+'llo'
+>>> f.seek(0) # offset = 0
+>>> f.tell()  # tell the current offset
+0
+>>> f.read()
+'hello'
+>>> f.close()
+```
+
+读写行：someFile.readline, someFile.readlines返回字符串列表，someFile.writelines接收字符串列表(注意要在字符串添加'\n')  
+
+```python
+# open file as f
+try:
+    # writing
+finally:
+    f.close()
+
+# with statement
+with open('somefile.txt') as somefile:
+    do_something(somefile)
+```
+
+
+
+#### 3. 对文件内容进行迭代
+
+```python
+def process(string):
+    print 'Processing:', string
+
+# while中read每个字符
+f = open(filename)
+while True:
+    char = f.read(1)
+    if not char: break
+    process(char)
+f.close()
+
+# while中readline每一行
+f = open(filename)
+while True:
+    line = f.readline()
+    if not line: break
+    process(line)
+f.close()
+
+# 读取所有内容（文件不大的情况）
+f = open(filename)
+for char in f.read():   # for line in f.readlines():
+    process(char)       #     process(line)
+f.close()
+
+# fileinput：“懒惰”行迭代(只读取当前需要的文件部分)
+# 适用于大文件迭代行
+import fileinput
+for line in fileinput.input(filename):
+    process(line)
+
+# 迭代文件
+f = open(filename)
+for line in f:
+    process(line)
+f.close()
+
+import sys
+for line in sys.stdin:
+    process(line)
+```
+
+
+
+
+
+---
+# Chapter 12 图形用户界面GUI
+GUI Toolkit: Tkinter, wxpython, PyGTK, PyQt等等。  
+
+```python
+import wx
+
+def load(event):
+    file = open(filename.GetValue())
+    contents.SetValue(file.read())
+    file.close()
+
+def save(event):
+    file = open(filename.GetValue(), 'w')
+    file.write(contents.GetValue())
+    file.close()
+
+app = wx.App()
+#窗口(Frame)，第一个参数为“父部件”，单独窗口=None
+win = wx.Frame(None, title="Simple Editor", size=(410,335))
+bkg = wx.Panel(win) #背景组件
+
+
+loadButton = wx.Button(bkg, label='open')
+#loadButton = wx.Button(win, label='open', 
+#                       pos=(225,5), size=(80,25))
+saveButton = wx.Button(bkg, label='save')
+#saveButton = wx.Button(win, label='save',
+#                       pos=(315,5), size=(80,25))
+
+loadButton.Bind(wx.EVT_BUTTON, load)
+saveButton.Bind(wx.EVT_BUTTON, save)
+
+# 文本控件text control
+filename = wx.TextCtrl(bkg)
+contents = wx.TextCtrl(bkg,style=wx.TE_MULTILINE | wx.HSCROLL)
+#filename = wx.TextCtrl(win, pos=(5,5), size=(210,25))
+#contents = wx.TextCtrl(win, pos=(5,35), size=(390,260),
+#                       style=wx.TE_MULTILINE | wx.HSCROLL)
+
+# 尺寸器sizer
+hbox = wx.BoxSizer() # 默认为水平
+hbox.Add(filename, proportion=1, flag=wx.EXPAND)
+hbox.Add(loadButton, proportion=0, flag=wx.LEFT, border=5)
+hbox.Add(saveButton, proportion=0, flag=wx.LEFT, border=5)
+
+vbox = wx.BoxSizer(wx.VERTICAL)
+vbox.Add(hbox, proportion=0, flag=wx.EXPAND | wx.ALL, border=5)
+vbox.Add(contents, proportion=1, 
+         flag=wx.EXPAND | wx.LEFT | wx.BOTTOM | wx.RIGHT, border=5)
+
+bkg.SetSizer(vbox)
+
+win.Show()
+
+app.MainLoop()
+```
+
+运行结果如下：  
+![img][12.1]  
+
+使用Tkinter  
+
+```python
+from Tkinter import *
+
+def hello(): print "hello world"
+
+win = Tk()
+win.title("hello, Tkinter!")
+win.geometry('200*100')
+win.geometry('200x100')
+
+btn = Button(win, text='Hello', command=hello)
+btn.pack(expand=YES,  fill=BOTH)
+
+mainloop()
+```
+
+
+
+
+---
+# Chapter 13 数据库支持
+本章主要介绍SQLite(小型嵌入式数据库)的使用。   
+使用营养成分的ABBREV.txt文件。  
+主要框架: 创建连接conn，获得连接的游标curs，curs.excute执行SQL，curs.fetchall提取查询结果   
+
+```python
+import sqlite3
+conn = sqlite3.connect('someDatabase.db')
+curs = conn.cursor()
+curs.execute('SQL语句')
+conn.commit()
+conn.close()
+```
+
+```python
+import sqlite3
+
+def convert(value):
+    if value.startswith('~'):
+        return value.strip('~')
+    if not value:
+        value = '0'
+    return float(value)
+
+conn = sqlite3.connect('food.db')
+curs = conn.cursor()
+
+curs.execute('''
+CREATE TABLE food (
+    id      TEXT    PRIMARY KEY,
+    desc    TEXT,
+    water   FLOAT,
+    kcal    FLOAT,
+    protein FLOAT,
+    fat     FLOAT,
+    ash     FLOAT,
+    carbs   FLOAT,
+    fiber   FLOAT,
+    sugar   FLOAT
+)
+''')
+
+query = 'INSERT INTO food VALUES (?,?,?,?,?,?,?,?,?,?)'
+
+for line in open('ABBREV.txt'):
+    fields = line.split('^')
+    vals = [convert(f) for f in fields[:10]]
+    curs.execute(query, vals)
+
+conn.commit()
+conn.close()
+```
 
 
 
@@ -2011,3 +2257,4 @@ deque([2, 3, 4, 0, 1])
 [10.6]: /images/beginning_python/10.6.png "module of random" 
 [10.7]: /images/beginning_python/10.7.png "module of re" 
 [10.8]: /images/beginning_python/10.8.png "module of heapq"
+[12.1]: /images/beginning_python/12.1.png "wxpython"
