@@ -42,7 +42,7 @@ axis参数指定运算的轴，`b=ones(2,3)`,列的sum`b.sum(axis=0)`为array([2
 ---
 索引，切片，迭代：  
 
-* 多维数组可以是每个轴一个索引，索引用逗号隔开。如`a=arange(9).reshape(3,3)`, a[0:1,2]输出row0和row1的column2，a[:,1]输入所有row的column1
+* 多维数组可以是每个轴一个索引，索引用逗号隔开。如`a=arange(9).reshape(3,3)`, a[0:1,2]输出row0和row1的column2，a[:,1]输入所有row的column1，`a[:,[1,3]]`输出数组第1、3列
 * 索引个数少于轴数时，缺失的索引被认为是整个切片`:`,如`b[-1]`相当于`b[-1,:]`
 * 多维数组的迭代的是第一个轴,`for row in a: print row`。若要遍历所有元素，可用`for element in a.flat: print element,`
 
@@ -63,6 +63,47 @@ axis参数指定运算的轴，`b=ones(2,3)`,列的sum`b.sum(axis=0)`为array([2
 复制、视图view：
 
 * 视图（浅复制）： `c=a.view()`，`c is not a`返回true，c的shape改变不影响a，c元素值改变会影响a
+
+---
+线性代数：
+
+```python
+from numpy import *
+from numpy.linalg import *
+
+a = array([[1,2],[3,4]])
+a.transpose()   #转置
+inv(a)          #逆矩阵inverse
+E = eye(2)      #2*2单位矩阵
+trace(E)        #迹，主对角线的元素和
+b = array([[5],[7]])
+solve(a,y)      #计算AX=b
+eigVals, eigVecs = eig(j)   #特征值，特征向量
+```
+
+```python
+from numpy import *
+A = matrix('1,2; 3,4')
+A.T             #transpose
+A.I             #inverse
+
+A = arange(12).reshape(3,4)
+M = mat(A)
+```
+
+```python
+# 索引的区别（数组和矩阵）
+>>> print A[:,1]; print A[:,1].shape
+[1 5 9] #产生一维数组
+(3,)
+>>> print M[:,1]; print M[:,1].shape
+[[1]
+ [5]
+ [9]]   #产生二维矩阵
+(3, 1)
+
+```
+
 
 ---
 函数目录：
