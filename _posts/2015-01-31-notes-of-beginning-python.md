@@ -2247,6 +2247,178 @@ conn.close()
 
 
 
+
+
+# Chapter 14 网络编程
+本章介绍Python中网络编程的一些方法，包括：套接字和socket模块，urllib和urllib2，SocketServer框架，select和poll，Twisted.  
+#### 1. 网络设计模块
+
+```python
+# socket模块
+# server
+import socket
+
+s = socket.socket()
+
+host = socket.gethostname()
+port = 1234
+s.bind((host,port))
+
+s.listen(5)     # listen参数为允许排队等待连接数
+while True:
+    c, addr = s.accept()
+    print 'Got connection from', addr
+    c.send('Thank you for connecting')
+    c.close()
+
+# client
+>>> import socket
+>>> s = socket.socket()
+>>> host = socket.gethostname()
+>>> port = 1234
+>>> s.connect((host,port))
+>>> print s.recv((1024))    # transmit data size
+```
+
+```python
+# urllib和urllib2模块
+# urllib足够用于简单下载，urllib2可用于HTTP验证和cookie等。
+
+#打开远程文件
+import urllib
+webpage = urllib.urlopen('http://www.baidu.com')
+# 返回一个类文件对象，可调用read,readline等等
+
+#获取远程文件
+urllib.urlretrieve('http://www.baidu.com', 'test.html')
+```
+
+其他模块如下图：  
+![img][14.1]  
+
+
+
+#### 2. SocketServer
+SocketServer包括4个基本的类：TCPServer(主要), UDPServer, UnixStreamServer, UnixDatagramServer.  
+
+```python
+from SocketServer import TCPServer, StreamRequestHandler
+
+class Handler(StreamRequestHandler):
+    def handle(self):
+        addr = self.request.getpeername()
+        print 'Got connection from', addr
+        self.wfile.write('Thank you for connecting')
+
+server = TCPServer(('',1234), Handler)
+server.serve_forever()
+```
+
+
+
+### 3. 处理多连接
+3种方法：分叉（forking），线程（threading），异步I/O
+
+* 分叉一个进程，得到一个父进程和子进程。分叉占据资源。
+* 线程共享内存，容易导致变量冲突（同步问题）
+* 异步I/O基本机制是select模块的select函数。
+
+带有select和poll的异步I/O：通过时间片轮转来为几个连接提供服务。  
+只处理给定时间内的要通信的client，监听一会，然后把它放在其他client后面（不用一直监听）。  
+实现基础：select函数。  
+
+```python
+# select相关用法
+inputs = [s]
+rs, ws, es = select.select(inputs, [], [])
+# select函数3个参数是3个序列，用于输入、输出、异常情况。
+# 返回值也对应于3个参数，比如第1个序列包含一些可读取的东西。
+
+# poll相关用法
+# 调用poll，得到一个poll对象，使用poll对象的register方法
+# 注册一个文件描述符(fd)， 注册后可用unregistger移除注册对象。
+# 注册的对象可调用poll方法，返回(fd,event).
+# event是一个位掩码，与给定的事件进行&操作，判断事件是否发生。
+fdmap = {s.fileno(): s}
+p = select.poll()
+p.register(s)
+events = p.poll()
+for fd, event in events:
+    if fd in fdmap:
+        c, addr = s.accept()
+        print "got connection from", addr
+        p.register(c)
+        fdmap[c.fileno()] = c
+    elif event & select.POLLIN:
+        data = fdmap[fd].recv(1024)
+        if not data:
+            print fdmap[fd].getpeername(), 'disconnected'
+            p.unregister(fd)
+            del fdmap[fd]
+    else:
+        print data
+```
+
+#### 4. Twisted
+Twisted是一个事件驱动的异步的Python网络框架。  
+
+
+
+
+
+# Chapter 15 Python和万维网
+本章讨论使用Python进行web程序设计，包括：屏幕抓取（下载网页&提取信息），CGI，mod_python，web应用程序框架(Zope,Django,Pylon和TurboGears)，web服务(RSS,XML-RPC,SOAP).  
+
+#### 1. 屏幕抓取
+简单实现：urllib获取网页，re提取。但是re可读性差，受html约束大。  
+两种解决方案：（1）Tidy库；（2）Beautiful Soup库。  
+
+```python
+from bs4 import BeautifulSoup
+from urllib import urlopen
+
+text = urlopen('http://python.org/community/jobs').read()
+soup = BeautifulSoup(text)
+jobs =set()
+for header in soup('h3')
+for header in soup('h3'):
+    links = header('a', 'reference')
+    if not links: continue
+    link = links[0]
+    jobs.add('%s (%s)' % (link.string, link['href']))
+
+print '\n'.join(sorted(jobs, key=lambda s: s.lower()))
+```
+
+
+
+
+
+# Chapter 16 测试
+本章主题：测试驱动编程（先测试，后编码），doctest和unittest模块，PyChecker和PyLint，分析（优化，profile模块）。  
+
+
+
+
+
+# Chapter 17 扩展Python
+
+
+
+
+
+# Chapter 18 程序打包
+本章介绍如何创建有高级GUI安装程序的软件，或使生成.tar.gz文件过程自动进行。包括：Distutils，安装程序生成，编译扩展（C扩展），可执行二进制文件。  
+
+
+
+
+
+# Chapter 19 好玩的编程
+本章介绍python程序设计的一般原则和技术，包括：灵活性，原型设计，配置，日志记录。  
+
+
+
 [3.1]: /images/beginning_python/3.1.png "format type"
 [8.1]: /images/beginning_python/8.1.png "Built-in Exceptions"
 [10.1]: /images/beginning_python/10.1.png "package of module"
@@ -2258,3 +2430,4 @@ conn.close()
 [10.7]: /images/beginning_python/10.7.png "module of re" 
 [10.8]: /images/beginning_python/10.8.png "module of heapq"
 [12.1]: /images/beginning_python/12.1.png "wxpython"
+[14.1]: /images/beginning_python/14.1.png "module of network"
