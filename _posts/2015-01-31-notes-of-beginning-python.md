@@ -74,6 +74,7 @@ print x * y
 
 ### 6. 运行Python脚本
 `#!/usr/bin/env python`  
+加入Pound Bang行，使得不用显式地运行python解释器来执行脚本（`$ python script.py`）  
 `#`注释  
 
 
@@ -2380,7 +2381,6 @@ from urllib import urlopen
 text = urlopen('http://python.org/community/jobs').read()
 soup = BeautifulSoup(text)
 jobs =set()
-for header in soup('h3')
 for header in soup('h3'):
     links = header('a', 'reference')
     if not links: continue
@@ -2389,6 +2389,19 @@ for header in soup('h3'):
 
 print '\n'.join(sorted(jobs, key=lambda s: s.lower()))
 ```
+
+#### 2. 使用CGI创建动态网页
+CGI(Common Gateway Interface, 通用网关接口)：服务器可以将查询（web表单）传递到专门的程序（如python程序），并且在网页上显示结果的标准机制。  
+Python CGI程序设计的关键工具是cgi模块。  
+
+
+
+#### 3. mod_python
+
+
+
+#### 4. 网络应用程序框架
+Albatross, CherryPy, Django, Plone, Pylons, Quixote, Spyce, TurboGears, web.py, Webware, Zope  
 
 
 
