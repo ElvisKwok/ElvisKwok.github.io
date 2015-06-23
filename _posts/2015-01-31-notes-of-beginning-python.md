@@ -2012,7 +2012,7 @@ deque([2, 3, 4, 0, 1])
 ---
 # Chapter 11 文件和素材
 
-#### 1. 打开文件
+### 1. 打开文件
 `open(name[,mode[,buffering]])`，返回一个文件对象。  
 
 * 可选参数mode：'r'(default), 'w', 'a'(append), 'b'(binary,可做为第2个mode), '+'(r&w，可作为第2个mode)  
@@ -2023,7 +2023,7 @@ deque([2, 3, 4, 0, 1])
 
 
 
-#### 2. 基本文件方法
+### 2. 基本文件方法
 类文件对象：支持read和write方法 的对象。  
 标准流stdin,stdout,stderr这3个标准文件对象是1个类文件对象。
 
@@ -2061,7 +2061,7 @@ with open('somefile.txt') as somefile:
 
 
 
-#### 3. 对文件内容进行迭代
+### 3. 对文件内容进行迭代
 
 ```python
 def process(string):
@@ -2252,7 +2252,7 @@ conn.close()
 
 # Chapter 14 网络编程
 本章介绍Python中网络编程的一些方法，包括：套接字和socket模块，urllib和urllib2，SocketServer框架，select和poll，Twisted.  
-#### 1. 网络设计模块
+### 1. 网络设计模块
 
 ```python
 # socket模块
@@ -2299,7 +2299,7 @@ urllib.urlretrieve('http://www.baidu.com', 'test.html')
 
 
 
-#### 2. SocketServer
+### 2. SocketServer
 SocketServer包括4个基本的类：TCPServer(主要), UDPServer, UnixStreamServer, UnixDatagramServer.  
 
 ```python
@@ -2360,7 +2360,7 @@ for fd, event in events:
         print data
 ```
 
-#### 4. Twisted
+### 4. Twisted
 Twisted是一个事件驱动的异步的Python网络框架。  
 
 
@@ -2370,7 +2370,7 @@ Twisted是一个事件驱动的异步的Python网络框架。
 # Chapter 15 Python和万维网
 本章讨论使用Python进行web程序设计，包括：屏幕抓取（下载网页&提取信息），CGI，mod_python，web应用程序框架(Zope,Django,Pylon和TurboGears)，web服务(RSS,XML-RPC,SOAP).  
 
-#### 1. 屏幕抓取
+### 1. 屏幕抓取
 简单实现：urllib获取网页，re提取。但是re可读性差，受html约束大。  
 两种解决方案：（1）Tidy库；（2）Beautiful Soup库。  
 
@@ -2390,13 +2390,13 @@ for header in soup('h3'):
 print '\n'.join(sorted(jobs, key=lambda s: s.lower()))
 ```
 
-#### 2. 使用CGI创建动态网页
+### 2. 使用CGI创建动态网页
 CGI(Common Gateway Interface, 通用网关接口)：服务器可以将查询（web表单）传递到专门的程序（如python程序），并且在网页上显示结果的标准机制。  
 Python CGI程序设计的关键工具是cgi模块。  
 
 
 
-#### 3. mod_python
+### 3. mod_python
 
 
 
@@ -2409,6 +2409,26 @@ Albatross, CherryPy, Django, Plone, Pylons, Quixote, Spyce, TurboGears, web.py, 
 
 # Chapter 16 测试
 本章主题：测试驱动编程（先测试，后编码），doctest和unittest模块，PyChecker和PyLint，分析（优化，profile模块）。  
+### 1. 先测试，后编程
+需求说明，测试覆盖度。  
+测试驱动编程Test-driven Programming的4步：  
+
+1. 指出需要的新特性
+2. 编写特性的概要代码
+3. 为特性的概要编写虚设代码(dummy code)，只求测试通过，功能不必实现
+4. 重写代码(Refactor重构)
+
+
+
+### 2. 测试工具
+#### 1. doctest
+doctest.testmod(模块名)从一个模块读取所有文档字符串(docstring)，找出“像是在*交互式解释器*中输入的例子”的文本，检查例子是否得到正确结果。  
+
+
+#### 2. unittest
+
+
+
 
 
 
