@@ -2250,6 +2250,7 @@ conn.close()
 
 
 
+---
 # Chapter 14 网络编程
 本章介绍Python中网络编程的一些方法，包括：套接字和socket模块，urllib和urllib2，SocketServer框架，select和poll，Twisted.  
 ### 1. 网络设计模块
@@ -2367,6 +2368,7 @@ Twisted是一个事件驱动的异步的Python网络框架。
 
 
 
+---
 # Chapter 15 Python和万维网
 本章讨论使用Python进行web程序设计，包括：屏幕抓取（下载网页&提取信息），CGI，mod_python，web应用程序框架(Zope,Django,Pylon和TurboGears)，web服务(RSS,XML-RPC,SOAP).  
 
@@ -2407,6 +2409,7 @@ Albatross, CherryPy, Django, Plone, Pylons, Quixote, Spyce, TurboGears, web.py, 
 
 
 
+---
 # Chapter 16 测试
 本章主题：测试驱动编程（先测试，后编码），doctest和unittest模块，PyChecker和PyLint，分析（优化，profile模块）。  
 ### 1. 先测试，后编程
@@ -2426,27 +2429,228 @@ doctest.testmod(模块名)从一个模块读取所有文档字符串(docstring)�
 
 
 #### 2. unittest
+unittest基于Java的JUnit，使用时需继承unittest模块的TestCase类，自定义以test开头的函数，并在函数中调用类似`self.failUnless(表达式, 'msg')`的TestCase方法。最后在程序调用unittest.main函数。  
+假设被测试的文件是my_math.py，测试代码如下:
+
+```python
+import unittest, my_math
+
+class ProductTestCase(unittest.TestCase):
+    def testIntegers(self):
+        for x in xrange(-10, 10):
+            for y in xrange(-10, 10):
+                p = my_math.product(x, y)
+                self.failUnless(p == x*y, 'Integer multiplication failed')
+      
+    def testFloats(self):
+        for x in xrange(-10, 10):
+            for y in xrange(-10, 10):
+                x = x/10.0
+                y = y/10.0
+                p = my_math.product(x, y)
+                self.failUnless(p == x*y, 'Float multiplication failed')
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+将my_math.py的product函数体设为`pass`，测试结果如下，顶部两个FF，表示两个测试都失败。  
+![img][16.1]  
+然后在product函数遇到7和9出错，其他情况返回`x*y`，测试结果如下，顶部显示`.F`，表示是一个测试失败。  
+![img][16.2]  
+测试成功的情况:  
+![img][16.3]  
+
+
+
+
+### 3. 源代码检查、分析
+黄金法则：使其工作（单元测试）、使其更好（源代码检查）、使其更快（分析）。  
+#### 1. 源代码检查: PyChecker和PyLint
+#### 2. 分析: profile
+
+```python
+>>> import profile
+>>> from my_math import product
+>>> profile.run('product(1,2)')  #打印出每个函数调用的次数、花费时间
+```
+
+另外也可用timeit模块简单测定代码段运行时间。  
 
 
 
 
 
-
-
-
+---
 # Chapter 17 扩展Python
 
+* Python开发原型程序
+* 分析程序，找出瓶颈
+* 用C语言等作为扩展来重写瓶颈代码
+
+Jython for Java, IronPython for C# and other .NET  
+### 使用C语言扩展
+SWIG（简单包装wrap和接口生成器）是一个自动为C语言库生成包装代码的工具。这是最简单最流行的扩展Python的方法。  
+使用SWIG过程：
+
+* 编写接口文件(.i后缀)
+* 运行SWIG，产生包装代码（XXX_wrap.c, XXX.py）
+* 将C语言代码和包装代码一起编译，gcc -shared产生共享库(.so后缀)
+
+接口文件(palindrome.i)如下图所示:  
+![img][17.1]  
+运行`$ swig -python palindrome.i`得到两个新文件——palindrome_wrap.c和palindrome.py  
+编译、连接，产生共享库`_palindrome.so`(注意要在前两个gcc命令提供-fPIC参数，否则最后一个命令链接文件会失败)  
+
+
+```bash
+$ gcc -fPIC -c palindrome.c 
+$ gcc -fPIC -I /usr/include/python2.7 -c palindrome_wrap.c
+$ gcc -shared palindrome.o palindrome_wrap.o -o _palindrome.so
+```
+
+导入共享库使用  
+
+```python
+>>> import _palindrome
+>>> dir(_palindrome)
+['SWIG_PyInstanceMethod_New', '__doc__', '__file__', \
+ '__name__', '__package__', 'is_palindrome']
+>>> _palindrome.is_palindrome('ipreferpi')
+1
+>>> _palindrome.is_palindrome('notlob')
+0
+>>> _palindrome.__file__
+'_palindrome.so'
+```
+
+另外，忽略SWIG的第三步，可以直接使用生成的Python的包装代码(palindrome.py)。  
 
 
 
 
+
+
+---
 # Chapter 18 程序打包
 本章介绍如何创建有高级GUI安装程序的软件，或使生成.tar.gz文件过程自动进行。包括：Distutils，安装程序生成，编译扩展（C扩展），可执行二进制文件。  
 
+### 1. Distutils基础
+编写如下setup.py文件，将要安装的模块名写入py_modules参数中。(若想安装整个包，可用packages参数)  
+
+```python
+from distutils.core import setup
+
+setup(name = 'Hello', \
+      version = '1.0', \
+      description = 'A simple example', \
+      author = 'Elvis', \
+      py_modules = ['hello'])
+```
+
+```bash
+$ python setup.py build
+python setup.py build
+running build
+running build_py
+creating build
+creating build/lib.linux-x86_64-2.7
+copying hello.py -> build/lib.linux-x86_64-2.7
+运行后将会创建一个build子目录
+
+$ python setup.py install
+running install
+running build
+running build_py
+running install_lib
+copying build/lib.linux-x86_64-2.7/hello.py 
+    -> /usr/local/lib/python2.7/dist-packages
+byte-compiling /usr/local/lib/python2.7/dist-packages/hello.py 
+    to hello.pyc
+running install_egg_info
+Writing /usr/local/lib/python2.7/dist-packages/Hello-1.0.egg-info
+```
+
+
+
+### 2. 打包
+#### 1. 建立存档文件 sdist
+
+```bash
+$ python setup.py sdist
+running sdist
+running check
+
+中间是一些warning
+
+writing manifest file 'MANIFEST'
+creating Hello-1.0
+making hard links in Hello-1.0...
+hard linking hello.py -> Hello-1.0
+hard linking setup.py -> Hello-1.0
+creating dist
+Creating tar archive
+removing 'Hello-1.0' (and everything under it)
+```
+运行后将会创建一个dist子目录，里面包含Hello-1.0.tar.gz文件，解压后里面包含我们编写的hello.py, setup.py和PKG-INFO描述文件。  
+
+
+#### 2.创建Windows安装程序或RPM包 bdist
+
+```bash
+$ python setup.py bdist --formats=wininst
+$ python setup.py bdist --formats=rpm
+```
+
+
+
+### 3. 编译扩展
+使用Distutils可以方便生成.so文件，只需编写setup.py脚本。  
+![img][18.1]  
+
+```bash
+$ python setup.py build_ext --inplace
+running build_ext
+building 'palindrome' extension
+creating build
+creating build/temp.linux-x86_64-2.7
+gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 
+    -Wall -Wstrict-prototypes -fPIC -I/usr/include/python2.7 
+    -c palindrome.c -o build/temp.linux-x86_64-2.7/palindrome.o
+gcc -pthread -shared -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,
+    -Bsymbolic-functions -Wl,-z,relro 
+    build/temp.linux-x86_64-2.7/palindrome.o -o 
+    当前目录/palindrome.so
+```
+
+
+
+### 4. 使用py2exe创建可执行程序
+
+```python
+# hello.py
+print "hello"
+
+# setup.py
+from distutils.core import setup
+import py2exe
+setup(console=['hello.py'])
+```
+
+创建控制台应用程序(hello.exe)以及dist子目录的其他文件  
+
+```bash
+$ python setup.py py2exe
+```
+
+Mac OS可用py2app  
 
 
 
 
+
+
+---
 # Chapter 19 好玩的编程
 本章介绍python程序设计的一般原则和技术，包括：灵活性，原型设计，配置，日志记录。  
 
@@ -2464,3 +2668,8 @@ doctest.testmod(模块名)从一个模块读取所有文档字符串(docstring)�
 [10.8]: /images/beginning_python/10.8.png "module of heapq"
 [12.1]: /images/beginning_python/12.1.png "wxpython"
 [14.1]: /images/beginning_python/14.1.png "module of network"
+[16.1]: /images/beginning_python/16.1.png "unittest failed"
+[16.2]: /images/beginning_python/16.2.png "unittest failed 2"
+[16.3]: /images/beginning_python/16.2.png "unittest success"
+[17.1]: /images/beginning_python/17.1.png "palindrome.i"
+[18.1]: /images/beginning_python/18.1.png "setup.py"
