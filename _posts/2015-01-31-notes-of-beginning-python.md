@@ -2653,7 +2653,9 @@ Mac OS可用py2app
 ---
 # Chapter 19 好玩的编程
 本章介绍python程序设计的一般原则和技术，包括：灵活性，原型设计，配置，日志记录。  
-
+灵活性的实现：原型设计、配置、自动化测试。  
+配置：符号化常量，标准库模块ConfigParser.  
+日志记录：logging模块。  
 
 
 [3.1]: /images/beginning_python/3.1.png "format type"
