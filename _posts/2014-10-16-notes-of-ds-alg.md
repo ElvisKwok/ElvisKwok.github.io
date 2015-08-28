@@ -23,7 +23,13 @@ title: Notes of Ds and Alg Analysis in C
   * 介绍较为复杂的分治程序。
     
 ###[Chapter 3][]: 表、栈和队列
-###[Chapter 4][]: 
+
+  * 抽象数据类型ADT的概念
+  * 如何对表进行有效操作
+  * 栈ADT及其在实现递归的应用
+  * 队列ADT及其在OS和算法设计的应用
+
+###[Chapter 4][]: 树 
 ###[Chapter 5][]: 
 
 
