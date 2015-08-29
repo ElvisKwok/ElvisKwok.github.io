@@ -35,6 +35,6 @@ title: Notes of Ds and Alg Analysis in C
 
 [Chapter 1]: /ds_alg/2014-10-16-notes-of-ds-alg-1.html  
 [Chapter 2]: /ds_alg/2014-10-16-notes-of-ds-alg-2.html
-[Chapter 3]: /ds_alg/2014-10-16-notes-of-ds-alg-3.html
-[Chapter 4]: /ds_alg/2014-10-16-notes-of-ds-alg-4.html
-[Chapter 5]: /ds_alg/2014-10-16-notes-of-ds-alg-5.html
+[Chapter 3]: /ds_alg/2015-08-28-notes-of-ds-alg-3.html
+[Chapter 4]: /ds_alg/2015-  -  -notes-of-ds-alg-4.html
+[Chapter 5]: /ds_alg/2015-  -  -notes-of-ds-alg-5.html
