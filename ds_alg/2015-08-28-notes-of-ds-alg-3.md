@@ -18,7 +18,7 @@ title: Notes of Ds and Alg in C 3
 　　游标实现。  
 
 2. 表ADT  
-　　的
+　　
 3. 栈ADT  
 
 4. 队列ADT  
@@ -29,5 +29,3 @@ title: Notes of Ds and Alg in C 3
 <br>  
 
 [返回主目录]: /2014/10/16/notes-of-ds-alg.html
-
-
