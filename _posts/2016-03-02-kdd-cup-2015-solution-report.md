@@ -8,8 +8,6 @@ title: KDD Cup 2015 Solution Report
 
 ---
 
-#KDD Cup 2015 Solution Report
-
 ##1. Problem description
 
 In KDD Cup 2015, we will predict students'  likelihood of dropout on XuetangX, one of the largest MOOC platforms in China. 
@@ -60,7 +58,7 @@ Apart from tools mentioned above, based on the analysis of this problem and expe
 
 Logistic regression, despite its name, is a linear model for classification rather than regression.  Logistic regression performs classification with generalized linear models. As for regression, the target value is expected to be a linear combination of the input variables. Logistic regression is also known in the literature as logit regression, maximum-entropy classification (MaxEnt) or the log-linear classifier. In this model, the probabilities describing the possible outcomes of a single trial are modeled using a logistic function.  The implementation of logistic regression in scikit-learn can be accessed from class LogisticRegression.   
 
-Here we show the basic way to use logistic regression by using the library scikit-learn in our program. 
+Here we show the basic way to use logistic regression by using the library scikit-learn in our program.   
 ![img][1]
 
 By importing the module of LogisticRegression, we can call the function LogisticRegression directly to generate a classifier. We train the classifier by giving the train data and the truth label provided. After training the classifier, we could use this classifier to predict the label of each item in test data.
@@ -68,7 +66,7 @@ By importing the module of LogisticRegression, we can call the function Logistic
 
 ##4. Result
 
-The part of prediction result comes out as below. The first column is ENROLLMENT\_ID and the second column is the probability of drop out, predicted by our program.
+The part of prediction result comes out as below. The first column is ENROLLMENT\_ID and the second column is the probability of drop out, predicted by our program.  
 
 ![img][2]
 
